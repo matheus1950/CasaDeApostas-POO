@@ -1,5 +1,9 @@
 package betTeste;
 
+import java.sql.Date;
+
 public class User {
-	String name;
+	private String nome;
+	private int cpf;
+	private Date dataNascimento;
 }
