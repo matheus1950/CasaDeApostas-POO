@@ -1,11 +1,11 @@
 package betTeste;
 
-import entidades.User;
+import entidades.Usuario;
 
 public class Main {
 
 	public static void main(String[] args) {
-		User user = new User();
+		Usuario user = new Usuario();
 		
 		System.out.println(user);
 	}

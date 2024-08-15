@@ -1,49 +1,83 @@
 package telas;
 
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-import java.awt.Font;
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
 import javax.swing.JButton;
+import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Font;
 
-public class BoasVindas extends JPanel {
+public class BoasVindas {
 
-	private static final long serialVersionUID = 1L;
-	private JTextField txtBemvindo;
-	private JTextField txtJTemUma;
-	private JTextField txtNoTemCadastro;
+	private JFrame frame;
+	private JTextField txtPossuiConta;
+	private JTextField txtNoPossuiCadastro;
+	private JTextField txtSejaBemvindo;
 
 	/**
-	 * Create the panel.
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					BoasVindas window = new BoasVindas();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
 	 */
 	public BoasVindas() {
-		setLayout(null);
-		
-		txtBemvindo = new JTextField();
-		txtBemvindo.setBounds(133, 11, 174, 44);
-		txtBemvindo.setFont(new Font("Tahoma", Font.BOLD, 31));
-		txtBemvindo.setText("Bem-vindo");
-		add(txtBemvindo);
-		txtBemvindo.setColumns(10);
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 450, 300);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
 		
 		JButton btnNewButton = new JButton("Logar");
-		btnNewButton.setBounds(10, 88, 89, 23);
-		add(btnNewButton);
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnNewButton.setBounds(10, 86, 89, 23);
+		frame.getContentPane().add(btnNewButton);
 		
-		txtJTemUma = new JTextField();
-		txtJTemUma.setText("Já tem uma conta?");
-		txtJTemUma.setBounds(10, 67, 101, 20);
-		add(txtJTemUma);
-		txtJTemUma.setColumns(10);
+		txtPossuiConta = new JTextField();
+		txtPossuiConta.setText("Possui conta?");
+		txtPossuiConta.setBounds(10, 70, 86, 20);
+		frame.getContentPane().add(txtPossuiConta);
+		txtPossuiConta.setColumns(10);
 		
-		txtNoTemCadastro = new JTextField();
-		txtNoTemCadastro.setText("Não tem cadastro?");
-		txtNoTemCadastro.setBounds(10, 162, 101, 20);
-		add(txtNoTemCadastro);
-		txtNoTemCadastro.setColumns(10);
+		txtNoPossuiCadastro = new JTextField();
+		txtNoPossuiCadastro.setText("Não possui cadastro?");
+		txtNoPossuiCadastro.setBounds(10, 131, 121, 20);
+		frame.getContentPane().add(txtNoPossuiCadastro);
+		txtNoPossuiCadastro.setColumns(10);
 		
 		JButton btnNewButton_1 = new JButton("Cadastrar");
-		btnNewButton_1.setBounds(10, 183, 89, 23);
-		add(btnNewButton_1);
-
+		btnNewButton_1.setBounds(10, 152, 89, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		txtSejaBemvindo = new JTextField();
+		txtSejaBemvindo.setFont(new Font("Tahoma", Font.BOLD, 32));
+		txtSejaBemvindo.setText("Seja Bem-vindo!");
+		txtSejaBemvindo.setBounds(91, 11, 284, 52);
+		frame.getContentPane().add(txtSejaBemvindo);
+		txtSejaBemvindo.setColumns(10);
 	}
+
 }
