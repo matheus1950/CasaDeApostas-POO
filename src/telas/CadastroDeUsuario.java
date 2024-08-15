@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import java.awt.Font;
+import javax.swing.JButton;
+import java.awt.Color;
 
 public class CadastroDeUsuario {
 
@@ -15,6 +17,7 @@ public class CadastroDeUsuario {
 	private JTextField txtSenha;
 	private JTextField txtConfirmarASenha;
 	private JTextField txtEmail;
+	private JButton btnNewButton;
 	
 	//completar botões
 
@@ -86,6 +89,11 @@ public class CadastroDeUsuario {
 		txtEmail.setBounds(96, 91, 86, 20);
 		frame.getContentPane().add(txtEmail);
 		txtEmail.setColumns(10);
+		
+		btnNewButton = new JButton("Cadastrar");
+		btnNewButton.setForeground(new Color(0, 0, 128));
+		btnNewButton.setBounds(96, 211, 89, 23);
+		frame.getContentPane().add(btnNewButton);
 	}
 
 }
