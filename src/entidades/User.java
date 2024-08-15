@@ -1,4 +1,4 @@
-package betTeste;
+package entidades;
 
 import java.sql.Date;
 
