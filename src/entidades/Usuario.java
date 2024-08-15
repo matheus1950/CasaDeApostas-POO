@@ -2,7 +2,7 @@ package entidades;
 
 import java.sql.Date;
 
-public class User {
+public class Usuario {
 
 	private int id;
 	private String nome;
@@ -13,7 +13,7 @@ public class User {
 	private int cpf;
 	private Date dataNascimento;
 	
-	public User(int id, String nome, String email, String senha, double carteira, int idDeContrato, int cpf,
+	public Usuario(int id, String nome, String email, String senha, double carteira, int idDeContrato, int cpf,
 			Date dataNascimento) {
 		super();
 		this.id = id;
@@ -26,7 +26,7 @@ public class User {
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public User() {
+	public Usuario() {
 		super();
 	}
 
