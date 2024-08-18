@@ -3,18 +3,24 @@ package telas;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
+import java.awt.Color;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.Font;
+import javax.swing.UIManager;
 
-public class BoasVindas {
+public class BoasVindas extends JFrame {
 
-	private JFrame frame;
-	private JTextField txtPossuiConta;
-	private JTextField txtNoPossuiCadastro;
-	private JTextField txtSejaBemvindo;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -23,8 +29,8 @@ public class BoasVindas {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					BoasVindas window = new BoasVindas();
-					window.frame.setVisible(true);
+					BoasVindas frame = new BoasVindas();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -33,51 +39,64 @@ public class BoasVindas {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
 	public BoasVindas() {
-		initialize();
-	}
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 318, 247);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 64, 0));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		JButton btnNewButton = new JButton("Logar");
-		btnNewButton.addActionListener(new ActionListener() {
+		textField = new JTextField();
+		textField.setBounds(10, 53, 129, 20);
+		textField.setText("Não possui cadastro?");
+		textField.setEditable(false);
+		textField.setColumns(10);
+		textField.setBackground(new Color(0, 128, 128));
+		contentPane.add(textField);
+		
+		JButton btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				new CadastroDeUsuario().setVisible(true);
 			}
 		});
-		btnNewButton.setBounds(10, 86, 89, 23);
-		frame.getContentPane().add(btnNewButton);
+		btnCadastrar.setBounds(10, 75, 81, 23);
+		btnCadastrar.setForeground(new Color(0, 0, 128));
+		btnCadastrar.setBackground(UIManager.getColor("CheckBox.focus"));
+		contentPane.add(btnCadastrar);
 		
-		txtPossuiConta = new JTextField();
-		txtPossuiConta.setText("Possui conta?");
-		txtPossuiConta.setBounds(10, 70, 86, 20);
-		frame.getContentPane().add(txtPossuiConta);
-		txtPossuiConta.setColumns(10);
+		textField_1 = new JTextField();
+		textField_1.setBounds(10, 133, 86, 20);
+		textField_1.setText("Possui conta?");
+		textField_1.setEditable(false);
+		textField_1.setColumns(10);
+		textField_1.setBackground(new Color(0, 128, 128));
+		contentPane.add(textField_1);
 		
-		txtNoPossuiCadastro = new JTextField();
-		txtNoPossuiCadastro.setText("Não possui cadastro?");
-		txtNoPossuiCadastro.setBounds(10, 131, 121, 20);
-		frame.getContentPane().add(txtNoPossuiCadastro);
-		txtNoPossuiCadastro.setColumns(10);
+		JTextArea txtBoasVindas = new JTextArea();
+		txtBoasVindas.setBounds(10, 0, 260, 42);
+		txtBoasVindas.setText("Seja bem-vindo!");
+		txtBoasVindas.setForeground(new Color(128, 255, 255));
+		txtBoasVindas.setFont(new Font("Tahoma", Font.BOLD, 31));
+		txtBoasVindas.setEditable(false);
+		txtBoasVindas.setBackground(new Color(0, 64, 0));
+		contentPane.add(txtBoasVindas);
 		
-		JButton btnNewButton_1 = new JButton("Cadastrar");
-		btnNewButton_1.setBounds(10, 152, 89, 23);
-		frame.getContentPane().add(btnNewButton_1);
-		
-		txtSejaBemvindo = new JTextField();
-		txtSejaBemvindo.setFont(new Font("Tahoma", Font.BOLD, 32));
-		txtSejaBemvindo.setText("Seja Bem-vindo!");
-		txtSejaBemvindo.setBounds(91, 11, 284, 52);
-		frame.getContentPane().add(txtSejaBemvindo);
-		txtSejaBemvindo.setColumns(10);
+		JButton btnLogar = new JButton("Logar");
+		btnLogar.setBackground(UIManager.getColor("CheckBox.focus"));
+		btnLogar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new LoginUsuario().setVisible(true);
+			}
+		});
+		btnLogar.setBounds(10, 157, 59, 23);
+		btnLogar.setForeground(new Color(0, 0, 128));
+		contentPane.add(btnLogar);
 	}
 
 }

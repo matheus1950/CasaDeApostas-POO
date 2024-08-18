@@ -4,44 +4,42 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
 import entidades.Usuario;
 
-import java.awt.Font;
-import javax.swing.JButton;
+import javax.swing.JTextArea;
 import java.awt.Color;
+import java.awt.Font;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.JButton;
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.Random;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
-import javax.swing.JTextArea;
 import javax.swing.UIManager;
-import javax.swing.SwingConstants;
 
-public class CadastroDeUsuario {
+public class CadastroDeUsuario extends JFrame {
 
-	private JFrame frame;
-	private JTextArea txtCadastrar;
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
 	private JTextField txtNome;
-	private JTextField txtDatanascimento;
+	private JTextField txtDataNascimento;
 	private JTextField txtSenha;
-	private JTextField txtConfirmarASenha;
+	private JTextField txtConfirmarSenha;
 	private JTextField txtEmail;
-	private JButton btnCadastrar;
 	private JPasswordField campoSenha;
 	private JPasswordField campoConfirmarSenha;
-	private JTextField campoDataDeNascimento;
 	private JTextField campoEmail;
 	private JTextField campoNome;
-	private JTextField txtCPF;
 	private JTextField campoCPF;
-	
-	//melhorar a tela - alguns campos e botões aparecem incompletos
+	private JTextField txtCPF;
+	private JTextField campoDataDeNascimento;
 
 	/**
 	 * Launch the application.
@@ -50,8 +48,8 @@ public class CadastroDeUsuario {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadastroDeUsuario window = new CadastroDeUsuario();
-					window.frame.setVisible(true);
+					CadastroDeUsuario frame = new CadastroDeUsuario();
+					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -60,81 +58,73 @@ public class CadastroDeUsuario {
 	}
 
 	/**
-	 * Create the application.
+	 * Create the frame.
 	 */
 	public CadastroDeUsuario() {
-		initialize();
-	}
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 393, 300);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(0, 64, 0));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(0, 64, 0));
-		frame.setBounds(100, 100, 413, 371);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
 		
-		txtCadastrar = new JTextArea();
+		JTextArea txtCadastrar = new JTextArea();
+		txtCadastrar.setText("Cadastrar");
 		txtCadastrar.setForeground(new Color(128, 255, 255));
+		txtCadastrar.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtCadastrar.setEditable(false);
 		txtCadastrar.setBackground(new Color(0, 64, 0));
-		txtCadastrar.setFont(new Font("Tahoma", Font.BOLD, 31));
-		txtCadastrar.setText("Cadastrar");
-		txtCadastrar.setBounds(96, 11, 221, 44);
-		frame.getContentPane().add(txtCadastrar);
+		txtCadastrar.setBounds(101, 0, 221, 44);
+		contentPane.add(txtCadastrar);
 		
 		txtNome = new JTextField();
-		txtNome.setHorizontalAlignment(SwingConstants.CENTER);
-		txtNome.setBackground(new Color(0, 128, 128));
-		txtNome.setEditable(false);
 		txtNome.setText("Nome de usuário");
-		txtNome.setBounds(96, 66, 103, 20);
-		frame.getContentPane().add(txtNome);
+		txtNome.setHorizontalAlignment(SwingConstants.CENTER);
+		txtNome.setEditable(false);
 		txtNome.setColumns(10);
+		txtNome.setBackground(new Color(0, 128, 128));
+		txtNome.setBounds(83, 45, 103, 20);
+		contentPane.add(txtNome);
 		
-		txtDatanascimento = new JTextField();
-		txtDatanascimento.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDatanascimento.setBackground(new Color(0, 128, 128));
-		txtDatanascimento.setEditable(false);
-		txtDatanascimento.setText("Data de nascimento");
-		txtDatanascimento.setBounds(96, 122, 103, 20);
-		frame.getContentPane().add(txtDatanascimento);
-		txtDatanascimento.setColumns(10);
+		txtDataNascimento = new JTextField();
+		txtDataNascimento.setText("Data de nascimento");
+		txtDataNascimento.setHorizontalAlignment(SwingConstants.CENTER);
+		txtDataNascimento.setEditable(false);
+		txtDataNascimento.setColumns(10);
+		txtDataNascimento.setBackground(new Color(0, 128, 128));
+		txtDataNascimento.setBounds(83, 92, 103, 20);
+		contentPane.add(txtDataNascimento);
 		
 		txtSenha = new JTextField();
-		txtSenha.setHorizontalAlignment(SwingConstants.CENTER);
-		txtSenha.setBackground(new Color(0, 128, 128));
-		txtSenha.setEditable(false);
 		txtSenha.setText("Senha");
-		txtSenha.setBounds(96, 153, 103, 20);
-		frame.getContentPane().add(txtSenha);
+		txtSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		txtSenha.setEditable(false);
 		txtSenha.setColumns(10);
+		txtSenha.setBackground(new Color(0, 128, 128));
+		txtSenha.setBounds(83, 153, 103, 20);
+		contentPane.add(txtSenha);
 		
-		txtConfirmarASenha = new JTextField();
-		txtConfirmarASenha.setHorizontalAlignment(SwingConstants.CENTER);
-		txtConfirmarASenha.setBackground(new Color(0, 128, 128));
-		txtConfirmarASenha.setEditable(false);
-		txtConfirmarASenha.setText("Confirmar a senha");
-		txtConfirmarASenha.setBounds(96, 180, 103, 20);
-		frame.getContentPane().add(txtConfirmarASenha);
-		txtConfirmarASenha.setColumns(10);
+		txtConfirmarSenha = new JTextField();
+		txtConfirmarSenha.setText("Confirmar a senha");
+		txtConfirmarSenha.setHorizontalAlignment(SwingConstants.CENTER);
+		txtConfirmarSenha.setEditable(false);
+		txtConfirmarSenha.setColumns(10);
+		txtConfirmarSenha.setBackground(new Color(0, 128, 128));
+		txtConfirmarSenha.setBounds(83, 184, 103, 20);
+		contentPane.add(txtConfirmarSenha);
 		
 		txtEmail = new JTextField();
-		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
-		txtEmail.setBackground(new Color(0, 128, 128));
-		txtEmail.setEditable(false);
 		txtEmail.setText("E-mail");
-		txtEmail.setBounds(96, 91, 103, 20);
-		frame.getContentPane().add(txtEmail);
+		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		txtEmail.setEditable(false);
 		txtEmail.setColumns(10);
+		txtEmail.setBackground(new Color(0, 128, 128));
+		txtEmail.setBounds(83, 68, 103, 20);
+		contentPane.add(txtEmail);
 		
-		//configurar situação em que a senha não é inserida(por algum motivo o equals não funcionou como em campoNome)
-		//configurar data de nascimento também!(só aceita formato yyyy-mm-dd)
-		//tirar linhas de confirmação!
-		btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBackground(UIManager.getColor("CheckBox.focus"));
+		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario usuario = new Usuario();
@@ -205,35 +195,35 @@ public class CadastroDeUsuario {
 				} catch (SQLException e1) {
 					e1.printStackTrace();
 				}
-					
 			}
 		});
 		btnCadastrar.setForeground(new Color(0, 0, 128));
-		btnCadastrar.setBounds(96, 284, 89, 23);
-		frame.getContentPane().add(btnCadastrar);
+		btnCadastrar.setBackground(UIManager.getColor("CheckBox.focus"));
+		btnCadastrar.setBounds(163, 227, 89, 23);
+		contentPane.add(btnCadastrar);
 		
 		campoSenha = new JPasswordField();
-		campoSenha.setBounds(214, 153, 103, 20);
-		frame.getContentPane().add(campoSenha);
+		campoSenha.setBounds(219, 153, 103, 20);
+		contentPane.add(campoSenha);
 		
 		campoConfirmarSenha = new JPasswordField();
-		campoConfirmarSenha.setBounds(209, 180, 108, 20);
-		frame.getContentPane().add(campoConfirmarSenha);
-		
-		campoDataDeNascimento = new JTextField();
-		campoDataDeNascimento.setBounds(209, 122, 108, 20);
-		frame.getContentPane().add(campoDataDeNascimento);
-		campoDataDeNascimento.setColumns(10);
+		campoConfirmarSenha.setBounds(219, 181, 108, 20);
+		contentPane.add(campoConfirmarSenha);
 		
 		campoEmail = new JTextField();
-		campoEmail.setBounds(209, 91, 108, 20);
-		frame.getContentPane().add(campoEmail);
 		campoEmail.setColumns(10);
+		campoEmail.setBounds(225, 68, 108, 20);
+		contentPane.add(campoEmail);
 		
 		campoNome = new JTextField();
-		campoNome.setBounds(214, 66, 103, 20);
-		frame.getContentPane().add(campoNome);
 		campoNome.setColumns(10);
+		campoNome.setBounds(225, 45, 108, 20);
+		contentPane.add(campoNome);
+		
+		campoCPF = new JTextField();
+		campoCPF.setColumns(10);
+		campoCPF.setBounds(225, 122, 103, 20);
+		contentPane.add(campoCPF);
 		
 		txtCPF = new JTextField();
 		txtCPF.setText("CPF");
@@ -241,12 +231,12 @@ public class CadastroDeUsuario {
 		txtCPF.setEditable(false);
 		txtCPF.setColumns(10);
 		txtCPF.setBackground(new Color(0, 128, 128));
-		txtCPF.setBounds(96, 211, 103, 20);
-		frame.getContentPane().add(txtCPF);
+		txtCPF.setBounds(83, 122, 103, 20);
+		contentPane.add(txtCPF);
 		
-		campoCPF = new JTextField();
-		campoCPF.setColumns(10);
-		campoCPF.setBounds(209, 211, 108, 20);
-		frame.getContentPane().add(campoCPF);
+		campoDataDeNascimento = new JTextField();
+		campoDataDeNascimento.setColumns(10);
+		campoDataDeNascimento.setBounds(225, 92, 108, 20);
+		contentPane.add(campoDataDeNascimento);
 	}
 }
