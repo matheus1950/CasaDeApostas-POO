@@ -13,6 +13,8 @@ public class Usuario {
 	private int cpf; //aumentar o int depois? não suporta os 11 digitos do cpf
 	private Date dataNascimento;
 	
+	//tirar o id do construtor? o id está sendo estabelecido em UsuarioDaoJDBC de forma incremental
+	//o id setado pelo usuário está sendo ignorado!
 	public Usuario(int id, String nome, String email, String senha, double carteira, int idDeContrato, int cpf,
 			Date dataNascimento) {
 		super();

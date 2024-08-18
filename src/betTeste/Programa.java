@@ -3,6 +3,7 @@ package betTeste;
 import java.sql.Date;
 import java.sql.SQLException;
 
+import dao.impl.DaoFactory;
 import dao.impl.PovoamentoDAO;
 import dao.impl.UsuarioDaoJDBC;
 import db.DB;
@@ -13,7 +14,9 @@ public class Programa {
 		public static void main(String[] args){
 			Date nascimento = Date.valueOf("1985-02-01");
 			Usuario user = new Usuario(1, "Ronaldo", "Ronaldo@fenomeno", "123", 0.0, 9, 22892332, nascimento);
-			UsuarioDaoJDBC banco = new UsuarioDaoJDBC();
+			Usuario user2 = new Usuario(7, "Ronaldo2", "Ronaldo2@fenomeno", "1234", 0.0, 92, 222, nascimento);
+			//UsuarioDaoJDBC banco = new UsuarioDaoJDBC(); - método de fazer sem a classe DaoFactory, podemos tirar qualquer coisa
+			DaoFactory dao = new DaoFactory();
 			
 			System.out.println(user);
 			
@@ -32,11 +35,11 @@ public class Programa {
 			
 			//banco.deleteById(1);
 			
-			//teste de inserção de usuario
+			//teste de inserção de usuario - usando a classe daofactory
 			
 			/*
 			try {
-				banco.insert(user);
+				dao.criarUsuarioDaoJDBC().insert(user2);
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}

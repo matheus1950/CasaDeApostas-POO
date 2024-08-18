@@ -11,7 +11,7 @@ import db.DB;
 import entidades.Usuario;
 
 public class UsuarioDaoJDBC implements UsuarioDao{
-	
+
 	private Connection conn = DB.getConnection();
 	
 	//funcionando, mas, provavelmente por questão do valor único do id, não está indo ao banco com o id especificado!
