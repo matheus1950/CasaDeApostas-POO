@@ -2,7 +2,7 @@ package dao;
 
 import entidades.Evento;
 
-public interface EventoDAO {
+public interface EventoDao {
 	void create();
 	void read(Evento obj);
 	void update(Evento obj);

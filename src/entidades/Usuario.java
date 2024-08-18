@@ -10,7 +10,7 @@ public class Usuario {
 	private String senha;
 	private double carteira;
 	private int idDeContrato;
-	private int cpf;
+	private int cpf; //aumentar o int depois? não suporta os 11 digitos do cpf
 	private Date dataNascimento;
 	
 	public Usuario(int id, String nome, String email, String senha, double carteira, int idDeContrato, int cpf,

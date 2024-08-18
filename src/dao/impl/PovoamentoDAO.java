@@ -1,4 +1,4 @@
-package Povoamento;
+package dao.impl;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import db.DB;
 
-public class PovoarBanco {
+public class PovoamentoDAO {
     
     public void povoarInicialmente(){
         try {
