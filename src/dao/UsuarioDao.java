@@ -8,7 +8,7 @@ import entidades.Usuario;
 public interface UsuarioDao {
 	
 	void insert(Usuario usuario) throws SQLException;
-	void read(Usuario obj);
+	String findPasswordByEmail(String email);
 	void update(Usuario obj);
 	void deleteById(int id) throws SQLException;
 }

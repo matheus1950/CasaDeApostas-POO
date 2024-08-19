@@ -1,10 +1,10 @@
 package entidades;
 
-import java.sql.Date;
+import java.util.Date;
 
 public class Evento {
 	private int id;
-	private int idDeUsuario;
+	private int idDeUsuario; //não entendi direito
 	private String nome;
 	private boolean permissao;
 	private Date dataDeCriacao;
@@ -13,15 +13,16 @@ public class Evento {
 	
 	public Evento() {
 		super();
+		this.dataDeCriacao = new Date();  //aqui ou na declaração de variável?
 	}
 	
-	public Evento(int id, int idDeUsuario, String nome, boolean permissao, Date dataDeCriacao, String descricao) {
+	public Evento(int id, int idDeUsuario, String nome, boolean permissao, String descricao) {
 		super();
 		this.id = id;
 		this.idDeUsuario = idDeUsuario;
 		this.nome = nome;
 		this.permissao = permissao;
-		this.dataDeCriacao = dataDeCriacao;
+		this.dataDeCriacao = new Date(); //aqui ou na declaração de variável?
 		this.descricao = descricao;
 	}
 	

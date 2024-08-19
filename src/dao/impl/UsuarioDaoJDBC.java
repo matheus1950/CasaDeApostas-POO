@@ -39,9 +39,22 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 	}
 
 	@Override
-	public void read(Usuario obj) {
-		// TODO Auto-generated method stub
+	public String findPasswordByEmail(String email) {
+		String sql = "SELECT senha FROM usuario WHERE email = ?";
+		String senha = null;
 		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, email);
+			try(ResultSet rs = ps.executeQuery()){
+				if(rs.next()) {
+					senha = rs.getString("senha");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return senha;
 	}
 	 //sofrendo problemas para atualizar em decorrência do armanezamento de id já explicado acima do método create
 	@Override
@@ -64,7 +77,6 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 	//fiz drop table pra testar, depois ver como deletar com a tabela aposta no lugar! 
 	@Override
 	public void deleteById(int id) throws SQLException{  
-		//PreparedStatement st = null;
 		String sql = "DELETE FROM usuario WHERE id = ?";
 				
 		try(PreparedStatement ps = conn.prepareStatement(sql)){

@@ -10,7 +10,7 @@ public class DaoFactory{
 		return new ApostaDaoJDBC();
 	}
 	
-	public static EventoDaoJDBC criarEventoDaoJDBC1() {
+	public static EventoDaoJDBC criarEventoDaoJDBC() {
 		return new EventoDaoJDBC();
 	}
 	

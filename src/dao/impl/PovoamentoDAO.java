@@ -18,9 +18,9 @@ public class PovoamentoDAO {
                 criarTabelas(connection);
 
                 //Inserir dados nas tabelas
-                inserirUsuarios(connection);
+                //inserirUsuarios(connection);
                 inserirEventos(connection);
-                inserirApostas(connection);
+                //inserirApostas(connection);
 
                 System.out.println("Banco de dados criado e povoado com sucesso!");
 
@@ -36,7 +36,7 @@ public class PovoamentoDAO {
     
     private static void criarTabelas(Connection connection) throws SQLException {
         //Criar tabela Usuario
-        String createUsuarioTable = "CREATE TABLE IF NOT EXISTS Usuario ("
+        /*String createUsuarioTable = "CREATE TABLE IF NOT EXISTS Usuario ("
                 + "id SERIAL PRIMARY KEY, "
                 + "nome VARCHAR(100) NOT NULL, "
                 + "email VARCHAR(100) UNIQUE NOT NULL, "
@@ -46,25 +46,29 @@ public class PovoamentoDAO {
                 + "cpf INT UNIQUE NOT NULL, "
                 + "dataNascimento DATE NOT NULL"
                 + ")";
-        connection.createStatement().execute(createUsuarioTable);
+        connection.createStatement().execute(createUsuarioTable);*/
 
         //Criar tabela Evento
         String createEventoTable = "CREATE TABLE IF NOT EXISTS Evento ("
                 + "id SERIAL PRIMARY KEY, "
                 + "nome VARCHAR(100) NOT NULL, "
-                + "data DATE NOT NULL"
+                + "dataDeCriacao DATE NOT NULL, "
+                + "idDeUsuario INT, "
+                + "permissao BOOLEAN, "
+                + "descricao VARCHAR(100) NOT NULL "
                 + ")";
+                
         connection.createStatement().execute(createEventoTable);
 
         //Criar tabela Aposta
-        String createApostaTable = "CREATE TABLE IF NOT EXISTS Aposta ("
+       /* String createApostaTable = "CREATE TABLE IF NOT EXISTS Aposta ("
                 + "id SERIAL PRIMARY KEY, "
                 + "id_usuario INT REFERENCES Usuario(id), "
                 + "id_evento INT REFERENCES Evento(id), "
                 + "valor_apostado DECIMAL(10, 2) NOT NULL, "
                 + "resultado VARCHAR(50)"
                 + ")";
-        connection.createStatement().execute(createApostaTable);
+        connection.createStatement().execute(createApostaTable);*/
     }
 
     //Método para inserir dados na tabela Usuario
@@ -104,19 +108,44 @@ public class PovoamentoDAO {
 
     //Método para inserir dados na tabela Evento
     private static void inserirEventos(Connection connection) throws SQLException {
-        String sql = "INSERT INTO Evento (nome, data) VALUES (?, ?)";
+    	String sql = "INSERT INTO Evento (nome, dataDeCriacao, idDeUsuario, permissao, descricao) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setString(1, "Final da Copa do Mundo");
-            ps.setDate(2, Date.valueOf("2024-12-18"));
+
+            // Povoar a tabela Evento
+            ps.setString(1, "Evento de Tecnologia");
+            ps.setDate(2, java.sql.Date.valueOf("2024-01-15"));
+            ps.setInt(3, 1);
+            ps.setBoolean(4, true);
+            ps.setString(5, "Conferência de tecnologia sobre IA e Machine Learning");
             ps.executeUpdate();
 
-            ps.setString(1, "Campeonato de Tênis");
-            ps.setDate(2, Date.valueOf("2013-09-04"));
+            ps.setString(1, "Workshop de Java");
+            ps.setDate(2, java.sql.Date.valueOf("2024-02-20"));
+            ps.setInt(3, 2);
+            ps.setBoolean(4, false);
+            ps.setString(5, "Workshop intensivo de programação em Java");
             ps.executeUpdate();
 
-            ps.setString(1, "Corrida de F1");
-            ps.setDate(2, Date.valueOf("2024-08-30"));
+            ps.setString(1, "Seminário de Segurança");
+            ps.setDate(2, java.sql.Date.valueOf("2024-03-10"));
+            ps.setInt(3, 3);
+            ps.setBoolean(4, true);
+            ps.setString(5, "Seminário sobre novas práticas em cibersegurança");
+            ps.executeUpdate();
+
+            ps.setString(1, "Hackathon");
+            ps.setDate(2, java.sql.Date.valueOf("2024-04-05"));
+            ps.setInt(3, 4);
+            ps.setBoolean(4, true);
+            ps.setString(5, "Maratona de desenvolvimento de software");
+            ps.executeUpdate();
+
+            ps.setString(1, "Feira de Inovação");
+            ps.setDate(2, java.sql.Date.valueOf("2024-05-25"));
+            ps.setInt(3, 5);
+            ps.setBoolean(4, false);
+            ps.setString(5, "Feira de inovações tecnológicas");
             ps.executeUpdate();
         }
     }

@@ -29,9 +29,12 @@ public class Programa {
 			PovoamentoDAO povoacao = new PovoamentoDAO();
 			
 			povoacao.povoarInicialmente();
-			*/
 			
+			*/
+		
 			//teste de deleção
+			
+			//dao.criarEventoDaoJDBC().deleteById(4);
 			
 			//banco.deleteById(1);
 			

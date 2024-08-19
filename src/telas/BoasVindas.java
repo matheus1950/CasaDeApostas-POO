@@ -42,6 +42,7 @@ public class BoasVindas extends JFrame {
 	 * Create the frame.
 	 */
 	public BoasVindas() {
+		setTitle("boas vindas!");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 318, 247);
 		contentPane = new JPanel();

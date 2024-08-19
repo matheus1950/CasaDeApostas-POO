@@ -6,6 +6,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import dao.impl.DaoFactory;
+
 import javax.swing.JTextArea;
 import java.awt.Color;
 import java.awt.Font;
@@ -21,8 +24,8 @@ public class LoginUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField txtLogin;
-	private JTextField campoLogin;
+	private JTextField txtEmail;
+	private JTextField campoEmail;
 	private JTextField txtSenha;
 	private JPasswordField campoSenha;
 
@@ -46,6 +49,7 @@ public class LoginUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginUsuario() {
+		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 360, 236);
 		contentPane = new JPanel();
@@ -67,8 +71,11 @@ public class LoginUsuario extends JFrame {
 		JButton btnLogar = new JButton("Logar");
 		btnLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DaoFactory dao = new DaoFactory();
+				
 				//verificacao do campo login
-				if(!campoLogin.getText().equals("")) {
+				
+				if(!campoEmail.getText().equals("")) {
 					
 				}
 				else {
@@ -84,6 +91,15 @@ public class LoginUsuario extends JFrame {
 					JOptionPane.showMessageDialog(btnLogar, "Senha não digitada!");
 					return;
 				}
+				
+				//verificação da combinação email - senha
+				if(campoSenha.getText().equals(dao.criarUsuarioDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
+					JOptionPane.showMessageDialog(btnLogar, "Sucesso! Falta criar tela de usuário!");
+				}
+				else {
+					JOptionPane.showMessageDialog(btnLogar, "Combinação incorreta de email e senha!");
+				}
+				
 			}
 		});
 		btnLogar.setBounds(64, 145, 59, 23);
@@ -91,19 +107,19 @@ public class LoginUsuario extends JFrame {
 		btnLogar.setBackground(UIManager.getColor("CheckBox.focus"));
 		contentPane.add(btnLogar);
 		
-		txtLogin = new JTextField();
-		txtLogin.setBackground(new Color(64, 128, 128));
-		txtLogin.setBounds(54, 64, 86, 20);
-		txtLogin.setText("Login");
-		txtLogin.setHorizontalAlignment(SwingConstants.CENTER);
-		txtLogin.setEditable(false);
-		txtLogin.setColumns(10);
-		contentPane.add(txtLogin);
+		txtEmail = new JTextField();
+		txtEmail.setBackground(new Color(64, 128, 128));
+		txtEmail.setBounds(54, 64, 86, 20);
+		txtEmail.setText("Email");
+		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		txtEmail.setEditable(false);
+		txtEmail.setColumns(10);
+		contentPane.add(txtEmail);
 		
-		campoLogin = new JTextField();
-		campoLogin.setBounds(150, 64, 86, 20);
-		campoLogin.setColumns(10);
-		contentPane.add(campoLogin);
+		campoEmail = new JTextField();
+		campoEmail.setBounds(150, 64, 86, 20);
+		campoEmail.setColumns(10);
+		contentPane.add(campoEmail);
 		
 		txtSenha = new JTextField();
 		txtSenha.setBackground(new Color(64, 128, 128));
