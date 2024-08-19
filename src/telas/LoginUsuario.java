@@ -95,6 +95,7 @@ public class LoginUsuario extends JFrame {
 				//verificação da combinação email - senha
 				if(campoSenha.getText().equals(dao.criarUsuarioDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
 					JOptionPane.showMessageDialog(btnLogar, "Sucesso! Falta criar tela de usuário!");
+					new TelaPrincipal().setVisible(true);
 				}
 				else {
 					JOptionPane.showMessageDialog(btnLogar, "Combinação incorreta de email e senha!");
