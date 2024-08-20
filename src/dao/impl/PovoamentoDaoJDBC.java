@@ -5,9 +5,11 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
+import dao.PovoamentoDao;
 import db.DB;
 
-public class PovoamentoDAO {
+public class PovoamentoDaoJDBC implements PovoamentoDao{
     
     public void povoarInicialmente(){
         try {
@@ -34,7 +36,7 @@ public class PovoamentoDAO {
         }
     }
     
-    private static void criarTabelas(Connection connection) throws SQLException {
+    public void criarTabelas(Connection connection) throws SQLException {
         //Criar tabela Usuario
         /*String createUsuarioTable = "CREATE TABLE IF NOT EXISTS Usuario ("
                 + "id SERIAL PRIMARY KEY, "
@@ -72,7 +74,7 @@ public class PovoamentoDAO {
     }
 
     //Método para inserir dados na tabela Usuario
-    private static void inserirUsuarios(Connection connection) throws SQLException {
+    public void inserirUsuarios(Connection connection) throws SQLException {
         String sql = "INSERT INTO Usuario (nome, email, senha, carteira, idDeContrato, cpf, dataNascimento) "
                    + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -107,7 +109,7 @@ public class PovoamentoDAO {
     }
 
     //Método para inserir dados na tabela Evento
-    private static void inserirEventos(Connection connection) throws SQLException {
+    public void inserirEventos(Connection connection) throws SQLException {
     	String sql = "INSERT INTO Evento (nome, dataDeCriacao, idDeUsuario, permissao, descricao) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
@@ -151,24 +153,24 @@ public class PovoamentoDAO {
     }
 
     //Método para inserir dados na tabela Aposta
-    private static void inserirApostas(Connection connection) throws SQLException {
+    public void inserirApostas(Connection connection) throws SQLException {
         String sql = "INSERT INTO Aposta (id_usuario, id_evento, valor_apostado, resultado) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
-            ps.setInt(1, 1); // ID do usuário (Carlos Silva)
-            ps.setInt(2, 1); // ID do evento (Final da Copa do Mundo)
+            ps.setInt(1, 1); 
+            ps.setInt(2, 1); 
             ps.setDouble(3, 50.00);
             ps.setString(4, "Pendente");
             ps.executeUpdate();
 
-            ps.setInt(1, 2); // ID do usuário (Maria Oliveira)
-            ps.setInt(2, 2); // ID do evento (Campeonato de Tênis)
+            ps.setInt(1, 2); 
+            ps.setInt(2, 2); 
             ps.setDouble(3, 100.00);
             ps.setString(4, "Pendente");
             ps.executeUpdate();
 
-            ps.setInt(1, 3); // ID do usuário (João Souza)
-            ps.setInt(2, 3); // ID do evento (Corrida de F1)
+            ps.setInt(1, 3); 
+            ps.setInt(2, 3);
             ps.setDouble(3, 20.00);
             ps.setString(4, "Pendente");
             ps.executeUpdate();

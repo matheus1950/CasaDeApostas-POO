@@ -4,7 +4,7 @@ import java.sql.Date;
 import java.sql.SQLException;
 
 import dao.impl.DaoFactory;
-import dao.impl.PovoamentoDAO;
+import dao.impl.PovoamentoDaoJDBC;
 import dao.impl.UsuarioDaoJDBC;
 import db.DB;
 import entidades.Usuario;
