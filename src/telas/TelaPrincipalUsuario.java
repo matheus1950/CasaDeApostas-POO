@@ -101,9 +101,10 @@ public class TelaPrincipalUsuario extends JFrame {
     	};
         
 
-        
+        	
         table = new JTable(tableModel);
         scrollPane.setViewportView(table);
+        //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }
     
     public void preencherTabela(ArrayList<Evento> eventos) {

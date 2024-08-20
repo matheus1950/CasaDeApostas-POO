@@ -61,7 +61,6 @@ public class EventoDaoJDBC implements EventoDao{
 
         return eventos;
     }
-		
 
 	@Override
 	public void update(Evento evento) {
@@ -71,7 +70,7 @@ public class EventoDaoJDBC implements EventoDao{
 	
 
 	@Override
-	public void deleteById(int id) {
+	public boolean deleteById(int id) {
 		String sql = "DELETE FROM evento WHERE id = ?";
 		
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
@@ -79,10 +78,11 @@ public class EventoDaoJDBC implements EventoDao{
 			ps.executeUpdate();
 			System.out.println("Evento deletado com sucesso!");
 			ps.close();
+			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+		return false;
 	}
 	
 }

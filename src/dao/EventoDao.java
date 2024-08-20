@@ -8,5 +8,5 @@ public interface EventoDao {
 	void insert(Evento obj);
 	ArrayList<Evento> listarTodosEventos();
 	void update(Evento obj);
-	void deleteById(int id);
+	boolean deleteById(int id);
 }
