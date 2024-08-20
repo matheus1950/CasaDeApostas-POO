@@ -58,7 +58,8 @@ public class Programa {
 			banco.update(user);
 			*/
 			
-			
+			//teste de listarTodosEventos
+			dao.criarEventoDaoJDBC().listarTodosEventos();
 			
 		}
 

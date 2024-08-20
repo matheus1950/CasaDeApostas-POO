@@ -3,7 +3,9 @@ package dao.impl;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import dao.EventoDao;
 import db.DB;
@@ -36,16 +38,37 @@ public class EventoDaoJDBC implements EventoDao{
 	}
 
 	@Override
-	public void read(Evento evento) {
-		// TODO Auto-generated method stub
+	public ArrayList<Evento> listarTodosEventos() {
+		String sql = "SELECT * FROM Evento";
+		ArrayList<Evento> eventos = new ArrayList<>();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+            	//não coloquei permissão aqui, não acho que seja necessário que o usuário saiba
+                Evento evento = new Evento();
+                evento.setId(rs.getInt("id"));
+                evento.setIdDeUsuario(rs.getInt("iddeusuario"));
+                evento.setNome(rs.getString("nome"));
+                evento.setDescricao(rs.getString("descricao"));
+                evento.setDataDeCriacao(rs.getDate("datadecriacao"));
+                eventos.add(evento);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return eventos;
+    }
 		
-	}
 
 	@Override
 	public void update(Evento evento) {
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 	@Override
 	public void deleteById(int id) {
