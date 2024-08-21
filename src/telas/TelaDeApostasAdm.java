@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 public class TelaDeApostasAdm extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField txtIncompleta;
     private JTable table;
     private JScrollPane scrollPane;
     private DefaultTableModel tableModel;
@@ -76,14 +75,6 @@ public class TelaDeApostasAdm extends JFrame {
         txtApostasAdm.setBounds(92, 0, 294, 42);
         panel.add(txtApostasAdm);
         
-        txtIncompleta = new JTextField();
-        txtIncompleta.setEditable(false);
-        txtIncompleta.setHorizontalAlignment(SwingConstants.CENTER);
-        txtIncompleta.setText("INCOMPLETA");
-        txtIncompleta.setBounds(391, 46, 114, 122);
-        panel.add(txtIncompleta);
-        txtIncompleta.setColumns(10);
-        
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
         scrollPane.setBounds(10, 58, 351, 290);
@@ -117,35 +108,6 @@ public class TelaDeApostasAdm extends JFrame {
                 }
             }
         });
-        /*
-        JButton btnExcluir = new JButton("Excluir aposta");
-        btnExcluir.setBounds(371, 179, 114, 23);
-        btnExcluir.addActionListener(e -> {
-            int selectedRow = table.getSelectedRow();
-            if (selectedRow != -1) {
-                int id = (int) table.getValueAt(selectedRow, 0);
-                String nome= (String) table.getValueAt(selectedRow, 1);
-                excluirAposta(id, nome);
-            } else {
-                JOptionPane.showMessageDialog(this, "Selecione um aposta para excluir.");
-            }
-        });
-        
-        panel.add(btnExcluir);
-        */
-        JButton btnVisualizarAposta = new JButton("Visualizar aposta");
-        btnVisualizarAposta.setBounds(371, 213, 114, 23);
-        btnVisualizarAposta.addActionListener(e -> {
-        		int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    int id = (int) table.getValueAt(selectedRow, 0);
-                    //
-                } else {
-                    JOptionPane.showMessageDialog(this, "Selecione um aposta para excluir.");
-                }	
-        });
-        
-        panel.add(btnVisualizarAposta);
     }
     
     public void preencherTabela(ArrayList<Aposta> apostas) {

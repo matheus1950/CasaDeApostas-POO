@@ -22,11 +22,11 @@ import entidades.Aposta;
 import entidades.Evento;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
 public class TelaPrincipalAdm extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
-    private JTextField txtIncompleta;
     private JTable table;
     private JScrollPane scrollPane;
     private DefaultTableModel tableModel;
@@ -82,14 +82,6 @@ public class TelaPrincipalAdm extends JFrame {
         txtTelaPrincipalAdm.setBounds(114, -2, 294, 42);
         panel.add(txtTelaPrincipalAdm);
         
-        txtIncompleta = new JTextField();
-        txtIncompleta.setEditable(false);
-        txtIncompleta.setHorizontalAlignment(SwingConstants.CENTER);
-        txtIncompleta.setText("INCOMPLETA");
-        txtIncompleta.setBounds(391, 46, 114, 122);
-        panel.add(txtIncompleta);
-        txtIncompleta.setColumns(10);
-        
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
         scrollPane.setBounds(10, 58, 351, 290);
@@ -125,6 +117,8 @@ public class TelaPrincipalAdm extends JFrame {
         });
         
         JButton btnExcluir = new JButton("Excluir Evento");
+        btnExcluir.setForeground(new Color(0, 0, 128));
+        btnExcluir.setBackground(UIManager.getColor("CheckBox.focus"));
         btnExcluir.setBounds(371, 179, 114, 23);
         btnExcluir.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -140,6 +134,8 @@ public class TelaPrincipalAdm extends JFrame {
         panel.add(btnExcluir);
         
         JButton btnVisualizarEvento = new JButton("Visualizar Evento");
+        btnVisualizarEvento.setForeground(new Color(0, 0, 128));
+        btnVisualizarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
         btnVisualizarEvento.setBounds(371, 213, 114, 23);
         btnVisualizarEvento.addActionListener(e -> {
         		int selectedRow = table.getSelectedRow();

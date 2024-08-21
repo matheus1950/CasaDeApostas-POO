@@ -4,6 +4,8 @@ import java.awt.EventQueue;
 import java.awt.Color;
 import java.awt.Font;
 import java.util.ArrayList;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -16,19 +18,16 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
-import entidades.Evento;
-import javax.swing.JButton;
-import javax.swing.UIManager;
+import entidades.Aposta;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class TelaPrincipalUsuario extends JFrame {
+public class TelaDeApostasUsuario extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTable table;
     private JScrollPane scrollPane;
     private DefaultTableModel tableModel;
-    private JButton btnVisualizarEvento;
 
     /**
      * Launch the application.
@@ -37,13 +36,8 @@ public class TelaPrincipalUsuario extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaPrincipalUsuario frame = new TelaPrincipalUsuario();
-                    frame.setVisible(true);
-                    
-                    //preencher a tabela com todos eventos
-                    DaoFactory dao = new DaoFactory();
-                    ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
-                    frame.preencherTabela(todosEventos);
+                    TelaDeApostasUsuario frame = new TelaDeApostasUsuario();
+                    frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -55,7 +49,8 @@ public class TelaPrincipalUsuario extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaPrincipalUsuario() {
+	public TelaDeApostasUsuario() {
+    	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 580, 420);
         contentPane = new JPanel();
@@ -71,14 +66,14 @@ public class TelaPrincipalUsuario extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
         
-        JTextArea txtTelaPrincipal = new JTextArea();
-        txtTelaPrincipal.setText("Tela Principal (User)");
-        txtTelaPrincipal.setForeground(new Color(128, 255, 255));
-        txtTelaPrincipal.setFont(new Font("Tahoma", Font.BOLD, 31));
-        txtTelaPrincipal.setEditable(false);
-        txtTelaPrincipal.setBackground(new Color(0, 64, 0));
-        txtTelaPrincipal.setBounds(91, 0, 321, 42);
-        panel.add(txtTelaPrincipal);
+        JTextArea txtApostas = new JTextArea();
+        txtApostas.setText("Apostas");
+        txtApostas.setForeground(new Color(128, 255, 255));
+        txtApostas.setFont(new Font("Tahoma", Font.BOLD, 31));
+        txtApostas.setEditable(false);
+        txtApostas.setBackground(new Color(0, 64, 0));
+        txtApostas.setBounds(92, 0, 294, 42);
+        panel.add(txtApostas);
         
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
@@ -89,51 +84,65 @@ public class TelaPrincipalUsuario extends JFrame {
         tableModel = new DefaultTableModel(
             new Object[][] {},
             new String[] {
-                "Id", "Nome", "Descrição", "Data de criação"
+                "Id", "Descricao", "Odd", "Data de criação", "Status"
             }
         ){@Override //sobrescrevendo o método de DefaultTable para as células não serem editáveis 
     	    public boolean isCellEditable(int row, int column) {
 		        return false;
         	}
     	};
-        
-
         	
         table = new JTable(tableModel);
         scrollPane.setViewportView(table);
         
-        btnVisualizarEvento = new JButton("Visualizar Evento");
-        btnVisualizarEvento.addActionListener(e -> {
-    		int selectedRow = table.getSelectedRow();
-            if (selectedRow != -1) {
-                int id = (int) table.getValueAt(selectedRow, 0);
-                //abrindo a tela de apostas
-                DaoFactory dao = new DaoFactory();
-                TelaDeApostasUsuario telaApostaUser = new TelaDeApostasUsuario();
-                telaApostaUser.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
-                telaApostaUser.setVisible(true);
-            } else {
-                JOptionPane.showMessageDialog(this, "Selecione um evento para excluir.");
-            }	
-        });
-        
-        
-        btnVisualizarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnVisualizarEvento.setForeground(new Color(0, 0, 128));
-        btnVisualizarEvento.setBounds(371, 105, 114, 23);
-        panel.add(btnVisualizarEvento);
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
+        
+        table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow != -1) {
+                    // Obtém o ID do aposta a partir da linha selecionada, por exemplo:
+                    int id = (int) table.getValueAt(selectedRow, 0);
+                    // A partir do nome ou de outra coluna, você pode encontrar o ID do aposta
+                    System.out.println("Id do aposta: " + id);
+                }
+            }
+        });
     }
     
-    public void preencherTabela(ArrayList<Evento> eventos) { 
-        for (Evento evento : eventos) {
+    public void preencherTabela(ArrayList<Aposta> apostas) {
+        for (Aposta aposta : apostas) {
             Object[] row = {
-            	evento.getId(),
-                evento.getNome(),
-                evento.getDescricao(),
-                evento.getDataDeCriacao().toString()
+            	aposta.getId(),
+                aposta.getDescricao(),
+                aposta.getOdd(),
+                aposta.getDataDeCriacao().toString(),
+                aposta.getStatus()
             };
             tableModel.addRow(row);
+        }
+    }
+    
+   /* public void excluirAposta(int id, String nome) {
+        DaoFactory dao = new DaoFactory();
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o aposta de id " + id + " e nome " + nome + " ?");
+        if (confirmacao == JOptionPane.YES_OPTION) {
+            if(dao.criarApostaDaoJDBC().deleteById(id)) { //se realmente excluir do banco!
+            	JOptionPane.showMessageDialog(this, "aposta excluído com sucesso!");
+            	removerLinhaTabela(id);
+            }
+        }
+        else {
+        	JOptionPane.showMessageDialog(this, "Erro ao excluir o aposta.");
+        }
+    }*/
+    
+    public void removerLinhaTabela(int id) {
+        for (int i = 0; i < table.getRowCount(); i++) {
+            if ((int)table.getValueAt(i, 0) == id) {
+                tableModel.removeRow(i);
+                break;
+            }
         }
     }
 }
