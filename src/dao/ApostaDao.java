@@ -10,4 +10,6 @@ public interface ApostaDao {
 	void update(Aposta obj);
 	void deleteById(Aposta id);
 	ArrayList<Aposta> ListarApostasPorEventoId(int EventoId);
+	boolean editarOdd(int id, double odd);
+	boolean editarDescricao(int id, String descricao);
 }

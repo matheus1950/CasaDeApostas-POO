@@ -19,6 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
 import entidades.Aposta;
+import entidades.Evento;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
@@ -113,6 +115,24 @@ public class ApostasAdm extends JFrame {
         btnExcluirAposta.setBounds(587, 61, 115, 23);
         panel.add(btnExcluirAposta);
         
+        JButton btnEditarAposta = new JButton("Editar Aposta");
+        btnEditarAposta.addActionListener(e -> {
+        		int selectedRow = table.getSelectedRow();
+        		if (selectedRow != -1) {
+        			//passando nome, descricao e id para a tela de editar evento
+	        		EditarAposta editar = new EditarAposta((double)table.getValueAt(selectedRow, 2), (String)table.getValueAt(selectedRow, 1), (int)table.getValueAt(selectedRow, 0), this);
+	        		//this aqui é para passar a própria frame no argumento ^
+	        		editar.setVisible(true);
+        		}
+        		else {
+                    JOptionPane.showMessageDialog(this, "Selecione uma aposta para editar.");
+                }	
+        });
+        btnEditarAposta.setForeground(new Color(0, 0, 128));
+        btnEditarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnEditarAposta.setBounds(587, 112, 115, 23);
+        panel.add(btnEditarAposta);
+        
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         
         table.getSelectionModel().addListSelectionListener(e -> {
@@ -163,5 +183,14 @@ public class ApostasAdm extends JFrame {
             }
         }
     }
-    
+
+    /*
+	public void atualizarTabela() {
+		DaoFactory dao = new DaoFactory();
+        tableModel.setRowCount(0); // Limpa todos os dados da tabela
+        
+        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+        preencherTabela(todosEventos);
+	}
+	*/
 }

@@ -59,5 +59,36 @@ public class ApostaDaoJDBC {
 		}
 		return false;
 	}
+
+	public boolean editarOdd(int id, double odd) {
+		String sql = "UPDATE aposta SET odd = ? WHERE id = ?";
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setDouble(1, odd);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Aposta atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 	
+	public boolean editarDescricao(int id, String descricao) {
+		String sql = "UPDATE aposta SET descricao = ? WHERE id = ?";
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, descricao);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Aposta atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
