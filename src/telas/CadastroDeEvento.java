@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.UIManager;
+import javax.swing.SwingConstants;
 
 public class CadastroDeEvento extends JFrame {
 	//Incompleta
@@ -102,10 +103,11 @@ public class CadastroDeEvento extends JFrame {
 		panel.add(btnCadastrar);
 		
 		txtNomeDoEvento = new JTextField();
+		txtNomeDoEvento.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNomeDoEvento.setBackground(new Color(64, 128, 128));
 		txtNomeDoEvento.setEditable(false);
 		txtNomeDoEvento.setText("Nome");
-		txtNomeDoEvento.setBounds(24, 72, 50, 20);
+		txtNomeDoEvento.setBounds(24, 72, 86, 20);
 		panel.add(txtNomeDoEvento);
 		txtNomeDoEvento.setColumns(10);
 		
@@ -120,6 +122,7 @@ public class CadastroDeEvento extends JFrame {
 		campoDescricao.setColumns(10);
 		
 		textDescricao = new JTextField();
+		textDescricao.setHorizontalAlignment(SwingConstants.CENTER);
 		textDescricao.setBackground(new Color(64, 128, 128));
 		textDescricao.setEditable(false);
 		textDescricao.setText("Descricao");

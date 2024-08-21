@@ -66,7 +66,7 @@ public class ApostasAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(24, 11, 712, 359);
+        panel.setBounds(24, 11, 729, 359);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -112,7 +112,7 @@ public class ApostasAdm extends JFrame {
         });
         btnExcluirAposta.setForeground(new Color(0, 0, 128));
         btnExcluirAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnExcluirAposta.setBounds(587, 61, 115, 23);
+        btnExcluirAposta.setBounds(587, 61, 132, 23);
         panel.add(btnExcluirAposta);
         
         JButton btnEditarAposta = new JButton("Editar Aposta");
@@ -130,8 +130,22 @@ public class ApostasAdm extends JFrame {
         });
         btnEditarAposta.setForeground(new Color(0, 0, 128));
         btnEditarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnEditarAposta.setBounds(587, 112, 115, 23);
+        btnEditarAposta.setBounds(587, 112, 132, 23);
         panel.add(btnEditarAposta);
+        
+        ApostasAdm essaTela = this; //pegando essa tela para passar para a tela de cadastro de aposta
+        
+        JButton btnCadastrarAposta = new JButton("Cadastrar Aposta");
+        btnCadastrarAposta.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		CadastroDeAposta cadastro = new CadastroDeAposta(idEvento, essaTela);
+                cadastro.setVisible(true);
+        	}
+        });
+        btnCadastrarAposta.setForeground(new Color(0, 0, 128));
+        btnCadastrarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnCadastrarAposta.setBounds(587, 157, 132, 23);
+        panel.add(btnCadastrarAposta);
         
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         
@@ -192,5 +206,4 @@ public class ApostasAdm extends JFrame {
         ArrayList<Aposta> todasApostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
         preencherTabela(todasApostas);
 	}
-	
 }

@@ -14,7 +14,26 @@ import entidades.Evento;
 public class ApostaDaoJDBC {
 	
 	private Connection conn = DB.getConnection();
-	
+		
+	public void insert(Aposta aposta) {
+        String sql = "INSERT INTO Aposta (descricao, idDeEvento, odd, dataDeCriacao, status) "
+        			+ "VALUES (?, ?, ?, ?, ?)";
+        
+        java.sql.Date sqlDate = new java.sql.Date(aposta.getDataDeCriacao().getTime()); //linha de cast de util.Date para sql.Date
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {         
+            ps.setDate(4, sqlDate);
+            ps.setString(1, aposta.getDescricao());  
+            ps.setDouble(3, aposta.getOdd());
+            ps.setInt(2, aposta.getIdDeEvento());
+            ps.setString(5, "pendente");  //por enquanto o status vai começar como pendente!!
+            ps.executeUpdate();
+            System.out.println("Aposta inserida com sucesso!");
+            ps.close();
+        } catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	public ArrayList<Aposta> ListarApostasPorEventoId(int EventoId){
 		
