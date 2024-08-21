@@ -173,10 +173,12 @@ public class TelaPrincipalAdm extends JFrame {
         txtEditarEvento.setBounds(619, 241, 114, 23);
         panel.add(txtEditarEvento);
         
+        TelaPrincipalAdm essaTela = this; //capturando essa tela por aqui, porque, no botão, o "this" captura o próprio botão
+        
         JButton btnInserirEvento = new JButton("Inserir Evento");
         btnInserirEvento.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		CadastroDeEvento cadastro = new CadastroDeEvento(idUsuario);
+        		CadastroDeEvento cadastro = new CadastroDeEvento(idUsuario, essaTela);
                 cadastro.setVisible(true);
         	}
         });

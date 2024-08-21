@@ -40,7 +40,7 @@ public class CadastroDeEvento extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadastroDeEvento frame = new CadastroDeEvento(-1); //não sei se tem problema iniciar em 0
+					CadastroDeEvento frame = new CadastroDeEvento(-1, new TelaPrincipalAdm(-1)); //não sei se tem problema iniciar em 0
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -52,7 +52,7 @@ public class CadastroDeEvento extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CadastroDeEvento(int idUsuario) {
+	public CadastroDeEvento(int idUsuario, TelaPrincipalAdm frame) {
 		setTitle("Cadastrar Evento");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -95,6 +95,7 @@ public class CadastroDeEvento extends JFrame {
 				
 				evento.setIdDeUsuario(idUsuario);
 				dao.criarEventoDaoJDBC().insert(evento);
+				frame.atualizarTabela();
 			}
 		});
 		btnCadastrar.setBounds(120, 182, 119, 23);
