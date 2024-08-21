@@ -103,7 +103,7 @@ public class LoginUsuario extends JFrame {
 					    telaUsuario.setVisible(true);
 					}//se o campo permissão for verdadeiro -> abrir tela de adm
 					else {
-						TelaPrincipalAdm telaAdm = new TelaPrincipalAdm();
+						TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarUsuarioDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
 				        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
 				        telaAdm.setVisible(true);
 					}

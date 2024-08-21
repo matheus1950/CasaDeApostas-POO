@@ -40,7 +40,7 @@ public class TelaPrincipalAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaPrincipalAdm frame = new TelaPrincipalAdm();
+                    TelaPrincipalAdm frame = new TelaPrincipalAdm(0); //coloquei um id padrão, não sei se tem problema
                     frame.setVisible(true);
                     
                     //preencher a tabela com todos eventos
@@ -58,7 +58,7 @@ public class TelaPrincipalAdm extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaPrincipalAdm() {
+	public TelaPrincipalAdm(int idUsuario) {
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 790, 528);
@@ -171,6 +171,18 @@ public class TelaPrincipalAdm extends JFrame {
         txtEditarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
         txtEditarEvento.setBounds(619, 241, 114, 23);
         panel.add(txtEditarEvento);
+        
+        JButton btnInserirEvento = new JButton("Inserir Evento");
+        btnInserirEvento.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		CadastroDeEvento cadastro = new CadastroDeEvento(idUsuario);
+                cadastro.setVisible(true);
+        	}
+        });
+        btnInserirEvento.setForeground(new Color(0, 0, 128));
+        btnInserirEvento.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnInserirEvento.setBounds(619, 298, 114, 23);
+        panel.add(btnInserirEvento);
     }
     
     public void preencherTabela(ArrayList<Evento> eventos) {
