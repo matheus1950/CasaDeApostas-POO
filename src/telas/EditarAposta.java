@@ -41,7 +41,7 @@ public class EditarAposta extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditarAposta frame = new EditarAposta(-1.0, "testeDescricao", -1, new ApostasAdm()); //Rever se posso passar esses argumentos como padrão
+					EditarAposta frame = new EditarAposta(-1.0, "testeDescricao", -1, new ApostasAdm(-1), -1); //Rever se posso passar esses argumentos como padrão
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +54,7 @@ public class EditarAposta extends JFrame {
 	 * Create the frame.
 	 * @param id 
 	 */
-	public EditarAposta(double odd, String descricao, int id, ApostasAdm frame) {
+	public EditarAposta(double odd, String descricao, int id, ApostasAdm frame, int idEvento) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 773, 451);
 		contentPane = new JPanel();
@@ -114,7 +114,7 @@ public class EditarAposta extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				salvar(btnSalvar, id, oddAntiga, descricaoAntiga);
-				//frame.atualizarTabela();
+				frame.atualizarTabela(idEvento);
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 128));

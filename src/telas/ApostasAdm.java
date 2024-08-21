@@ -40,7 +40,7 @@ public class ApostasAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ApostasAdm frame = new ApostasAdm();
+                    ApostasAdm frame = new ApostasAdm(-1); //-1 padrão, não se deve manter
                     frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -53,7 +53,7 @@ public class ApostasAdm extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public ApostasAdm() {
+	public ApostasAdm(int idEvento) {
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 779, 420);
@@ -120,7 +120,7 @@ public class ApostasAdm extends JFrame {
         		int selectedRow = table.getSelectedRow();
         		if (selectedRow != -1) {
         			//passando nome, descricao e id para a tela de editar evento
-	        		EditarAposta editar = new EditarAposta((double)table.getValueAt(selectedRow, 2), (String)table.getValueAt(selectedRow, 1), (int)table.getValueAt(selectedRow, 0), this);
+	        		EditarAposta editar = new EditarAposta((double)table.getValueAt(selectedRow, 2), (String)table.getValueAt(selectedRow, 1), (int)table.getValueAt(selectedRow, 0), this, idEvento);
 	        		//this aqui é para passar a própria frame no argumento ^
 	        		editar.setVisible(true);
         		}
@@ -184,13 +184,13 @@ public class ApostasAdm extends JFrame {
         }
     }
 
-    /*
-	public void atualizarTabela() {
+    //atualizar somente as que são relacionadas ao id de evento
+	public void atualizarTabela(int idEvento) {
 		DaoFactory dao = new DaoFactory();
         tableModel.setRowCount(0); // Limpa todos os dados da tabela
         
-        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
-        preencherTabela(todosEventos);
+        ArrayList<Aposta> todasApostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+        preencherTabela(todasApostas);
 	}
-	*/
+	
 }

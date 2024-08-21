@@ -145,7 +145,7 @@ public class TelaPrincipalAdm extends JFrame {
                     int id = (int) table.getValueAt(selectedRow, 0);
                     //abrindo a tela de apostas
                     DaoFactory dao = new DaoFactory();
-                    ApostasAdm telaApostaAdm = new ApostasAdm();
+                    ApostasAdm telaApostaAdm = new ApostasAdm(id);
                     telaApostaAdm.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
                     telaApostaAdm.setVisible(true);
                 } else {

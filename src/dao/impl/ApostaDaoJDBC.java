@@ -28,7 +28,6 @@ public class ApostaDaoJDBC {
             while (rs.next()) {
                 Aposta aposta = new Aposta();
                 aposta.setId(rs.getInt("id"));
-                aposta.setIdDeEvento(rs.getInt("iddeevento"));
                 aposta.setStatus(rs.getString("status"));
                 aposta.setResultado(rs.getString("resultado"));
                 aposta.setDataDeCriacao(rs.getDate("datadecriacao"));
@@ -75,6 +74,29 @@ public class ApostaDaoJDBC {
 		}
 		return false;
 	}
+	
+	public ArrayList<Aposta> listarTodasApostas() {
+		String sql = "SELECT * FROM Aposta";
+		ArrayList<Aposta> apostas = new ArrayList<>();
+
+        try (PreparedStatement ps = conn.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+            	//não coloquei permissão aqui, não acho que seja necessário que o usuário saiba
+                Aposta aposta = new Aposta();
+                aposta.setId(rs.getInt("id"));
+                aposta.setOdd(rs.getDouble("odd"));
+                aposta.setDescricao(rs.getString("descricao"));
+                aposta.setDataDeCriacao(rs.getDate("datadecriacao"));
+                apostas.add(aposta);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return apostas;
+    }
 	
 	public boolean editarDescricao(int id, String descricao) {
 		String sql = "UPDATE aposta SET descricao = ? WHERE id = ?";
