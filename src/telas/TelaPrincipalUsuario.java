@@ -57,7 +57,7 @@ public class TelaPrincipalUsuario extends JFrame {
     @SuppressWarnings("serial")
 	public TelaPrincipalUsuario() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 580, 420);
+        setBounds(100, 100, 797, 420);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -67,7 +67,7 @@ public class TelaPrincipalUsuario extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(24, 11, 515, 359);
+        panel.setBounds(24, 11, 723, 359);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -77,12 +77,12 @@ public class TelaPrincipalUsuario extends JFrame {
         txtTelaPrincipal.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtTelaPrincipal.setEditable(false);
         txtTelaPrincipal.setBackground(new Color(0, 64, 0));
-        txtTelaPrincipal.setBounds(91, 0, 321, 42);
+        txtTelaPrincipal.setBounds(208, 0, 321, 42);
         panel.add(txtTelaPrincipal);
         
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 351, 290);
+        scrollPane.setBounds(10, 58, 579, 290);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -109,7 +109,7 @@ public class TelaPrincipalUsuario extends JFrame {
                 int id = (int) table.getValueAt(selectedRow, 0);
                 //abrindo a tela de apostas
                 DaoFactory dao = new DaoFactory();
-                TelaDeApostasUsuario telaApostaUser = new TelaDeApostasUsuario();
+                ApostasUsuario telaApostaUser = new ApostasUsuario();
                 telaApostaUser.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
                 telaApostaUser.setVisible(true);
             } else {
@@ -120,7 +120,7 @@ public class TelaPrincipalUsuario extends JFrame {
         
         btnVisualizarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
         btnVisualizarEvento.setForeground(new Color(0, 0, 128));
-        btnVisualizarEvento.setBounds(371, 105, 114, 23);
+        btnVisualizarEvento.setBounds(599, 112, 114, 23);
         panel.add(btnVisualizarEvento);
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }

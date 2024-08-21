@@ -22,7 +22,7 @@ import entidades.Aposta;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class TelaDeApostasUsuario extends JFrame {
+public class ApostasUsuario extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTable table;
@@ -36,7 +36,7 @@ public class TelaDeApostasUsuario extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaDeApostasUsuario frame = new TelaDeApostasUsuario();
+                    ApostasUsuario frame = new ApostasUsuario();
                     frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -49,7 +49,7 @@ public class TelaDeApostasUsuario extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaDeApostasUsuario() {
+	public ApostasUsuario() {
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 580, 420);
@@ -120,29 +120,6 @@ public class TelaDeApostasUsuario extends JFrame {
                 aposta.getStatus()
             };
             tableModel.addRow(row);
-        }
-    }
-    
-   /* public void excluirAposta(int id, String nome) {
-        DaoFactory dao = new DaoFactory();
-        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o aposta de id " + id + " e nome " + nome + " ?");
-        if (confirmacao == JOptionPane.YES_OPTION) {
-            if(dao.criarApostaDaoJDBC().deleteById(id)) { //se realmente excluir do banco!
-            	JOptionPane.showMessageDialog(this, "aposta excluído com sucesso!");
-            	removerLinhaTabela(id);
-            }
-        }
-        else {
-        	JOptionPane.showMessageDialog(this, "Erro ao excluir o aposta.");
-        }
-    }*/
-    
-    public void removerLinhaTabela(int id) {
-        for (int i = 0; i < table.getRowCount(); i++) {
-            if ((int)table.getValueAt(i, 0) == id) {
-                tableModel.removeRow(i);
-                break;
-            }
         }
     }
 }

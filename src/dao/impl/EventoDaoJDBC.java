@@ -63,9 +63,34 @@ public class EventoDaoJDBC implements EventoDao{
     }
 
 	@Override
-	public void update(Evento evento) {
-		// TODO Auto-generated method stub
-		
+	public boolean editarDescricao(int id, String descricao) {
+		String sql = "UPDATE evento SET descricao = ? WHERE id = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, descricao);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Evento atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean editarNome(int id, String nome) {
+		String sql = "UPDATE evento SET nome = ? WHERE id = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, nome);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Evento atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 

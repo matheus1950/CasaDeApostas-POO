@@ -23,6 +23,8 @@ import entidades.Evento;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.JTextPane;
+import javax.swing.JEditorPane;
 
 public class TelaPrincipalAdm extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -59,7 +61,7 @@ public class TelaPrincipalAdm extends JFrame {
 	public TelaPrincipalAdm() {
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 580, 420);
+        setBounds(100, 100, 790, 528);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,7 +71,7 @@ public class TelaPrincipalAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(24, 11, 515, 359);
+        panel.setBounds(21, 11, 743, 454);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -79,12 +81,12 @@ public class TelaPrincipalAdm extends JFrame {
         txtTelaPrincipalAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtTelaPrincipalAdm.setEditable(false);
         txtTelaPrincipalAdm.setBackground(new Color(0, 64, 0));
-        txtTelaPrincipalAdm.setBounds(114, -2, 294, 42);
+        txtTelaPrincipalAdm.setBounds(220, 0, 294, 42);
         panel.add(txtTelaPrincipalAdm);
         
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 351, 290);
+        scrollPane.setBounds(10, 58, 599, 330);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -119,7 +121,7 @@ public class TelaPrincipalAdm extends JFrame {
         JButton btnExcluir = new JButton("Excluir Evento");
         btnExcluir.setForeground(new Color(0, 0, 128));
         btnExcluir.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnExcluir.setBounds(371, 179, 114, 23);
+        btnExcluir.setBounds(619, 115, 114, 23);
         btnExcluir.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
@@ -136,14 +138,14 @@ public class TelaPrincipalAdm extends JFrame {
         JButton btnVisualizarEvento = new JButton("Visualizar Evento");
         btnVisualizarEvento.setForeground(new Color(0, 0, 128));
         btnVisualizarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnVisualizarEvento.setBounds(371, 213, 114, 23);
+        btnVisualizarEvento.setBounds(619, 178, 114, 23);
         btnVisualizarEvento.addActionListener(e -> {
         		int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
                     int id = (int) table.getValueAt(selectedRow, 0);
                     //abrindo a tela de apostas
                     DaoFactory dao = new DaoFactory();
-                    TelaDeApostasAdm telaApostaAdm = new TelaDeApostasAdm();
+                    ApostasAdm telaApostaAdm = new ApostasAdm();
                     telaApostaAdm.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
                     telaApostaAdm.setVisible(true);
                 } else {
@@ -152,6 +154,23 @@ public class TelaPrincipalAdm extends JFrame {
         });
         
         panel.add(btnVisualizarEvento);
+        
+        JButton txtEditarEvento = new JButton("Editar Evento");
+        txtEditarEvento.addActionListener(e -> {
+        		int selectedRow = table.getSelectedRow();
+        		if (selectedRow != -1) {
+        			//passando nome, descricao e id para a tela de editar evento
+	        		EditarEvento editar = new EditarEvento((String)table.getValueAt(selectedRow, 1), (String)table.getValueAt(selectedRow, 2), (int)table.getValueAt(selectedRow, 0));
+	        		editar.setVisible(true);
+        		}
+        		else {
+                    JOptionPane.showMessageDialog(this, "Selecione um evento para editar.");
+                }	
+        });
+        txtEditarEvento.setForeground(new Color(0, 0, 128));
+        txtEditarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
+        txtEditarEvento.setBounds(619, 241, 114, 23);
+        panel.add(txtEditarEvento);
     }
     
     public void preencherTabela(ArrayList<Evento> eventos) {
@@ -188,4 +207,5 @@ public class TelaPrincipalAdm extends JFrame {
             }
         }
     }
+    
 }

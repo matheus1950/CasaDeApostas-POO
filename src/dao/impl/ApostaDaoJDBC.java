@@ -44,4 +44,20 @@ public class ApostaDaoJDBC {
         }
         return apostas;
 	}
+	
+	public boolean deleteById(int id) {
+		String sql = "DELETE FROM aposta WHERE id = ?";
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setInt(1, id);
+			ps.executeUpdate();
+			System.out.println("Aposta deletado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 }

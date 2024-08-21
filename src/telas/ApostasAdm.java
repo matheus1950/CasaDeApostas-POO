@@ -21,13 +21,15 @@ import dao.impl.DaoFactory;
 import entidades.Aposta;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
-public class TelaDeApostasAdm extends JFrame {
+public class ApostasAdm extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTable table;
     private JScrollPane scrollPane;
     private DefaultTableModel tableModel;
+    private JButton btnExcluirAposta;
 
     /**
      * Launch the application.
@@ -36,7 +38,7 @@ public class TelaDeApostasAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaDeApostasAdm frame = new TelaDeApostasAdm();
+                    ApostasAdm frame = new ApostasAdm();
                     frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -49,10 +51,10 @@ public class TelaDeApostasAdm extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaDeApostasAdm() {
+	public ApostasAdm() {
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 580, 420);
+        setBounds(100, 100, 779, 420);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -62,7 +64,7 @@ public class TelaDeApostasAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(24, 11, 515, 359);
+        panel.setBounds(24, 11, 712, 359);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -72,12 +74,12 @@ public class TelaDeApostasAdm extends JFrame {
         txtApostasAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtApostasAdm.setEditable(false);
         txtApostasAdm.setBackground(new Color(0, 64, 0));
-        txtApostasAdm.setBounds(92, 0, 294, 42);
+        txtApostasAdm.setBounds(230, 0, 294, 42);
         panel.add(txtApostasAdm);
         
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 351, 290);
+        scrollPane.setBounds(10, 58, 567, 290);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -94,6 +96,22 @@ public class TelaDeApostasAdm extends JFrame {
         	
         table = new JTable(tableModel);
         scrollPane.setViewportView(table);
+        
+        btnExcluirAposta = new JButton("Excluir Aposta");
+        btnExcluirAposta.addActionListener(e -> {
+            int selectedRow = table.getSelectedRow();
+            if (selectedRow != -1) {
+                int id = (int) table.getValueAt(selectedRow, 0);
+                String descricao = (String) table.getValueAt(selectedRow, 1);
+                excluirAposta(id, descricao);
+            } else {
+                JOptionPane.showMessageDialog(this, "Selecione uma aposta para excluir.");
+            }
+        });
+        btnExcluirAposta.setForeground(new Color(0, 0, 128));
+        btnExcluirAposta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnExcluirAposta.setBounds(587, 61, 115, 23);
+        panel.add(btnExcluirAposta);
         
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         
@@ -123,11 +141,11 @@ public class TelaDeApostasAdm extends JFrame {
         }
     }
     
-   /* public void excluirAposta(int id, String nome) {
+    public void excluirAposta(int id, String descricao) {
         DaoFactory dao = new DaoFactory();
-        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o aposta de id " + id + " e nome " + nome + " ?");
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o aposta de id " + id + " e descricao " + descricao + " ?");
         if (confirmacao == JOptionPane.YES_OPTION) {
-            if(dao.criarApostaDaoJDBC().deleteById(id)) { //se realmente excluir do banco!
+            if(dao.criarApostaDaoJDBC().deleteById(id)) { 
             	JOptionPane.showMessageDialog(this, "aposta excluído com sucesso!");
             	removerLinhaTabela(id);
             }
@@ -135,7 +153,7 @@ public class TelaDeApostasAdm extends JFrame {
         else {
         	JOptionPane.showMessageDialog(this, "Erro ao excluir o aposta.");
         }
-    }*/
+    }
     
     public void removerLinhaTabela(int id) {
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -145,4 +163,5 @@ public class TelaDeApostasAdm extends JFrame {
             }
         }
     }
+    
 }
