@@ -19,11 +19,10 @@ import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
 import entidades.Aposta;
-import entidades.Evento;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class TelaPrincipalAdm extends JFrame {
+public class TelaDeApostasAdm extends JFrame {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
     private JTextField txtIncompleta;
@@ -38,13 +37,8 @@ public class TelaPrincipalAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaPrincipalAdm frame = new TelaPrincipalAdm();
-                    frame.setVisible(true);
-                    
-                    //preencher a tabela com todos eventos
-                    DaoFactory dao = new DaoFactory();
-                    ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
-                    frame.preencherTabela(todosEventos);
+                    TelaDeApostasAdm frame = new TelaDeApostasAdm();
+                    frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -56,7 +50,7 @@ public class TelaPrincipalAdm extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaPrincipalAdm() {
+	public TelaDeApostasAdm() {
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 580, 420);
@@ -73,14 +67,14 @@ public class TelaPrincipalAdm extends JFrame {
         contentPane.add(panel);
         panel.setLayout(null);
         
-        JTextArea txtTelaPrincipalAdm = new JTextArea();
-        txtTelaPrincipalAdm.setText("Tela Principal Adm");
-        txtTelaPrincipalAdm.setForeground(new Color(128, 255, 255));
-        txtTelaPrincipalAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
-        txtTelaPrincipalAdm.setEditable(false);
-        txtTelaPrincipalAdm.setBackground(new Color(0, 64, 0));
-        txtTelaPrincipalAdm.setBounds(114, -2, 294, 42);
-        panel.add(txtTelaPrincipalAdm);
+        JTextArea txtApostasAdm = new JTextArea();
+        txtApostasAdm.setText("Apostas(Adm)");
+        txtApostasAdm.setForeground(new Color(128, 255, 255));
+        txtApostasAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
+        txtApostasAdm.setEditable(false);
+        txtApostasAdm.setBackground(new Color(0, 64, 0));
+        txtApostasAdm.setBounds(92, 0, 294, 42);
+        panel.add(txtApostasAdm);
         
         txtIncompleta = new JTextField();
         txtIncompleta.setEditable(false);
@@ -99,7 +93,7 @@ public class TelaPrincipalAdm extends JFrame {
         tableModel = new DefaultTableModel(
             new Object[][] {},
             new String[] {
-                "Id", "Nome", "Descrição", "Data de criação"
+                "Id", "Descricao", "Odd", "Data de criação", "Status"
             }
         ){@Override //sobrescrevendo o método de DefaultTable para as células não serem editáveis 
     	    public boolean isCellEditable(int row, int column) {
@@ -116,73 +110,70 @@ public class TelaPrincipalAdm extends JFrame {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
-                    // Obtém o ID do evento a partir da linha selecionada, por exemplo:
+                    // Obtém o ID do aposta a partir da linha selecionada, por exemplo:
                     int id = (int) table.getValueAt(selectedRow, 0);
-                    // A partir do nome ou de outra coluna, você pode encontrar o ID do evento
-                    System.out.println("Id do evento: " + id);
+                    // A partir do nome ou de outra coluna, você pode encontrar o ID do aposta
+                    System.out.println("Id do aposta: " + id);
                 }
             }
         });
-        
-        JButton btnExcluir = new JButton("Excluir Evento");
+        /*
+        JButton btnExcluir = new JButton("Excluir aposta");
         btnExcluir.setBounds(371, 179, 114, 23);
         btnExcluir.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
                 int id = (int) table.getValueAt(selectedRow, 0);
                 String nome= (String) table.getValueAt(selectedRow, 1);
-                excluirEvento(id, nome);
+                excluirAposta(id, nome);
             } else {
-                JOptionPane.showMessageDialog(this, "Selecione um evento para excluir.");
+                JOptionPane.showMessageDialog(this, "Selecione um aposta para excluir.");
             }
         });
         
         panel.add(btnExcluir);
-        
-        JButton btnVisualizarEvento = new JButton("Visualizar Evento");
-        btnVisualizarEvento.setBounds(371, 213, 114, 23);
-        btnVisualizarEvento.addActionListener(e -> {
+        */
+        JButton btnVisualizarAposta = new JButton("Visualizar aposta");
+        btnVisualizarAposta.setBounds(371, 213, 114, 23);
+        btnVisualizarAposta.addActionListener(e -> {
         		int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
                     int id = (int) table.getValueAt(selectedRow, 0);
-                    //abrindo a tela de apostas
-                    DaoFactory dao = new DaoFactory();
-                    TelaDeApostasAdm telaApostaAdm = new TelaDeApostasAdm();
-                    telaApostaAdm.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
-                    telaApostaAdm.setVisible(true);
+                    //
                 } else {
-                    JOptionPane.showMessageDialog(this, "Selecione um evento para excluir.");
+                    JOptionPane.showMessageDialog(this, "Selecione um aposta para excluir.");
                 }	
         });
         
-        panel.add(btnVisualizarEvento);
+        panel.add(btnVisualizarAposta);
     }
     
-    public void preencherTabela(ArrayList<Evento> eventos) {
-        for (Evento evento : eventos) {
+    public void preencherTabela(ArrayList<Aposta> apostas) {
+        for (Aposta aposta : apostas) {
             Object[] row = {
-            	evento.getId(),
-                evento.getNome(),
-                evento.getDescricao(),
-                evento.getDataDeCriacao().toString()
+            	aposta.getId(),
+                aposta.getDescricao(),
+                aposta.getOdd(),
+                aposta.getDataDeCriacao().toString(),
+                aposta.getStatus()
             };
             tableModel.addRow(row);
         }
     }
     
-    public void excluirEvento(int id, String nome) {
+   /* public void excluirAposta(int id, String nome) {
         DaoFactory dao = new DaoFactory();
-        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o evento de id " + id + " e nome " + nome + " ?");
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o aposta de id " + id + " e nome " + nome + " ?");
         if (confirmacao == JOptionPane.YES_OPTION) {
-            if(dao.criarEventoDaoJDBC().deleteById(id)) { //se realmente excluir do banco!
-            	JOptionPane.showMessageDialog(this, "Evento excluído com sucesso!");
+            if(dao.criarApostaDaoJDBC().deleteById(id)) { //se realmente excluir do banco!
+            	JOptionPane.showMessageDialog(this, "aposta excluído com sucesso!");
             	removerLinhaTabela(id);
             }
         }
         else {
-        	JOptionPane.showMessageDialog(this, "Erro ao excluir o evento.");
+        	JOptionPane.showMessageDialog(this, "Erro ao excluir o aposta.");
         }
-    }
+    }*/
     
     public void removerLinhaTabela(int id) {
         for (int i = 0; i < table.getRowCount(); i++) {

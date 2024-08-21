@@ -22,7 +22,7 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
                 //Inserir dados nas tabelas
                 inserirUsuarios(connection);
                 inserirEventos(connection);
-                inserirApostas(connection);
+                //inserirApostas(connection);
 
                 System.out.println("Banco de dados criado e povoado com sucesso!");
 
@@ -64,13 +64,16 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
         connection.createStatement().execute(createEventoTable);
 
         //Criar tabela Aposta
-        String createApostaTable = "CREATE TABLE IF NOT EXISTS Aposta ("
-                + "id SERIAL PRIMARY KEY, "
-                + "id_usuario INT REFERENCES Usuario(id), "
-                + "id_evento INT REFERENCES Evento(id), "
-                + "valor_apostado DECIMAL(10, 2) NOT NULL, "
-                + "resultado VARCHAR(50)"
-                + ")";
+        String createApostaTable = "CREATE TABLE aposta ("
+        		+ "id SERIAL PRIMARY KEY,"
+        		+ "idDeEvento INT NOT NULL,"
+        		+ "odd DOUBLE PRECISION NOT NULL,"
+        		+ "dataDeCriacao DATE NOT NULL,"
+        		+ "status VARCHAR(50) NOT NULL,"
+        		+ "resultado VARCHAR(50),"
+        		+ "FOREIGN KEY (idDeEvento) REFERENCES evento(id)"
+        		+ "descricao VARCHAR(100), "
+        		+ ")";
         connection.createStatement().execute(createApostaTable);
     }
 
@@ -153,7 +156,7 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
         }
     }
 
-    //Método para inserir dados na tabela Aposta
+    //Método para inserir dados na tabela Aposta - refazer
     public void inserirApostas(Connection connection) throws SQLException {
         String sql = "INSERT INTO Aposta (id_usuario, id_evento, valor_apostado, resultado) VALUES (?, ?, ?, ?)";
 

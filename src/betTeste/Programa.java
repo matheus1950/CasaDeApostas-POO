@@ -59,8 +59,10 @@ public class Programa {
 			*/
 			
 			//teste de listarTodosEventos
-			dao.criarEventoDaoJDBC().listarTodosEventos();
+			//dao.criarEventoDaoJDBC().listarTodosEventos();
 			
+			//teste de listarApostasPorEvento
+			//dao.criarApostaDaoJDBC().ListarApostasPorEventoId(1);
 		}
 
 }
