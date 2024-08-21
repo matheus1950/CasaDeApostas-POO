@@ -40,7 +40,7 @@ public class CadastroDeEvento extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadastroDeEvento frame = new CadastroDeEvento(0); //não sei se tem problema iniciar em 0
+					CadastroDeEvento frame = new CadastroDeEvento(-1); //não sei se tem problema iniciar em 0
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

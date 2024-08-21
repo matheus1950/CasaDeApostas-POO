@@ -40,7 +40,7 @@ public class TelaPrincipalAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaPrincipalAdm frame = new TelaPrincipalAdm(0); //coloquei um id padrão, não sei se tem problema
+                    TelaPrincipalAdm frame = new TelaPrincipalAdm(-1); //coloquei um id padrão, não sei se tem problema
                     frame.setVisible(true);
                     
                     //preencher a tabela com todos eventos
@@ -58,7 +58,7 @@ public class TelaPrincipalAdm extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaPrincipalAdm(int idUsuario) {
+	public TelaPrincipalAdm(int idUsuario) {  	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 790, 528);
@@ -160,7 +160,8 @@ public class TelaPrincipalAdm extends JFrame {
         		int selectedRow = table.getSelectedRow();
         		if (selectedRow != -1) {
         			//passando nome, descricao e id para a tela de editar evento
-	        		EditarEvento editar = new EditarEvento((String)table.getValueAt(selectedRow, 1), (String)table.getValueAt(selectedRow, 2), (int)table.getValueAt(selectedRow, 0));
+	        		EditarEvento editar = new EditarEvento((String)table.getValueAt(selectedRow, 1), (String)table.getValueAt(selectedRow, 2), (int)table.getValueAt(selectedRow, 0), this);
+	        		//this aqui é para passar a própria frame no argumento ^
 	        		editar.setVisible(true);
         		}
         		else {
@@ -197,6 +198,15 @@ public class TelaPrincipalAdm extends JFrame {
         }
     }
     
+    public void atualizarTabela() {
+    	DaoFactory dao = new DaoFactory();
+        tableModel.setRowCount(0); // Limpa todos os dados da tabela
+        
+        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+        preencherTabela(todosEventos);
+    }
+    
+    
     public void excluirEvento(int id, String nome) {
         DaoFactory dao = new DaoFactory();
         int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente excluir o evento de id " + id + " e nome " + nome + " ?");
@@ -204,6 +214,7 @@ public class TelaPrincipalAdm extends JFrame {
             if(dao.criarEventoDaoJDBC().deleteById(id)) { //se realmente excluir do banco!
             	JOptionPane.showMessageDialog(this, "Evento excluído com sucesso!");
             	removerLinhaTabela(id);
+            	atualizarTabela();
             }
         }
         else {
@@ -219,5 +230,6 @@ public class TelaPrincipalAdm extends JFrame {
             }
         }
     }
+    
     
 }

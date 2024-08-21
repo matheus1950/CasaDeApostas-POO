@@ -41,7 +41,7 @@ public class EditarEvento extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditarEvento frame = new EditarEvento("testeNome", "testeDescricao", 0);
+					EditarEvento frame = new EditarEvento("testeNome", "testeDescricao", -1, new TelaPrincipalAdm(-1)); //Rever se posso passar esses argumentos como padrão
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,7 +54,7 @@ public class EditarEvento extends JFrame {
 	 * Create the frame.
 	 * @param id 
 	 */
-	public EditarEvento(String nome, String descricao, int id) {
+	public EditarEvento(String nome, String descricao, int id, TelaPrincipalAdm frame) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 773, 451);
 		contentPane = new JPanel();
@@ -67,7 +67,7 @@ public class EditarEvento extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(0, 64, 0));
-		panel.setBounds(10, 24, 737, 377);
+		panel.setBounds(10, 11, 737, 377);
 		contentPane.add(panel);
 		
 		JTextArea txtEditarEvento = new JTextArea();
@@ -114,6 +114,7 @@ public class EditarEvento extends JFrame {
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				salvar(btnSalvar, id, nomeAntigo, descricaoAntiga);
+				frame.atualizarTabela();
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 128));
