@@ -56,6 +56,24 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		
 		return senha;
 	}
+	
+	public boolean findPermissaoByEmailSenha(String email, String senha) {
+		String sql = "SELECT permissao FROM usuario WHERE email = ? AND senha = ?";
+		
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, email);
+	        ps.setString(2, senha);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getBoolean("permissao");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return (Boolean) null; //não sei outra coisa para colocar aqui
+	}
+	
 	 //sofrendo problemas para atualizar em decorrência do armanezamento de id já explicado acima do método create
 	@Override
 	public void update(Usuario usuario) {

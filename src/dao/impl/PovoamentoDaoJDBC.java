@@ -20,9 +20,9 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
                 criarTabelas(connection);
 
                 //Inserir dados nas tabelas
-                //inserirUsuarios(connection);
+                inserirUsuarios(connection);
                 inserirEventos(connection);
-                //inserirApostas(connection);
+                inserirApostas(connection);
 
                 System.out.println("Banco de dados criado e povoado com sucesso!");
 
@@ -38,7 +38,7 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
     
     public void criarTabelas(Connection connection) throws SQLException {
         //Criar tabela Usuario
-        /*String createUsuarioTable = "CREATE TABLE IF NOT EXISTS Usuario ("
+        String createUsuarioTable = "CREATE TABLE IF NOT EXISTS Usuario ("
                 + "id SERIAL PRIMARY KEY, "
                 + "nome VARCHAR(100) NOT NULL, "
                 + "email VARCHAR(100) UNIQUE NOT NULL, "
@@ -47,8 +47,9 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
                 + "idDeContrato INT, "
                 + "cpf INT UNIQUE NOT NULL, "
                 + "dataNascimento DATE NOT NULL"
+                + "permissao BOOLEAN"
                 + ")";
-        connection.createStatement().execute(createUsuarioTable);*/
+        connection.createStatement().execute(createUsuarioTable);
 
         //Criar tabela Evento
         String createEventoTable = "CREATE TABLE IF NOT EXISTS Evento ("
@@ -63,14 +64,14 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
         connection.createStatement().execute(createEventoTable);
 
         //Criar tabela Aposta
-       /* String createApostaTable = "CREATE TABLE IF NOT EXISTS Aposta ("
+        String createApostaTable = "CREATE TABLE IF NOT EXISTS Aposta ("
                 + "id SERIAL PRIMARY KEY, "
                 + "id_usuario INT REFERENCES Usuario(id), "
                 + "id_evento INT REFERENCES Evento(id), "
                 + "valor_apostado DECIMAL(10, 2) NOT NULL, "
                 + "resultado VARCHAR(50)"
                 + ")";
-        connection.createStatement().execute(createApostaTable);*/
+        connection.createStatement().execute(createApostaTable);
     }
 
     //Método para inserir dados na tabela Usuario

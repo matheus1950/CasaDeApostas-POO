@@ -73,7 +73,7 @@ public class LoginUsuario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				DaoFactory dao = new DaoFactory();
 				
-				//verificacao do campo login
+				//verificacao do campo login - por email
 				
 				if(!campoEmail.getText().equals("")) {
 					
@@ -92,10 +92,21 @@ public class LoginUsuario extends JFrame {
 					return;
 				}
 				
-				//verificação da combinação email - senha
+				//verificação da combinação email e senha
 				if(campoSenha.getText().equals(dao.criarUsuarioDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
 					JOptionPane.showMessageDialog(btnLogar, "Sucesso! Falta criar tela de usuário!");
-					new TelaPrincipalUsuario().setVisible(true);
+					//se o campo permissão for falso -> abrir tela de usuário
+					if(dao.criarUsuarioDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(), campoSenha.getText()) == false) {
+						//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
+						TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario();
+					    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
+					    telaUsuario.setVisible(true);
+					}//se o campo permissão for verdadeiro -> abrir tela de adm
+					else {
+						TelaPrincipalAdm telaAdm = new TelaPrincipalAdm();
+				        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
+				        telaAdm.setVisible(true);
+					}
 				}
 				else {
 					JOptionPane.showMessageDialog(btnLogar, "Combinação incorreta de email e senha!");
