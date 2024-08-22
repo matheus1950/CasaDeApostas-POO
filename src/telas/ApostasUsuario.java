@@ -21,6 +21,7 @@ import dao.impl.DaoFactory;
 import entidades.Aposta;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.UIManager;
 
 public class ApostasUsuario extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -28,6 +29,8 @@ public class ApostasUsuario extends JFrame {
     private JTable table;
     private JScrollPane scrollPane;
     private DefaultTableModel tableModel;
+    private JButton btnLogout;
+    private JButton btnVoltar;
 
     /**
      * Launch the application.
@@ -94,6 +97,44 @@ public class ApostasUsuario extends JFrame {
         	
         table = new JTable(tableModel);
         scrollPane.setViewportView(table);
+        
+        ApostasUsuario essaTela = this;
+        
+        btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+        	}
+        });
+        btnLogout.setForeground(Color.RED);
+        btnLogout.setBackground(Color.BLACK);
+        btnLogout.setBounds(396, 18, 114, 23);
+        panel.add(btnLogout);
+        
+        btnVoltar = new JButton("Voltar");
+        btnVoltar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new TelaPrincipalUsuario().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
+        		}
+        	}
+        });
+        btnVoltar.setForeground(new Color(0, 0, 128));
+        btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnVoltar.setBounds(396, 325, 81, 23);
+        panel.add(btnVoltar);
         
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         

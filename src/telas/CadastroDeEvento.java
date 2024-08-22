@@ -33,6 +33,8 @@ public class CadastroDeEvento extends JFrame {
 	private JTextField campoNome;
 	private JTextField campoDescricao;
 	private JTextField textDescricao;
+	private JButton btnLogout;
+	private JButton btnVoltar;
 
 	/**
 	 * Launch the application.
@@ -56,7 +58,7 @@ public class CadastroDeEvento extends JFrame {
 	public CadastroDeEvento(int idUsuario, TelaPrincipalAdm frame) {
 		setTitle("Cadastrar Evento");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 522, 355);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(64, 128, 128));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -66,7 +68,7 @@ public class CadastroDeEvento extends JFrame {
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 64, 0));
-		panel.setBounds(10, 22, 384, 216);
+		panel.setBounds(10, 22, 477, 268);
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -99,7 +101,7 @@ public class CadastroDeEvento extends JFrame {
 				frame.atualizarTabela();
 			}
 		});
-		btnCadastrar.setBounds(120, 182, 119, 23);
+		btnCadastrar.setBounds(24, 234, 119, 23);
 		panel.add(btnCadastrar);
 		
 		txtNomeDoEvento = new JTextField();
@@ -112,12 +114,12 @@ public class CadastroDeEvento extends JFrame {
 		txtNomeDoEvento.setColumns(10);
 		
 		campoNome = new JTextField();
-		campoNome.setBounds(134, 72, 86, 20);
+		campoNome.setBounds(134, 72, 119, 20);
 		panel.add(campoNome);
 		campoNome.setColumns(10);
 		
 		campoDescricao = new JTextField();
-		campoDescricao.setBounds(134, 103, 86, 20);
+		campoDescricao.setBounds(134, 103, 119, 20);
 		panel.add(campoDescricao);
 		campoDescricao.setColumns(10);
 		
@@ -138,5 +140,43 @@ public class CadastroDeEvento extends JFrame {
 		txtrCadastroDeEvento.setBackground(new Color(0, 64, 0));
 		txtrCadastroDeEvento.setBounds(46, 11, 285, 42);
 		panel.add(txtrCadastroDeEvento);
+		
+		CadastroDeEvento essaTela = this;
+		
+		btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+			}
+		});
+		btnLogout.setForeground(Color.RED);
+		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBounds(348, 29, 114, 23);
+		panel.add(btnLogout);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new TelaPrincipalAdm(idUsuario).setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
+        		}
+			}
+		});
+		btnVoltar.setForeground(new Color(0, 0, 128));
+		btnVoltar.setBackground(Color.BLACK);
+		btnVoltar.setBounds(348, 234, 81, 23);
+		panel.add(btnVoltar);
 	}
 }

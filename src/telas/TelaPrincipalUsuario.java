@@ -29,6 +29,7 @@ public class TelaPrincipalUsuario extends JFrame {
     private JScrollPane scrollPane;
     private DefaultTableModel tableModel;
     private JButton btnVisualizarEvento;
+    private JButton btnLogout;
 
     /**
      * Launch the application.
@@ -67,7 +68,7 @@ public class TelaPrincipalUsuario extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(24, 11, 723, 359);
+        panel.setBounds(10, 11, 723, 359);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -122,6 +123,26 @@ public class TelaPrincipalUsuario extends JFrame {
         btnVisualizarEvento.setForeground(new Color(0, 0, 128));
         btnVisualizarEvento.setBounds(599, 112, 114, 23);
         panel.add(btnVisualizarEvento);
+        
+        TelaPrincipalUsuario essaTela = this;
+        
+        btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+        	}
+        });
+        btnLogout.setForeground(Color.RED);
+        btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnLogout.setBounds(599, 18, 114, 23);
+        panel.add(btnLogout);
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }
     

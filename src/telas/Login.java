@@ -20,7 +20,7 @@ import javax.swing.UIManager;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LoginUsuario extends JFrame {
+public class Login extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -28,6 +28,7 @@ public class LoginUsuario extends JFrame {
 	private JTextField campoEmail;
 	private JTextField txtSenha;
 	private JPasswordField campoSenha;
+	private JButton btnVoltar;
 
 	/**
 	 * Launch the application.
@@ -36,7 +37,7 @@ public class LoginUsuario extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginUsuario frame = new LoginUsuario();
+					Login frame = new Login();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +49,7 @@ public class LoginUsuario extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public LoginUsuario() {
+	public Login() {
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 360, 236);
@@ -67,6 +68,8 @@ public class LoginUsuario extends JFrame {
 		txtrLoginDeUsurio.setEditable(false);
 		txtrLoginDeUsurio.setBackground(new Color(0, 64, 0));
 		contentPane.add(txtrLoginDeUsurio);
+		
+		Login essaTela = this;
 		
 		JButton btnLogar = new JButton("Logar");
 		btnLogar.addActionListener(new ActionListener() {
@@ -94,17 +97,20 @@ public class LoginUsuario extends JFrame {
 				
 				//verificação da combinação email e senha
 				if(campoSenha.getText().equals(dao.criarUsuarioDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
-					JOptionPane.showMessageDialog(btnLogar, "Sucesso! Falta criar tela de usuário!");
+					JOptionPane.showMessageDialog(btnLogar, "Logado!");
 					//se o campo permissão for falso -> abrir tela de usuário
 					if(dao.criarUsuarioDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(), campoSenha.getText()) == false) {
 						//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
 						TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario();
 					    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
 					    telaUsuario.setVisible(true);
+					    essaTela.setVisible(false);
+				        telaUsuario.setVisible(true);
 					}//se o campo permissão for verdadeiro -> abrir tela de adm
 					else {
 						TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarUsuarioDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
 				        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
+				        essaTela.setVisible(false);
 				        telaAdm.setVisible(true);
 					}
 				}
@@ -145,5 +151,23 @@ public class LoginUsuario extends JFrame {
 		campoSenha = new JPasswordField();
 		campoSenha.setBounds(150, 95, 86, 20);
 		contentPane.add(campoSenha);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new BoasVindas().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
+        		}
+			}
+		});
+		btnVoltar.setForeground(new Color(0, 0, 128));
+		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
+		btnVoltar.setBounds(165, 145, 71, 23);
+		contentPane.add(btnVoltar);
 	}
 }

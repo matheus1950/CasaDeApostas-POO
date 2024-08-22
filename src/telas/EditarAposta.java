@@ -33,6 +33,8 @@ public class EditarAposta extends JFrame {
 	private JTextField txtDescrio;
 	private JTextField campoOdd;
 	private JTextArea campoEventoEdit;
+	private JButton btnLogout;
+	private JButton btnVoltar;
 
 	/**
 	 * Launch the application.
@@ -119,7 +121,7 @@ public class EditarAposta extends JFrame {
 		});
 		btnSalvar.setForeground(new Color(0, 0, 128));
 		btnSalvar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnSalvar.setBounds(309, 327, 89, 23);
+		btnSalvar.setBounds(211, 327, 89, 23);
 		panel.add(btnSalvar);
 		
 		campoOdd = new JTextField();
@@ -152,6 +154,44 @@ public class EditarAposta extends JFrame {
 		
 		//Não consigo fazer a tela mostrar a descrição inteira de alguns eventos
 		campoEventoEdit.setText("Descrição: " + descricao + "\nOdd: " + odd);
+		
+		EditarAposta essaTela = this;
+		
+		btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+			}
+		});
+		btnLogout.setForeground(Color.RED);
+		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBounds(613, 18, 114, 23);
+		panel.add(btnLogout);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new TelaPrincipalAdm(idEvento).setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
+        		}
+			}		
+		});
+		btnVoltar.setForeground(new Color(0, 0, 128));
+		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
+		btnVoltar.setBounds(364, 327, 81, 23);
+		panel.add(btnVoltar);
 		
 	}
 	

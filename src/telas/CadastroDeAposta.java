@@ -29,6 +29,8 @@ public class CadastroDeAposta extends JFrame {
 	private JTextField campoOdd;
 	private JTextField campoDescricao;
 	private JTextField textDescricao;
+	private JButton btnLogout;
+	private JButton btnVoltar;
 
 	/**
 	 * Launch the application.
@@ -51,7 +53,7 @@ public class CadastroDeAposta extends JFrame {
 	 */
 	public CadastroDeAposta(int idEvento, ApostasAdm frame) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 527, 336);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -62,13 +64,13 @@ public class CadastroDeAposta extends JFrame {
 		contentPane_1.setLayout(null);
 		contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane_1.setBackground(new Color(64, 128, 128));
-		contentPane_1.setBounds(0, 0, 434, 261);
+		contentPane_1.setBounds(0, 0, 511, 297);
 		contentPane.add(contentPane_1);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(0, 64, 0));
-		panel.setBounds(10, 22, 384, 216);
+		panel.setBounds(10, 11, 491, 264);
 		contentPane_1.add(panel);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
@@ -79,7 +81,7 @@ public class CadastroDeAposta extends JFrame {
 		});
 		btnCadastrar.setForeground(new Color(0, 0, 128));
 		btnCadastrar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnCadastrar.setBounds(120, 182, 119, 23);
+		btnCadastrar.setBounds(38, 230, 119, 23);
 		panel.add(btnCadastrar);
 		
 		textOdd = new JTextField();
@@ -93,12 +95,12 @@ public class CadastroDeAposta extends JFrame {
 		
 		campoOdd = new JTextField();
 		campoOdd.setColumns(10);
-		campoOdd.setBounds(134, 109, 86, 20);
+		campoOdd.setBounds(134, 109, 119, 20);
 		panel.add(campoOdd);
 		
 		campoDescricao = new JTextField();
 		campoDescricao.setColumns(10);
-		campoDescricao.setBounds(134, 72, 86, 20);
+		campoDescricao.setBounds(134, 72, 119, 20);
 		panel.add(campoDescricao);
 		
 		textDescricao = new JTextField();
@@ -118,6 +120,44 @@ public class CadastroDeAposta extends JFrame {
 		txtrCadastroDeAposta.setBackground(new Color(0, 64, 0));
 		txtrCadastroDeAposta.setBounds(46, 11, 285, 42);
 		panel.add(txtrCadastroDeAposta);
+		
+		CadastroDeAposta essaTela = this;
+		
+		btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+			}
+		});
+		btnLogout.setForeground(Color.RED);
+		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBounds(367, 29, 114, 23);
+		panel.add(btnLogout);
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new ApostasAdm(idEvento).setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
+        		}
+			}
+		});
+		btnVoltar.setForeground(new Color(0, 0, 128));
+		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
+		btnVoltar.setBounds(367, 230, 81, 23);
+		panel.add(btnVoltar);
 	}
 	
 	public void cadastrarAposta(JButton btnCadastrar, int idEvento, ApostasAdm frame) {

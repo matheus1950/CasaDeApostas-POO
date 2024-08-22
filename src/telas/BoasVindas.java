@@ -92,7 +92,7 @@ public class BoasVindas extends JFrame {
 		btnLogar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new LoginUsuario().setVisible(true);
+				new Login().setVisible(true);
 			}
 		});
 		btnLogar.setBounds(10, 157, 59, 23);

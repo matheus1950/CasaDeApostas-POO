@@ -147,6 +147,42 @@ public class ApostasAdm extends JFrame {
         btnCadastrarAposta.setBounds(587, 157, 132, 23);
         panel.add(btnCadastrarAposta);
         
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+        	}
+        });
+        btnLogout.setForeground(Color.RED);
+        btnLogout.setBackground(Color.BLACK);
+        btnLogout.setBounds(605, 11, 114, 23);
+        panel.add(btnLogout);
+        
+        JButton btnVoltar = new JButton("Voltar");
+        btnVoltar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new TelaPrincipalAdm(idEvento).setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
+        		}
+        	} 	
+        });
+        btnVoltar.setForeground(new Color(0, 0, 128));
+        btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnVoltar.setBounds(587, 325, 81, 23);
+        panel.add(btnVoltar);
+        
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         
         table.getSelectionModel().addListSelectionListener(e -> {

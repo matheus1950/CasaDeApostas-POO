@@ -186,6 +186,24 @@ public class TelaPrincipalAdm extends JFrame {
         btnInserirEvento.setBackground(UIManager.getColor("CheckBox.focus"));
         btnInserirEvento.setBounds(619, 298, 114, 23);
         panel.add(btnInserirEvento);
+        
+        JButton btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+        	}
+        });
+        btnLogout.setForeground(new Color(255, 0, 0));
+        btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnLogout.setBounds(619, 18, 114, 23);
+        panel.add(btnLogout);
     }
     
     public void preencherTabela(ArrayList<Evento> eventos) {

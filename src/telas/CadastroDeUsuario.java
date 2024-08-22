@@ -45,6 +45,7 @@ public class CadastroDeUsuario extends JFrame {
 	private JTextField campoCPF;
 	private JTextField txtCPF;
 	private JTextField campoDataDeNascimento;
+	private JButton btnVoltar;
 
 	/**
 	 * Launch the application.
@@ -129,7 +130,7 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(txtEmail);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(114, 277, 81, 23);
+		btnCadastrar.setBounds(47, 275, 81, 23);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario usuario = new Usuario();
@@ -251,5 +252,25 @@ public class CadastroDeUsuario extends JFrame {
 		campoDataDeNascimento.setBounds(173, 112, 86, 20);
 		campoDataDeNascimento.setColumns(10);
 		panel.add(campoDataDeNascimento);
+		
+		CadastroDeUsuario essaTela = this;
+		
+		btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new BoasVindas().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
+        		}
+			}			
+		});
+		btnVoltar.setForeground(new Color(0, 0, 128));
+		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
+		btnVoltar.setBounds(194, 275, 81, 23);
+		panel.add(btnVoltar);
 	}
 }
