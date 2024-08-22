@@ -39,7 +39,7 @@ public class CadastroDeAposta extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CadastroDeAposta frame = new CadastroDeAposta(-1, new ApostasAdm(-1)); //-1 padrão, talvez mudar
+					CadastroDeAposta frame = new CadastroDeAposta(-1, -1, new ApostasAdm(-1, -1)); //-1 padrão, talvez mudar
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -51,7 +51,7 @@ public class CadastroDeAposta extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CadastroDeAposta(int idEvento, ApostasAdm frame) {
+	public CadastroDeAposta(int idEvento, int idUsuario, ApostasAdm frame) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 527, 336);
 		contentPane = new JPanel();
@@ -147,7 +147,9 @@ public class CadastroDeAposta extends JFrame {
 				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
 	        		essaTela.setVisible(false);
-	        		new ApostasAdm(idEvento).setVisible(true);
+	        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
+	        		adm.setVisible(true);
+	        		adm.atualizarTabela(idEvento);
         		}
         		else {
         			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");

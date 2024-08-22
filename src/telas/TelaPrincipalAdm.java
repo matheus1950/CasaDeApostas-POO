@@ -58,7 +58,9 @@ public class TelaPrincipalAdm extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaPrincipalAdm(int idUsuario) {  	
+	public TelaPrincipalAdm(int idUsuario) {
+    	TelaPrincipalAdm essaTela = this; //capturando essa tela por aqui, porque, no botão, o "this" captura o próprio botão
+    	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 790, 528);
@@ -142,14 +144,15 @@ public class TelaPrincipalAdm extends JFrame {
         btnVisualizarEvento.addActionListener(e -> {
         		int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
-                    int id = (int) table.getValueAt(selectedRow, 0);
+                    int idEvento = (int) table.getValueAt(selectedRow, 0);
                     //abrindo a tela de apostas
                     DaoFactory dao = new DaoFactory();
-                    ApostasAdm telaApostaAdm = new ApostasAdm(id);
-                    telaApostaAdm.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
+                    ApostasAdm telaApostaAdm = new ApostasAdm(idEvento, idUsuario);
+                    telaApostaAdm.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento));
                     telaApostaAdm.setVisible(true);
+                    essaTela.setVisible(false);
                 } else {
-                    JOptionPane.showMessageDialog(this, "Selecione um evento para excluir.");
+                    JOptionPane.showMessageDialog(this, "Selecione um evento para visualizar.");
                 }	
         });
         
@@ -163,6 +166,7 @@ public class TelaPrincipalAdm extends JFrame {
 	        		EditarEvento editar = new EditarEvento((String)table.getValueAt(selectedRow, 1), (String)table.getValueAt(selectedRow, 2), (int)table.getValueAt(selectedRow, 0), this);
 	        		//this aqui é para passar a própria frame no argumento ^
 	        		editar.setVisible(true);
+	        		essaTela.setVisible(false);
         		}
         		else {
                     JOptionPane.showMessageDialog(this, "Selecione um evento para editar.");
@@ -173,13 +177,13 @@ public class TelaPrincipalAdm extends JFrame {
         txtEditarEvento.setBounds(619, 241, 114, 23);
         panel.add(txtEditarEvento);
         
-        TelaPrincipalAdm essaTela = this; //capturando essa tela por aqui, porque, no botão, o "this" captura o próprio botão
         
         JButton btnInserirEvento = new JButton("Inserir Evento");
         btnInserirEvento.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		CadastroDeEvento cadastro = new CadastroDeEvento(idUsuario, essaTela);
                 cadastro.setVisible(true);
+                essaTela.setVisible(false);
         	}
         });
         btnInserirEvento.setForeground(new Color(0, 0, 128));

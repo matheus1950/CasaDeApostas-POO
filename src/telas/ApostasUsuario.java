@@ -124,7 +124,9 @@ public class ApostasUsuario extends JFrame {
         		int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
 	        		essaTela.setVisible(false);
-	        		new TelaPrincipalUsuario().setVisible(true);
+	        		TelaPrincipalUsuario usuario = new TelaPrincipalUsuario();
+	        		usuario.setVisible(true);
+	        		usuario.atualizarTabela();
         		}
         		else {
         			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");

@@ -57,6 +57,8 @@ public class TelaPrincipalUsuario extends JFrame {
      */
     @SuppressWarnings("serial")
 	public TelaPrincipalUsuario() {
+    	TelaPrincipalUsuario essaTela = this;
+    	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 797, 420);
         contentPane = new JPanel();
@@ -113,8 +115,9 @@ public class TelaPrincipalUsuario extends JFrame {
                 ApostasUsuario telaApostaUser = new ApostasUsuario();
                 telaApostaUser.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
                 telaApostaUser.setVisible(true);
+                essaTela.setVisible(false);
             } else {
-                JOptionPane.showMessageDialog(this, "Selecione um evento para excluir.");
+                JOptionPane.showMessageDialog(this, "Selecione um evento para visualizar.");
             }	
         });
         
@@ -124,7 +127,6 @@ public class TelaPrincipalUsuario extends JFrame {
         btnVisualizarEvento.setBounds(599, 112, 114, 23);
         panel.add(btnVisualizarEvento);
         
-        TelaPrincipalUsuario essaTela = this;
         
         btnLogout = new JButton("Logout");
         btnLogout.addActionListener(new ActionListener() {
@@ -140,7 +142,7 @@ public class TelaPrincipalUsuario extends JFrame {
         	}
         });
         btnLogout.setForeground(Color.RED);
-        btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnLogout.setBackground(new Color(0, 0, 0));
         btnLogout.setBounds(599, 18, 114, 23);
         panel.add(btnLogout);
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
@@ -156,5 +158,13 @@ public class TelaPrincipalUsuario extends JFrame {
             };
             tableModel.addRow(row);
         }
+    }
+    
+    public void atualizarTabela() {
+    	DaoFactory dao = new DaoFactory();
+        tableModel.setRowCount(0); // Limpa todos os dados da tabela
+        
+        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+        preencherTabela(todosEventos);
     }
 }

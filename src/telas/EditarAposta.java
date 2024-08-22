@@ -43,7 +43,7 @@ public class EditarAposta extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditarAposta frame = new EditarAposta(-1.0, "testeDescricao", -1, new ApostasAdm(-1), -1); //Rever se posso passar esses argumentos como padrão
+					EditarAposta frame = new EditarAposta(-1.0, "testeDescricao", -1, new ApostasAdm(-1, -1), -1, -1); //Rever se posso passar esses argumentos como padrão
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -54,9 +54,10 @@ public class EditarAposta extends JFrame {
 
 	/**
 	 * Create the frame.
-	 * @param id 
+	 * @param idAposta 
+	 * @param idUsuario 
 	 */
-	public EditarAposta(double odd, String descricao, int id, ApostasAdm frame, int idEvento) {
+	public EditarAposta(double odd, String descricao, int idAposta, ApostasAdm frame, int idEvento, int idUsuario) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 773, 451);
 		contentPane = new JPanel();
@@ -115,7 +116,7 @@ public class EditarAposta extends JFrame {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				salvar(btnSalvar, id, oddAntiga, descricaoAntiga);
+				salvar(btnSalvar, idAposta, oddAntiga, descricaoAntiga);
 				frame.atualizarTabela(idEvento);
 			}
 		});
@@ -181,7 +182,9 @@ public class EditarAposta extends JFrame {
 				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
 	        		essaTela.setVisible(false);
-	        		new TelaPrincipalAdm(idEvento).setVisible(true);
+	        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
+	        		adm.setVisible(true);
+	        		adm.atualizarTabela(idEvento);
         		}
         		else {
         			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
@@ -195,7 +198,7 @@ public class EditarAposta extends JFrame {
 		
 	}
 	
-	public void salvar(JButton botao, int id, double oddAntiga, String descricaoAntiga) {
+	public void salvar(JButton botao, int idAposta, double oddAntiga, String descricaoAntiga) {
 		DaoFactory dao = new DaoFactory();
 		//Se forem ambos campos vazios ou ambos iguais aos campos já registrados, não chama o método de editar
 		if((campoOdd.getText().equals("") && campoDescricao.getText().equals("")) ||
@@ -204,10 +207,10 @@ public class EditarAposta extends JFrame {
 		}
 		else {
 			if(!campoOdd.getText().equals("")) {
-				dao.criarApostaDaoJDBC().editarOdd(id, Double.parseDouble(campoOdd.getText()));
+				dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
 			}
 			if(!campoDescricao.getText().equals("")) {
-				dao.criarApostaDaoJDBC().editarDescricao(id, campoDescricao.getText());
+				dao.criarApostaDaoJDBC().editarDescricao(idAposta, campoDescricao.getText());
 			}
 			JOptionPane.showMessageDialog(botao, "Aposta atualizada com sucesso!");
 		}

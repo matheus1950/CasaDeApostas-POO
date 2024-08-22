@@ -167,7 +167,9 @@ public class CadastroDeEvento extends JFrame {
 				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
 	        		essaTela.setVisible(false);
-	        		new TelaPrincipalAdm(idUsuario).setVisible(true);
+	        		TelaPrincipalAdm adm = new TelaPrincipalAdm(idUsuario);
+	        		adm.setVisible(true);
+	        		adm.atualizarTabela();
         		}
         		else {
         			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
@@ -175,7 +177,7 @@ public class CadastroDeEvento extends JFrame {
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
-		btnVoltar.setBackground(Color.BLACK);
+		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnVoltar.setBounds(348, 234, 81, 23);
 		panel.add(btnVoltar);
 	}

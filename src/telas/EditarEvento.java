@@ -181,7 +181,9 @@ public class EditarEvento extends JFrame {
 				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
 	        		essaTela.setVisible(false);
-	        		new TelaPrincipalAdm(id).setVisible(true);
+	        		TelaPrincipalAdm adm = new TelaPrincipalAdm(id);
+	        		adm.setVisible(true);
+	        		adm.atualizarTabela();
         		}
         		else {
         			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");

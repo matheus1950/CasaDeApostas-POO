@@ -40,7 +40,7 @@ public class ApostasAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ApostasAdm frame = new ApostasAdm(-1); //-1 padrão, não se deve manter
+                    ApostasAdm frame = new ApostasAdm(-1, -1); //-1 padrão, não se deve manter
                     frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -51,9 +51,12 @@ public class ApostasAdm extends JFrame {
 
     /**
      * Create the frame.
+     * @param idUsuario 
      */
     @SuppressWarnings("serial")
-	public ApostasAdm(int idEvento) {
+	public ApostasAdm(int idEvento, int idUsuario) {
+    	ApostasAdm essaTela = this; //pegando essa tela para passar para a tela de cadastro de aposta
+    	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 779, 420);
@@ -120,9 +123,10 @@ public class ApostasAdm extends JFrame {
         		int selectedRow = table.getSelectedRow();
         		if (selectedRow != -1) {
         			//passando nome, descricao e id para a tela de editar evento
-	        		EditarAposta editar = new EditarAposta((double)table.getValueAt(selectedRow, 2), (String)table.getValueAt(selectedRow, 1), (int)table.getValueAt(selectedRow, 0), this, idEvento);
+	        		EditarAposta editar = new EditarAposta((double)table.getValueAt(selectedRow, 2), (String)table.getValueAt(selectedRow, 1), (int)table.getValueAt(selectedRow, 0), this, idEvento, idUsuario);
 	        		//this aqui é para passar a própria frame no argumento ^
 	        		editar.setVisible(true);
+	        		essaTela.setVisible(false);
         		}
         		else {
                     JOptionPane.showMessageDialog(this, "Selecione uma aposta para editar.");
@@ -132,14 +136,14 @@ public class ApostasAdm extends JFrame {
         btnEditarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
         btnEditarAposta.setBounds(587, 112, 132, 23);
         panel.add(btnEditarAposta);
-        
-        ApostasAdm essaTela = this; //pegando essa tela para passar para a tela de cadastro de aposta
+       
         
         JButton btnCadastrarAposta = new JButton("Cadastrar Aposta");
         btnCadastrarAposta.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		CadastroDeAposta cadastro = new CadastroDeAposta(idEvento, essaTela);
+        		CadastroDeAposta cadastro = new CadastroDeAposta(idEvento, idUsuario, essaTela);
                 cadastro.setVisible(true);
+                essaTela.setVisible(false);
         	}
         });
         btnCadastrarAposta.setForeground(new Color(0, 0, 128));
@@ -171,7 +175,9 @@ public class ApostasAdm extends JFrame {
         		int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
 	        		essaTela.setVisible(false);
-	        		new TelaPrincipalAdm(idEvento).setVisible(true);
+	        		TelaPrincipalAdm adm =  new TelaPrincipalAdm(idUsuario);
+	        		adm.setVisible(true);
+	        		adm.atualizarTabela();	        		
         		}
         		else {
         			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
