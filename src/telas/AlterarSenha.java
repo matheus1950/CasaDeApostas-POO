@@ -124,6 +124,18 @@ public class AlterarSenha extends JFrame {
 		panel.add(txtrAlterarSenha);
 		
 		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+			}
+		});
 		btnLogout.setForeground(Color.RED);
 		btnLogout.setBackground(Color.BLACK);
 		btnLogout.setBounds(283, 29, 97, 23);
