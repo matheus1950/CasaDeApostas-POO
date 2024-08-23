@@ -35,6 +35,7 @@ public class EditarAposta extends JFrame {
 	private JTextArea campoEventoEdit;
 	private JButton btnLogout;
 	private JButton btnVoltar;
+	private JTextArea txtrModificar;
 
 	/**
 	 * Launch the application.
@@ -83,7 +84,7 @@ public class EditarAposta extends JFrame {
 		panel.add(txtEditarAposta);
 		
 		campoDescricao = new JTextField();
-		campoDescricao.setBounds(30, 267, 164, 20);
+		campoDescricao.setBounds(30, 294, 164, 20);
 		panel.add(campoDescricao);
 		campoDescricao.setColumns(10);
 		
@@ -93,7 +94,7 @@ public class EditarAposta extends JFrame {
 		txtOdd.setText("Odd");
 		txtOdd.setToolTipText("");
 		txtOdd.setBackground(new Color(64, 128, 128));
-		txtOdd.setBounds(478, 236, 164, 20);
+		txtOdd.setBounds(478, 263, 164, 20);
 		panel.add(txtOdd);
 		txtOdd.setColumns(10);
 		
@@ -102,7 +103,7 @@ public class EditarAposta extends JFrame {
 		txtDescrio.setBackground(new Color(64, 128, 128));
 		txtDescrio.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDescrio.setText("Descrição");
-		txtDescrio.setBounds(30, 236, 164, 20);
+		txtDescrio.setBounds(30, 263, 164, 20);
 		panel.add(txtDescrio);
 		txtDescrio.setColumns(10);
 		
@@ -126,7 +127,7 @@ public class EditarAposta extends JFrame {
 		panel.add(btnSalvar);
 		
 		campoOdd = new JTextField();
-		campoOdd.setBounds(478, 267, 164, 20);
+		campoOdd.setBounds(478, 294, 164, 20);
 		panel.add(campoOdd);
 		campoOdd.setColumns(10);
 		
@@ -195,6 +196,15 @@ public class EditarAposta extends JFrame {
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnVoltar.setBounds(364, 327, 81, 23);
 		panel.add(btnVoltar);
+		
+		txtrModificar = new JTextArea();
+		txtrModificar.setText("Modificar");
+		txtrModificar.setForeground(new Color(128, 255, 255));
+		txtrModificar.setFont(new Font("Tahoma", Font.BOLD, 31));
+		txtrModificar.setEditable(false);
+		txtrModificar.setBackground(new Color(0, 64, 0));
+		txtrModificar.setBounds(246, 227, 164, 42);
+		panel.add(txtrModificar);
 		
 	}
 	

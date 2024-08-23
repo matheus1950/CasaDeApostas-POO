@@ -39,7 +39,7 @@ public class ApostasUsuario extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ApostasUsuario frame = new ApostasUsuario();
+                    ApostasUsuario frame = new ApostasUsuario(-1); //-1 padrão
                     frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -52,7 +52,7 @@ public class ApostasUsuario extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public ApostasUsuario() {
+	public ApostasUsuario(int idUsuario) {
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(100, 100, 580, 420);
@@ -124,7 +124,7 @@ public class ApostasUsuario extends JFrame {
         		int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
 	        		essaTela.setVisible(false);
-	        		TelaPrincipalUsuario usuario = new TelaPrincipalUsuario();
+	        		TelaPrincipalUsuario usuario = new TelaPrincipalUsuario(idUsuario);
 	        		usuario.setVisible(true);
 	        		usuario.atualizarTabela();
         		}

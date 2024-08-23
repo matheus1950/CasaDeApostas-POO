@@ -9,6 +9,7 @@ public interface UsuarioDao {
 	
 	void insert(Usuario usuario) throws SQLException;
 	String findPasswordByEmail(String email);
-	void update(Usuario obj);
 	void deleteById(int id) throws SQLException;
+	public boolean editarNome(int id, String nome);
+	public boolean editarEmail(int id, String email);
 }

@@ -208,6 +208,19 @@ public class TelaPrincipalAdm extends JFrame {
         btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
         btnLogout.setBounds(619, 18, 114, 23);
         panel.add(btnLogout);
+        
+        JButton btnMinhaConta = new JButton("Minha conta");
+        btnMinhaConta.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		essaTela.setVisible(false);
+        		MinhaConta Conta = new MinhaConta(idUsuario);
+        		Conta.setVisible(true);	
+        	}
+        });
+        btnMinhaConta.setForeground(new Color(0, 0, 128));
+        btnMinhaConta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnMinhaConta.setBounds(10, 18, 91, 23);
+        panel.add(btnMinhaConta);
     }
     
     public void preencherTabela(ArrayList<Evento> eventos) {

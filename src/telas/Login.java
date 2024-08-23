@@ -101,7 +101,7 @@ public class Login extends JFrame {
 					//se o campo permissão for falso -> abrir tela de usuário
 					if(dao.criarUsuarioDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(), campoSenha.getText()) == false) {
 						//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
-						TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario();
+						TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario(dao.criarUsuarioDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
 					    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
 					    telaUsuario.setVisible(true);
 					    essaTela.setVisible(false);

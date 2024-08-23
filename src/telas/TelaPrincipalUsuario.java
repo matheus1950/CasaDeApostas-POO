@@ -38,7 +38,7 @@ public class TelaPrincipalUsuario extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaPrincipalUsuario frame = new TelaPrincipalUsuario();
+                    TelaPrincipalUsuario frame = new TelaPrincipalUsuario(-1); //-1 padrão
                     frame.setVisible(true);
                     
                     //preencher a tabela com todos eventos
@@ -56,7 +56,7 @@ public class TelaPrincipalUsuario extends JFrame {
      * Create the frame.
      */
     @SuppressWarnings("serial")
-	public TelaPrincipalUsuario() {
+	public TelaPrincipalUsuario(int idUsuario) {
     	TelaPrincipalUsuario essaTela = this;
     	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -112,7 +112,7 @@ public class TelaPrincipalUsuario extends JFrame {
                 int id = (int) table.getValueAt(selectedRow, 0);
                 //abrindo a tela de apostas
                 DaoFactory dao = new DaoFactory();
-                ApostasUsuario telaApostaUser = new ApostasUsuario();
+                ApostasUsuario telaApostaUser = new ApostasUsuario(idUsuario);
                 telaApostaUser.preencherTabela(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id));
                 telaApostaUser.setVisible(true);
                 essaTela.setVisible(false);
@@ -145,6 +145,19 @@ public class TelaPrincipalUsuario extends JFrame {
         btnLogout.setBackground(new Color(0, 0, 0));
         btnLogout.setBounds(599, 18, 114, 23);
         panel.add(btnLogout);
+        
+        JButton btnMinhaConta = new JButton("Minha conta");
+        btnMinhaConta.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		essaTela.setVisible(false);
+        		MinhaConta Conta = new MinhaConta(idUsuario);
+        		Conta.setVisible(true);		
+        	}
+        });
+        btnMinhaConta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnMinhaConta.setForeground(new Color(0, 0, 128));
+        btnMinhaConta.setBounds(10, 18, 91, 23);
+        panel.add(btnMinhaConta);
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }
     

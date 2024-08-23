@@ -19,7 +19,7 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 	@Override
 	public void insert(Usuario usuario) throws SQLException {
 		String sql = "INSERT INTO Usuario "
-				+ "(nome, email, senha, carteira, idDeContrato, cpf, dataNascimento) "
+				+ "(email, email, senha, carteira, idDeContrato, cpf, dataNascimento) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setString(1, usuario.getNome());
@@ -36,6 +36,27 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		catch(SQLException e){
 			e.printStackTrace();
 		}
+	}
+	
+	public Usuario findUsuarioById(int idUsuario) {
+		String sql = "SELECT * FROM usuario WHERE id = ?";
+		
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, idUsuario);
+	        Usuario usuario = new Usuario();
+	        try (ResultSet rs = ps.executeQuery()) {
+	        	while(rs.next()) {
+		        	usuario.setSenha(rs.getString("senha"));
+		        	usuario.setNome(rs.getString("nome"));  
+		            usuario.setCpf(rs.getInt("cpf"));
+		            usuario.setEmail(rs.getString("email"));
+		            return usuario;   
+	        	}         
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return null; //não sei outra coisa para colocar aqui
 	}
 
 	@Override
@@ -74,6 +95,22 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		return (Boolean) null; //não sei outra coisa para colocar aqui
 	}
 	
+	public boolean findPermissaoById(int idUsuario) {
+		String sql = "SELECT permissao FROM usuario WHERE id = ?";
+		
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, idUsuario);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getBoolean("permissao");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return (Boolean) null; //não sei outra coisa para colocar aqui
+	}
+	
 	public int findIdByEmailSenha(String email, String senha) {
 		String sql = "SELECT id FROM usuario WHERE email = ? AND senha = ?";
 		
@@ -91,22 +128,7 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		return (Integer) null; //não sei outra coisa para colocar aqui
 	}
 	
-	 //sofrendo problemas para atualizar em decorrência do armanezamento de id já explicado acima do método create
-	@Override
-	public void update(Usuario usuario) {
-		String sql = "UPDATE usuario SET nome = ?, email = ?, senha = ? WHERE id = ?";
-        try (PreparedStatement ps = conn.prepareStatement(sql)) {
-            ps.setString(1, usuario.getNome());
-            ps.setString(2, usuario.getEmail());
-            ps.setString(3, usuario.getSenha());
-            ps.setInt(4, usuario.getId());
-            System.out.println("Update concluído com sucesso!");
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-		
-	}
+	
 	
 	//tive um problema para excluir por id enquanto havia a tabela "aposta"(violação da chave estrangeira),
 	//fiz drop table pra testar, depois ver como deletar com a tabela aposta no lugar! 
@@ -124,5 +146,56 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		}
 		
 	}
+
+	public boolean editarNome(int id, String nome) {
+		String sql = "UPDATE usuario SET nome = ? WHERE id = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, nome);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Nome de usuário atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean editarEmail(int id, String email) {
+		String sql = "UPDATE usuario SET email = ? WHERE id = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, email);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Email de usuário atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
+	public boolean editarSenha(int id, String senha) {
+		String sql = "UPDATE usuario SET senha = ? WHERE id = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, senha);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Senha de usuário atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+		
+	}
+	
+	
+	
+	
 
 }
