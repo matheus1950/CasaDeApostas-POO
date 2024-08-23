@@ -18,17 +18,18 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.JPasswordField;
 
 public class AlterarSenha extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtSenha;
-	private JTextField campoSenhaAtual;
-	private JTextField campoNovaSenha;
+	private JPasswordField campoSenhaAtual;
+	private JPasswordField campoNovaSenha;
 	private JTextField txtNovaSenha;
 	private JTextField txtConfirmarSenhaNova;
-	private JTextField campoConfirmar;
+	private JPasswordField campoConfirmar;
 
 	/**
 	 * Launch the application.
@@ -95,12 +96,12 @@ public class AlterarSenha extends JFrame {
 		txtSenha.setBounds(24, 72, 100, 20);
 		panel.add(txtSenha);
 		
-		campoSenhaAtual = new JTextField();
+		campoSenhaAtual = new JPasswordField();
 		campoSenhaAtual.setColumns(10);
 		campoSenhaAtual.setBounds(134, 72, 119, 20);
 		panel.add(campoSenhaAtual);
 		
-		campoNovaSenha = new JTextField();
+		campoNovaSenha = new JPasswordField();
 		campoNovaSenha.setColumns(10);
 		campoNovaSenha.setBounds(134, 103, 119, 20);
 		panel.add(campoNovaSenha);
@@ -169,7 +170,7 @@ public class AlterarSenha extends JFrame {
 		txtConfirmarSenhaNova.setBounds(24, 134, 100, 20);
 		panel.add(txtConfirmarSenhaNova);
 		
-		campoConfirmar = new JTextField();
+		campoConfirmar = new JPasswordField();
 		campoConfirmar.setColumns(10);
 		campoConfirmar.setBounds(134, 134, 119, 20);
 		panel.add(campoConfirmar);
