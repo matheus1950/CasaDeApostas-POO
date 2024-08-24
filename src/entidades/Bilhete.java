@@ -26,9 +26,7 @@ public class Bilhete {
 		this.resultado = "pendente";
 		this.efetuado = false; //aqui ou na declaração
 		this.status = "pendente"; //aqui ou na declaração
-		this.valor = 0; //aqui ou na declaração
-		setOddTotal(this.apostas);
-		setRetorno();
+		this.valor = 0; //aqui ou na declaração		
 	}
 	
 	public Bilhete() {
@@ -37,9 +35,7 @@ public class Bilhete {
 		this.resultado = "pendente";
 		this.efetuado = false; //aqui ou na declaração
 		this.status = "pendente"; //aqui ou na declaração
-		this.valor = 0; //aqui ou na declaração
-		setOddTotal(this.apostas);
-		setRetorno();
+		this.valor = 0; //aqui ou na declaração		
 	}
 
 	public int getId() {
@@ -62,8 +58,7 @@ public class Bilhete {
 		//multiplicando a odd de todas apostas para alcançar a odd total
 		for(Aposta a : apostas) {
 			multiplicador *= a.getOdd();
-		}
-		
+		}		
 		this.oddTotal = multiplicador;
 	}
 	public double getRetorno() {

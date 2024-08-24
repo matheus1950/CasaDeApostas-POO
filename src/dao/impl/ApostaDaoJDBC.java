@@ -168,6 +168,7 @@ public class ApostaDaoJDBC {
                 while (rs.next()) {
                     Aposta aposta = new Aposta();
                     aposta.setId(rs.getInt("id"));
+                    aposta.setDescricao(rs.getString("descricao"));
                     aposta.setIdDeEvento(rs.getInt("idDeEvento"));
                     aposta.setOdd(rs.getDouble("odd"));
                     aposta.setDataDeCriacao(rs.getDate("dataDeCriacao"));

@@ -50,8 +50,7 @@ public class BilheteDaoJDBC implements BilheteDao{
                     bilhete.setDataDeCriacao(rs.getDate("dataDeCriacao"));
                     bilhete.setStatus(rs.getString("status"));
                     bilhete.setResultado(rs.getString("resultado"));
-                    bilhete.setEfetuado(rs.getBoolean("efetuado"));
-                    // Não carregamos as apostas aqui
+                    bilhete.setEfetuado(rs.getBoolean("efetuado"));                   
                 }
             }
         } catch (SQLException e) {
@@ -85,17 +84,8 @@ public class BilheteDaoJDBC implements BilheteDao{
 	    
 	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
 	        ps.setInt(1, idBilhete);
-	        ps.setInt(2, idAposta);
-	        //int rowsAffected = ps.executeUpdate();
-	        ps.executeUpdate();
-	        /*
-	        if (rowsAffected > 0) {
-	            System.out.println("Aposta adicionada ao bilhete com sucesso.");
-	        } else {
-	            System.out.println("Falha ao adicionar a aposta ao bilhete.");
-	        }
-	        */
-
+	        ps.setInt(2, idAposta);	        
+	        ps.executeUpdate();	        
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }

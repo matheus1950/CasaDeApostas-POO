@@ -208,7 +208,7 @@ public class MinhaConta extends JFrame {
 		});
 		btnNewButton.setForeground(new Color(0, 0, 128));
 		btnNewButton.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnNewButton.setBounds(624, 291, 89, 23);
+		btnNewButton.setBounds(626, 260, 89, 23);
 		panel.add(btnNewButton);
 		
 		JTextArea txtrModificar = new JTextArea();
@@ -226,7 +226,7 @@ public class MinhaConta extends JFrame {
 		txtrModificarSenha.setFont(new Font("Tahoma", Font.BOLD, 17));
 		txtrModificarSenha.setEditable(false);
 		txtrModificarSenha.setBackground(new Color(0, 64, 0));
-		txtrModificarSenha.setBounds(602, 256, 125, 42);
+		txtrModificarSenha.setBounds(602, 232, 125, 25);
 		panel.add(txtrModificarSenha);
 	}
 	
