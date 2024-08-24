@@ -117,6 +117,28 @@ public class ApostaDaoJDBC {
         return apostas;
     }
 	
+	public Aposta findApostaById(int idAposta) {
+	    String sql = "SELECT * FROM Aposta WHERE id = ?";
+	    Aposta aposta = null;
+
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) { 
+	        ps.setInt(1, idAposta);
+	        try (ResultSet rs = ps.executeQuery()) {  
+	            if (rs.next()) {  
+	                aposta = new Aposta();
+	                aposta.setId(rs.getInt("id"));
+	                aposta.setOdd(rs.getDouble("odd"));
+	                aposta.setDescricao(rs.getString("descricao"));
+	                aposta.setDataDeCriacao(rs.getDate("datadecriacao"));
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return aposta;
+	}
+	
 	public boolean editarDescricao(int id, String descricao) {
 		String sql = "UPDATE aposta SET descricao = ? WHERE id = ?";
 		
@@ -132,4 +154,35 @@ public class ApostaDaoJDBC {
 		}
 		return false;
 	}
+	
+	public ArrayList<Aposta> findApostasByBilheteId(int idBilhete) {
+		System.out.println("entrou! 3");
+        ArrayList<Aposta> apostas = new ArrayList<Aposta>();
+        String sql = "SELECT Aposta.* FROM Aposta " +
+                     "JOIN Bilhete_Aposta ON Aposta.id = Bilhete_Aposta.idAposta " +
+                     "WHERE Bilhete_Aposta.idBilhete = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idBilhete);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Aposta aposta = new Aposta();
+                    aposta.setId(rs.getInt("id"));
+                    aposta.setIdDeEvento(rs.getInt("idDeEvento"));
+                    aposta.setOdd(rs.getDouble("odd"));
+                    aposta.setDataDeCriacao(rs.getDate("dataDeCriacao"));
+                    aposta.setStatus(rs.getString("status"));
+                    aposta.setResultado(rs.getString("resultado"));
+                    apostas.add(aposta);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //teste
+        for(Aposta a : apostas) {
+        	System.out.println(a);
+        }
+        return apostas;
+    }
 }

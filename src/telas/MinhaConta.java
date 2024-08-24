@@ -79,7 +79,7 @@ public class MinhaConta extends JFrame {
 		txtrMinhaConta.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtrMinhaConta.setEditable(false);
 		txtrMinhaConta.setBackground(new Color(0, 64, 0));
-		txtrMinhaConta.setBounds(211, 0, 321, 42);
+		txtrMinhaConta.setBounds(235, 0, 197, 42);
 		panel.add(txtrMinhaConta);
 		
 		campoNome = new JTextField();
@@ -138,7 +138,7 @@ public class MinhaConta extends JFrame {
 		txtrUsuario.setFont(new Font("Tahoma", Font.BOLD, 20));
 		txtrUsuario.setEditable(false);
 		txtrUsuario.setBackground(new Color(0, 64, 0));
-		txtrUsuario.setBounds(10, 96, 321, 42);
+		txtrUsuario.setBounds(10, 96, 248, 42);
 		panel.add(txtrUsuario);
 		
 		JTextArea campoUsuarioEdit = new JTextArea();
@@ -194,7 +194,7 @@ public class MinhaConta extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(374, 343, 81, 23);
+		btnVoltar.setBounds(384, 343, 81, 23);
 		panel.add(btnVoltar);
 		
 		JButton btnNewButton = new JButton("Senha");

@@ -75,6 +75,28 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
         		+ "descricao VARCHAR(100), "
         		+ ")";
         connection.createStatement().execute(createApostaTable);
+        
+        //Criar tabela Bilhete
+        String createBilheteTable = "CREATE TABLE IF NOT EXISTS Bilhete (" +
+                "id SERIAL PRIMARY KEY," +
+                "idDeUsuario INTEGER NOT NULL," +
+                "oddTotal DOUBLE PRECISION NOT NULL," +
+                "retorno DOUBLE PRECISION NOT NULL," +
+                "dataDeCriacao TIMESTAMP," + 
+                "status VARCHAR(50) NOT NULL," +
+                "resultado VARCHAR(50)," +
+                "efetuado BOOLEAN NOT NULL" +
+                ")";
+        
+        
+        //Criar tabela Bilhete_Aposta
+        String createBilheteApostaTable = "CREATE TABLE Bilhete_Aposta (" +
+        	    "idBilhete INTEGER NOT NULL," +
+        	    "idAposta INTEGER NOT NULL," +
+        	    "PRIMARY KEY (idBilhete, idAposta)," +
+        	    "FOREIGN KEY (idBilhete) REFERENCES Bilhete(id)," +
+        	    "FOREIGN KEY (idAposta) REFERENCES Aposta(id)" +
+        	")";
     }
 
     //Método para inserir dados na tabela Usuario

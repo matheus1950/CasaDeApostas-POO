@@ -19,7 +19,10 @@ import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
 import entidades.Aposta;
+import entidades.Bilhete;
+
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 
@@ -31,6 +34,8 @@ public class ApostasUsuario extends JFrame {
     private DefaultTableModel tableModel;
     private JButton btnLogout;
     private JButton btnVoltar;
+    private JButton btnAdicionarAposta;
+    private JButton btnNewButton;
 
     /**
      * Launch the application.
@@ -75,7 +80,7 @@ public class ApostasUsuario extends JFrame {
         txtApostas.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtApostas.setEditable(false);
         txtApostas.setBackground(new Color(0, 64, 0));
-        txtApostas.setBounds(92, 0, 294, 42);
+        txtApostas.setBounds(162, 5, 160, 42);
         panel.add(txtApostas);
         
         scrollPane = new JScrollPane();
@@ -138,19 +143,46 @@ public class ApostasUsuario extends JFrame {
         btnVoltar.setBounds(396, 325, 81, 23);
         panel.add(btnVoltar);
         
+        
+        btnNewButton = new JButton("Carrinho de Apostas");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        	}
+        });
+        btnNewButton.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnNewButton.setForeground(new Color(0, 0, 128));
+        btnNewButton.setBounds(371, 147, 139, 23);
+        panel.add(btnNewButton);
+        
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
-                    // Obtém o ID do aposta a partir da linha selecionada, por exemplo:
-                    int id = (int) table.getValueAt(selectedRow, 0);
-                    // A partir do nome ou de outra coluna, você pode encontrar o ID do aposta
+                    // Obtém o ID do aposta a partir da linha selecionada
+                    int id = (int) table.getValueAt(selectedRow, 0);                 
                     System.out.println("Id do aposta: " + id);
                 }
             }
         });
+        
+        btnAdicionarAposta = new JButton("Adicionar Aposta");
+        btnAdicionarAposta.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		int selectedRow = table.getSelectedRow();
+        		if (selectedRow != -1) {        		
+    				criarBilhete((int)table.getValueAt(selectedRow, 0), idUsuario, btnAdicionarAposta);         
+        		}
+        		else {
+                    JOptionPane.showMessageDialog(btnAdicionarAposta, "Selecione uma opção para apostar!");
+                }	
+        	}
+        });
+        btnAdicionarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnAdicionarAposta.setForeground(new Color(0, 0, 128));
+        btnAdicionarAposta.setBounds(371, 87, 139, 23);
+        panel.add(btnAdicionarAposta);
     }
     
     public void preencherTabela(ArrayList<Aposta> apostas) {
@@ -164,5 +196,26 @@ public class ApostasUsuario extends JFrame {
             };
             tableModel.addRow(row);
         }
+    }
+    
+    public void criarBilhete(int idAposta, int idUsuario, JButton botao) {
+    	DaoFactory dao = new DaoFactory();
+    	//-1 no método usuarioTemBilhetePendente simboliza o retorno nulo(não encontrado!), sendo nulo, criamos o bilhete e inserimos a aposta nele!
+    	if(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario) == -1) {    		
+    		//criando bilhete e inserindo a aposta nele!
+    		Bilhete bilhete = new Bilhete();
+    		bilhete.setIdDeUsuario(idUsuario);
+    		dao.criarBilheteDaoJDBC().inserirBilhete(bilhete);
+    		int idBilhete = dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario); //reutilizando o método, já que agora temos o bilhete inserido, para pegar o id dele
+    		dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(idBilhete, idAposta);
+    		JOptionPane.showMessageDialog(botao, "Bilhete criado com sucesso! Aposta adicionada com sucesso!");
+    	}
+    	else { //inserir no bilhete pendente encontrado    		
+    		//a próxima linha utiliza um método para achar o bilhete pendente por meio do id que pegamos no método usuarioTemBilhetePendente(devolve o id do bilhete pendente)
+    		Bilhete bilhete = dao.criarBilheteDaoJDBC().findBilheteById(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario));
+    		bilhete.addAposta(dao.criarApostaDaoJDBC().findApostaById(idAposta)); //adicionar a aposta pelo Id que pegamos neste método
+    		dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(bilhete.getId(), idAposta);
+    		JOptionPane.showMessageDialog(botao, "Aposta adicionada ao bilhete!"); //falta uma verificação aqui pra evitar duplicações de aposta no bilhete!
+    	}
     }
 }

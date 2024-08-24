@@ -1,9 +1,10 @@
 package entidades;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 public class Administrador extends Usuario{
-	private Evento[] eventos;
+	ArrayList <Evento> eventos = new ArrayList();
 
 	public Administrador() {
 		super();
@@ -15,11 +16,11 @@ public class Administrador extends Usuario{
 		super(id, nome, email, senha, carteira, idDeContrato, cpf, dataNascimento);
 	}
 
-	public Evento[] getEventos() {
+	public ArrayList<Evento> getEventos() {
 		return eventos;
 	}
 
-	public void setEventos(Evento[] eventos) {
+	public void setEventos(ArrayList<Evento> eventos) {
 		this.eventos = eventos;
 	}
 	

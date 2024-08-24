@@ -14,6 +14,9 @@ public class DaoFactory{
 		return new EventoDaoJDBC();
 	}
 	
+	public static BilheteDaoJDBC criarBilheteDaoJDBC() {
+		return new BilheteDaoJDBC();
+	}
 }
 
 //para instanciar as implementações DAO! Pode ser apagado se optarmos por instanciar diretamente!
