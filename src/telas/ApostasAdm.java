@@ -24,6 +24,7 @@ import entidades.Evento;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.ScrollPaneConstants;
 
 public class ApostasAdm extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -83,6 +84,8 @@ public class ApostasAdm extends JFrame {
         panel.add(txtApostasAdm);
         
         scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setForeground(new Color(0, 0, 0));
         scrollPane.setBounds(10, 58, 567, 290);
         panel.add(scrollPane);

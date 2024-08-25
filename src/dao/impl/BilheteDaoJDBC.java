@@ -35,6 +35,35 @@ public class BilheteDaoJDBC implements BilheteDao{
 		return -1; //-1 padrão para simbolizar o nulo
 	}
 	
+	public ArrayList<Bilhete> todosBilhetesPorUsuarioId(int idUsuario){
+		String sql = "SELECT * FROM bilhete WHERE iddeusuario = ?";
+		ArrayList<Bilhete> bilhetes = new ArrayList<Bilhete>();
+		
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, idUsuario);;
+	        try (ResultSet rs = ps.executeQuery()) {
+	        	while(rs.next()) {
+	                if(rs.getBoolean("efetuado") == true) {	                
+	                	Bilhete bilhete = new Bilhete();
+	                    bilhete.setId(rs.getInt("id"));
+	                    bilhete.setValor(rs.getDouble("valor"));
+	                    bilhete.setOddTotal(rs.getDouble("oddTotal"));
+	                    bilhete.setIdDeUsuario(rs.getInt("idDeUsuario"));                    
+	                    bilhete.setDataDeCriacao(rs.getDate("dataDeCriacao"));
+	                    bilhete.setStatus(rs.getString("status"));
+	                    bilhete.setResultado(rs.getString("resultado"));
+	                    bilhete.setEfetuado(rs.getBoolean("efetuado"));
+	                    bilhete.setRetorno(); //método de cálculo da própria entidade
+	                    bilhetes.add(bilhete);//adicionando ao array
+	                }
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return bilhetes;
+	}
+	
 	public Bilhete findBilheteById(int idBilhete) {
         Bilhete bilhete = null;
         String sql = "SELECT * FROM Bilhete WHERE id = ?";
@@ -63,7 +92,7 @@ public class BilheteDaoJDBC implements BilheteDao{
 	public void inserirBilhete(Bilhete bilhete) {
 		String sql = "INSERT INTO Bilhete (retorno, oddTotal, status, resultado, efetuado, iddeusuario) "
     			+ "VALUES (?, ?, ?, ?, ?, ?)";	    
-	    System.out.println("entrou! 1");
+	    
 	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
 	        ps.setDouble(1, bilhete.getRetorno());
 	        ps.setDouble(2, bilhete.getOddTotal());
@@ -83,17 +112,16 @@ public class BilheteDaoJDBC implements BilheteDao{
 		String sql = "UPDATE bilhete SET efetuado = ?, datadecriacao = ?, valor = ?, oddTotal = ?, retorno = ? WHERE id = ?";
 		
 		java.sql.Date sqlDate = new java.sql.Date(bilhete.getDataDeCriacao().getTime()); //linha de cast de util.Date para sql.Date
-		
+						
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			ps.setBoolean(1, true);
 			ps.setDate(2, sqlDate);
 			ps.setDouble(3, bilhete.getValor());
-			ps.setDouble(4, bilhete.getOddTotal());
-			ps.setDouble(5, bilhete.getRetorno());
+			ps.setDouble(4, bilhete.getOddTotal());			
+			ps.setDouble(5, bilhete.getValor() * bilhete.getOddTotal());
 			ps.setDouble(6, bilhete.getId());
 			ps.executeUpdate();
 			System.out.println("Bilhete atualizado com sucesso!");
-			ps.close();
 			return true;
 		} catch (SQLException e) {
 			e.printStackTrace();

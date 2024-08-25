@@ -15,18 +15,18 @@ public class Bilhete {
 	private boolean efetuado;
 	private double valor;
 		
-	public Bilhete(int id, int idDeUsuario, double retorno, String status,
+	public Bilhete(int id, int idDeUsuario, String status,
 			double valor) {
 		super();
 		this.id = id;
-		this.idDeUsuario = idDeUsuario;
-		this.retorno = retorno;
+		this.idDeUsuario = idDeUsuario;		
 		this.dataDeCriacao = new Date();
 		this.status = status;
 		this.resultado = "pendente";
 		this.efetuado = false; //aqui ou na declaração
 		this.status = "pendente"; //aqui ou na declaração
 		this.valor = 0; //aqui ou na declaração		
+		this.retorno = this.valor * oddTotal;
 	}
 	
 	public Bilhete() {
@@ -35,7 +35,8 @@ public class Bilhete {
 		this.resultado = "pendente";
 		this.efetuado = false; //aqui ou na declaração
 		this.status = "pendente"; //aqui ou na declaração
-		this.valor = 0; //aqui ou na declaração		
+		this.valor = 0; //aqui ou na declaração	
+		this.retorno = valor * oddTotal;
 	}
 
 	public int getId() {
@@ -71,6 +72,7 @@ public class Bilhete {
 	public void setRetorno() {
 		//retorno é a devolução da aposta, dada por valor(apostado) * oddTotal
 		this.retorno = valor * oddTotal;
+		System.out.println(this.valor * this.oddTotal);
 	}
 	public Date getDataDeCriacao() {
 		return dataDeCriacao;

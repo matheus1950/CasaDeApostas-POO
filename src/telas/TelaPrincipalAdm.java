@@ -63,7 +63,7 @@ public class TelaPrincipalAdm extends JFrame {
     	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 790, 528);
+        setBounds(100, 100, 790, 493);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,7 +73,7 @@ public class TelaPrincipalAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(21, 11, 743, 454);
+        panel.setBounds(21, 11, 743, 425);
         contentPane.add(panel);
         panel.setLayout(null);
         

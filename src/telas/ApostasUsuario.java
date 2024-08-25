@@ -25,6 +25,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.ScrollPaneConstants;
 
 public class ApostasUsuario extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -58,6 +59,8 @@ public class ApostasUsuario extends JFrame {
 	 */
 	@SuppressWarnings("serial")
 	public ApostasUsuario(int idUsuario) {
+		ApostasUsuario essaTela = this;
+		
 		setTitle("telaAdm");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 580, 420);
@@ -84,6 +87,8 @@ public class ApostasUsuario extends JFrame {
 		panel.add(txtApostas);
 
 		scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setForeground(new Color(0, 0, 0));
 		scrollPane.setBounds(10, 58, 351, 290);
 		panel.add(scrollPane);
@@ -99,9 +104,7 @@ public class ApostasUsuario extends JFrame {
 		};
 
 		table = new JTable(tableModel);
-		scrollPane.setViewportView(table);
-
-		ApostasUsuario essaTela = this;
+		scrollPane.setViewportView(table);		
 
 		btnLogout = new JButton("Logout");
 		btnLogout.addActionListener(new ActionListener() {

@@ -61,7 +61,7 @@ public class TelaPrincipalUsuario extends JFrame {
     	TelaPrincipalUsuario essaTela = this;
     	
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 797, 420);
+        setBounds(100, 100, 764, 514);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -71,7 +71,7 @@ public class TelaPrincipalUsuario extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(10, 11, 723, 359);
+        panel.setBounds(10, 11, 723, 453);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -81,12 +81,12 @@ public class TelaPrincipalUsuario extends JFrame {
         txtTelaPrincipal.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtTelaPrincipal.setEditable(false);
         txtTelaPrincipal.setBackground(new Color(0, 64, 0));
-        txtTelaPrincipal.setBounds(208, 0, 321, 42);
+        txtTelaPrincipal.setBounds(185, 0, 321, 42);
         panel.add(txtTelaPrincipal);
         
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 579, 290);
+        scrollPane.setBounds(10, 109, 579, 339);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -157,7 +157,7 @@ public class TelaPrincipalUsuario extends JFrame {
         });
         btnMinhaConta.setBackground(UIManager.getColor("CheckBox.focus"));
         btnMinhaConta.setForeground(new Color(0, 0, 128));
-        btnMinhaConta.setBounds(10, 18, 91, 23);
+        btnMinhaConta.setBounds(10, 18, 114, 23);
         panel.add(btnMinhaConta);
         
         btnBilhete = new JButton("Bilhete");
@@ -183,8 +183,23 @@ public class TelaPrincipalUsuario extends JFrame {
         });
         btnBilhete.setForeground(new Color(0, 0, 128));
         btnBilhete.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnBilhete.setBounds(599, 325, 114, 23);
+        btnBilhete.setBounds(599, 169, 114, 23);
         panel.add(btnBilhete);
+        
+        JButton btnHistoricoDeAposta = new JButton("Meu histórico");
+        btnHistoricoDeAposta.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+    			DaoFactory dao = new DaoFactory();							
+				HistoricoDeApostas historico = new HistoricoDeApostas(idUsuario);					
+				essaTela.setVisible(false);					
+				historico.setVisible(true);					
+				historico.preencherTabela(dao.criarBilheteDaoJDBC().todosBilhetesPorUsuarioId(idUsuario));//passando array de bilhetes							
+        	}
+        });
+        btnHistoricoDeAposta.setForeground(new Color(0, 0, 128));
+        btnHistoricoDeAposta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnHistoricoDeAposta.setBounds(10, 61, 114, 23);
+        panel.add(btnHistoricoDeAposta);
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }
     
