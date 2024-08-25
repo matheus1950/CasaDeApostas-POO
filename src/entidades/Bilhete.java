@@ -72,7 +72,6 @@ public class Bilhete {
 	public void setRetorno() {
 		//retorno é a devolução da aposta, dada por valor(apostado) * oddTotal
 		this.retorno = valor * oddTotal;
-		System.out.println(this.valor * this.oddTotal);
 	}
 	public Date getDataDeCriacao() {
 		return dataDeCriacao;

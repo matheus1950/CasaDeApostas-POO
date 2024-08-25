@@ -222,20 +222,33 @@ public class ApostasUsuario extends JFrame {
 																							// que agora temos o bilhete
 																							// inserido, para pegar o id
 																							// dele
-			dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(idBilhete, idAposta);
-			JOptionPane.showMessageDialog(botao, "Bilhete criado com sucesso! Aposta adicionada com sucesso!");
+			try{
+				dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(idBilhete, idAposta);
+				JOptionPane.showMessageDialog(botao, "Bilhete criado com sucesso! Aposta adicionada com sucesso!");
+			}
+			catch (SQLException e) {
+			    e.printStackTrace();
+			    JOptionPane.showMessageDialog(botao, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
+				
 		} else { // inserir no bilhete pendente encontrado
 					// a próxima linha utiliza um método para achar o bilhete pendente por meio do
 					// id que pegamos no método usuarioTemBilhetePendente(devolve o id do bilhete
 					// pendente)
-			Bilhete bilhete = dao.criarBilheteDaoJDBC()
-					.findBilheteById(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario));
+			Bilhete bilhete = dao.criarBilheteDaoJDBC().findBilheteById(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario));
 			bilhete.addAposta(dao.criarApostaDaoJDBC().findApostaById(idAposta)); // adicionar a aposta pelo Id que
 																					// pegamos neste método
-			dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(bilhete.getId(), idAposta);
-			JOptionPane.showMessageDialog(botao, "Aposta adicionada ao bilhete!"); // falta uma verificação aqui pra
-																					// evitar duplicações de aposta no
-																					// bilhete!
+			
+			//dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(bilhete.getId(), idAposta);
+			//JOptionPane.showMessageDialog(botao, "Aposta adicionada ao bilhete!");	
+			
+			try {		
+			    dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(bilhete.getId(), idAposta);
+			    JOptionPane.showMessageDialog(botao, "Aposta adicionada ao bilhete com sucesso!");
+			}catch (SQLException e) {
+			    e.printStackTrace();
+			    JOptionPane.showMessageDialog(botao, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+			}
 		}
 	}
 }

@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.postgresql.util.PSQLException;
+
 import dao.BilheteDao;
 import db.DB;
 import entidades.Aposta;
@@ -130,7 +132,7 @@ public class BilheteDaoJDBC implements BilheteDao{
 	}
 	
 	//Aqui não sei se deveria estar nessa classe ou numa ApostaBilheteDaoJDBC, já que são operações pra tabela que lhes conecta
-	public void inserirApostaNoBilheteById(int idBilhete, int idAposta) {
+	public void inserirApostaNoBilheteById(int idBilhete, int idAposta) throws SQLException, PSQLException {
 	    String sql = "INSERT INTO bilhete_aposta (idbilhete, idaposta) VALUES (?, ?)";
 	    
 	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
@@ -139,6 +141,7 @@ public class BilheteDaoJDBC implements BilheteDao{
 	        ps.executeUpdate();	        
 	    } catch (SQLException e) {
 	        e.printStackTrace();
+	        throw e;
 	    }
 	}
 		

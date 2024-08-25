@@ -97,6 +97,9 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
         	    "FOREIGN KEY (idBilhete) REFERENCES Bilhete(id)," +
         	    "FOREIGN KEY (idAposta) REFERENCES Aposta(id)" +
         	")";
+        
+       /* "ALTER TABLE bilhete_aposta\r\n"
+        + "ADD CONSTRAINT uc_bilhete_aposta UNIQUE (idbilhete, idaposta); */
     }
 
     //Método para inserir dados na tabela Usuario
