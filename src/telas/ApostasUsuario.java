@@ -145,10 +145,17 @@ public class ApostasUsuario extends JFrame {
 		btnBilhete = new JButton("Bilhete");
 		btnBilhete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				essaTela.setVisible(false);
-				TelaDeBilhete bilhete = new TelaDeBilhete(idUsuario);
-				bilhete.setVisible(true);
-				bilhete.atualizarTabela(idUsuario, btnAdicionarAposta);
+				DaoFactory dao = new DaoFactory();
+				//pegando as apostas do bilhete pendente do usuário
+				if(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario) != -1) {												
+					essaTela.setVisible(false);
+					TelaDeBilhete bilhete = new TelaDeBilhete(idUsuario);
+					bilhete.setVisible(true);					
+					bilhete.atualizarTabela(idUsuario, btnBilhete);
+				}
+				else {
+					JOptionPane.showMessageDialog(btnBilhete, "Usuário não tem bilhete pendente! adicione apostas!");
+				}
 			}
 		});
 		btnBilhete.setBackground(UIManager.getColor("CheckBox.focus"));

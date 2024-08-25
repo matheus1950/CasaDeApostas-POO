@@ -61,6 +61,10 @@ public class Bilhete {
 		}		
 		this.oddTotal = multiplicador;
 	}
+	
+	public void setOddTotal(double oddTotal) {
+		this.oddTotal = oddTotal;
+	}
 	public double getRetorno() {
 		return retorno;
 	}
@@ -71,6 +75,11 @@ public class Bilhete {
 	public Date getDataDeCriacao() {
 		return dataDeCriacao;
 	}
+	
+	public void setDataDeCriacao() { //sem parametros
+		this.dataDeCriacao = new Date();
+	}
+	
 	public void setDataDeCriacao(Date dataDeCriacao) {
 		this.dataDeCriacao = dataDeCriacao;
 	}
@@ -106,5 +115,20 @@ public class Bilhete {
 	public void setEfetuado(boolean efetuado) {
 		this.efetuado = efetuado;
 	}
-	
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
+	@Override
+	public String toString() {
+		return "Bilhete [id=" + id + ", idDeUsuario=" + idDeUsuario + ", oddTotal=" + oddTotal + ", retorno=" + retorno
+				+ ", dataDeCriacao=" + dataDeCriacao + ", status=" + status + ", resultado=" + resultado + ", apostas="
+				+ apostas + ", efetuado=" + efetuado + ", valor=" + valor + "]";
+	}
+			
 }

@@ -23,7 +23,7 @@ public class BilheteDaoJDBC implements BilheteDao{
 	        ps.setInt(1, idUsuario);;
 	        try (ResultSet rs = ps.executeQuery()) {
 	        	while(rs.next()) {
-	                if(rs.getString("status").equals("pendente")) {	                
+	                if(rs.getBoolean("efetuado") == false) {	                
 	                	System.out.println("id do bilhete:" + rs.getInt("id"));
 	                	return rs.getInt("id");	                	
 	                }
@@ -89,6 +89,28 @@ public class BilheteDaoJDBC implements BilheteDao{
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
+	}
+	
+	public boolean apostar(Bilhete bilhete) {
+		String sql = "UPDATE bilhete SET efetuado = ?, datadecriacao = ?, valor = ?, oddTotal = ?, retorno = ? WHERE id = ?";
+		
+		java.sql.Date sqlDate = new java.sql.Date(bilhete.getDataDeCriacao().getTime()); //linha de cast de util.Date para sql.Date
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setBoolean(1, true);
+			ps.setDate(2, sqlDate);
+			ps.setDouble(3, bilhete.getValor());
+			ps.setDouble(4, bilhete.getOddTotal());
+			ps.setDouble(5, bilhete.getRetorno());
+			ps.setDouble(6, bilhete.getId());
+			ps.executeUpdate();
+			System.out.println("Bilhete atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 }

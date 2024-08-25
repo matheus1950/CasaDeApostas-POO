@@ -30,6 +30,7 @@ public class TelaPrincipalUsuario extends JFrame {
     private DefaultTableModel tableModel;
     private JButton btnVisualizarEvento;
     private JButton btnLogout;
+    private JButton btnBilhete;
 
     /**
      * Launch the application.
@@ -158,6 +159,27 @@ public class TelaPrincipalUsuario extends JFrame {
         btnMinhaConta.setForeground(new Color(0, 0, 128));
         btnMinhaConta.setBounds(10, 18, 91, 23);
         panel.add(btnMinhaConta);
+        
+        btnBilhete = new JButton("Bilhete");
+        btnBilhete.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		DaoFactory dao = new DaoFactory();
+				//pegando as apostas do bilhete pendente do usuário
+				if(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario) != -1) {												
+					essaTela.setVisible(false);
+					TelaDeBilhete bilhete = new TelaDeBilhete(idUsuario);
+					bilhete.setVisible(true);					
+					bilhete.atualizarTabela(idUsuario, btnBilhete);
+				}
+				else {
+					JOptionPane.showMessageDialog(btnBilhete, "Usuário não tem bilhete pendente! adicione apostas!");
+				}
+        	}
+        });
+        btnBilhete.setForeground(new Color(0, 0, 128));
+        btnBilhete.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnBilhete.setBounds(599, 325, 114, 23);
+        panel.add(btnBilhete);
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }
     
