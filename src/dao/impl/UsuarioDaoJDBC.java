@@ -143,8 +143,7 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 			ps.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		
+		}		
 	}
 
 	public boolean editarNome(int id, String nome) {

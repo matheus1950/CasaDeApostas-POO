@@ -223,6 +223,26 @@ public class TelaDeBilhete extends JFrame {
 		btnApostar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnApostar.setBounds(422, 273, 81, 23);
 		panel.add(btnApostar);
+		
+		JButton btnRetirar = new JButton("Retirar Aposta");
+		btnRetirar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DaoFactory dao = new DaoFactory();
+				int selectedRow = table.getSelectedRow();
+	            if (selectedRow != -1) {
+	                int idAposta = (int) table.getValueAt(selectedRow, 0);
+	                int idBilhete = dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario);
+	                String descricao = (String) table.getValueAt(selectedRow, 1);
+	                retirarAposta(idAposta, idBilhete, essaTela, idUsuario);
+	            } else {
+	                JOptionPane.showMessageDialog(btnRetirar, "Selecione uma aposta para excluir.");
+	            }
+			}
+		});
+		btnRetirar.setBackground(UIManager.getColor("CheckBox.focus"));
+		btnRetirar.setForeground(new Color(0, 0, 128));
+		btnRetirar.setBounds(10, 317, 114, 23);
+		panel.add(btnRetirar);
 	}
 	
 	public void preencherTabela(ArrayList<Aposta> apostas) {
@@ -238,28 +258,38 @@ public class TelaDeBilhete extends JFrame {
         }     
     }
     
-    public void excluirAposta(int id, double odd) {
+    public void retirarAposta(int idAposta, int idBilhete, TelaDeBilhete essaTela, int idUsuario) {
         DaoFactory dao = new DaoFactory();
-        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente se desfazer da aposta de id " + id + " e odd " + odd + " ?");
+        int confirmacao = JOptionPane.showConfirmDialog(this, "Deseja realmente se desfazer da aposta de id " + idAposta + " do bilhete de id " + idBilhete + " ?");
         if (confirmacao == JOptionPane.YES_OPTION) {
-            if(dao.criarApostaDaoJDBC().deleteById(id)) { 
-            	JOptionPane.showMessageDialog(this, "aposta excluída com sucesso!");
-            	removerLinhaTabela(id);
-            }
-        }
+        	dao.criarBilheteDaoJDBC().removerDoBilhete(idAposta, idBilhete);
+        	if(dao.criarBilheteDaoJDBC().bilheteNaoTemApostas(idBilhete)){
+        		dao.criarBilheteDaoJDBC().removerBilhete(idBilhete);
+        	}
+        	JOptionPane.showMessageDialog(this, "aposta retirada do bilhete com sucesso!");
+        	removerLinhaTabela(idAposta, idUsuario, essaTela);
+        }     
         else {
-        	JOptionPane.showMessageDialog(this, "Erro ao excluir a aposta.");
+        	JOptionPane.showMessageDialog(this, "Erro ao retirar a aposta.");
         }
     }
     
-    public void removerLinhaTabela(int id) {
+    public void removerLinhaTabela(int idAposta, int idUsuario, TelaDeBilhete essaTela) {
         for (int i = 0; i < table.getRowCount(); i++) {
-            if ((int)table.getValueAt(i, 0) == id) {
+            if ((int)table.getValueAt(i, 0) == idAposta) {
                 tableModel.removeRow(i);
                 break;
             }
         }
+        if(table.getRowCount() < 1) {
+        	JOptionPane.showMessageDialog(this, "Não existem mais apostas no bilhete! Voltando ao Menu Principal!");
+        	essaTela.setVisible(false);
+    		TelaPrincipalUsuario user = new TelaPrincipalUsuario(idUsuario);
+    		user.setVisible(true);
+    		user.atualizarTabela();
+        }
     }
+    
 
     //atualizar somente as que estão no bilhete pendente relacionado ao id de usuario
 	public void atualizarTabela(int idUsuario, JButton botao) {

@@ -155,8 +155,8 @@ public class ApostaDaoJDBC {
 		return false;
 	}
 	
+	//Daqui para baixo não sei se deveria estar nessa classe ou numa ApostaBilheteDaoJDBC, já que são operações pra tabela que lhes conecta
 	public ArrayList<Aposta> findApostasByBilheteId(int idBilhete) {
-		System.out.println("entrou! 3");
         ArrayList<Aposta> apostas = new ArrayList<Aposta>();
         String sql = "SELECT Aposta.* FROM Aposta " +
                      "JOIN Bilhete_Aposta ON Aposta.id = Bilhete_Aposta.idAposta " +

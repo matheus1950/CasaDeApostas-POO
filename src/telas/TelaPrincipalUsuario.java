@@ -164,12 +164,17 @@ public class TelaPrincipalUsuario extends JFrame {
         btnBilhete.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		DaoFactory dao = new DaoFactory();
-				//pegando as apostas do bilhete pendente do usuário
-				if(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario) != -1) {												
-					essaTela.setVisible(false);
-					TelaDeBilhete bilhete = new TelaDeBilhete(idUsuario);
-					bilhete.setVisible(true);					
-					bilhete.atualizarTabela(idUsuario, btnBilhete);
+				//verificando se o usuário tem bilhete com "efetuado" pendente e, se passar, verificando se o mesmo bilhete tem apostas associadas
+				if(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario) != -1) {
+					if(dao.criarBilheteDaoJDBC().bilheteNaoTemApostas(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario)) == false) {
+						TelaDeBilhete bilhete = new TelaDeBilhete(idUsuario);					
+						essaTela.setVisible(false);					
+						bilhete.setVisible(true);					
+						bilhete.atualizarTabela(idUsuario, btnBilhete);	
+					}
+					else {
+						JOptionPane.showMessageDialog(btnBilhete, "Usuário não tem bilhete pendente! adicione apostas!");
+					}
 				}
 				else {
 					JOptionPane.showMessageDialog(btnBilhete, "Usuário não tem bilhete pendente! adicione apostas!");

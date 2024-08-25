@@ -15,7 +15,7 @@ import entidades.Usuario;
 public class BilheteDaoJDBC implements BilheteDao{
 	private Connection conn = DB.getConnection();
 	
-	@Override
+	@Override //retorna o id de bilhete
 	public int usuarioTemBilhetePendente(int idUsuario) {
 		String sql = "SELECT * FROM bilhete WHERE iddeusuario = ?";
 		
@@ -79,18 +79,6 @@ public class BilheteDaoJDBC implements BilheteDao{
 		}
 	}
 	
-	public void inserirApostaNoBilheteById(int idBilhete, int idAposta) {
-	    String sql = "INSERT INTO bilhete_aposta (idbilhete, idaposta) VALUES (?, ?)";
-	    
-	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setInt(1, idBilhete);
-	        ps.setInt(2, idAposta);	        
-	        ps.executeUpdate();	        
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-	}
-	
 	public boolean apostar(Bilhete bilhete) {
 		String sql = "UPDATE bilhete SET efetuado = ?, datadecriacao = ?, valor = ?, oddTotal = ?, retorno = ? WHERE id = ?";
 		
@@ -111,6 +99,72 @@ public class BilheteDaoJDBC implements BilheteDao{
 			e.printStackTrace();
 		}
 		return false;
+	}
+	
+	//Aqui não sei se deveria estar nessa classe ou numa ApostaBilheteDaoJDBC, já que são operações pra tabela que lhes conecta
+	public void inserirApostaNoBilheteById(int idBilhete, int idAposta) {
+	    String sql = "INSERT INTO bilhete_aposta (idbilhete, idaposta) VALUES (?, ?)";
+	    
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, idBilhete);
+	        ps.setInt(2, idAposta);	        
+	        ps.executeUpdate();	        
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	}
+		
+	public void removerDoBilhete(int idAposta, int idBilhete) {		
+			String sql = "DELETE FROM bilhete_aposta WHERE idaposta = ? AND idbilhete = ?";
+					
+			try(PreparedStatement ps = conn.prepareStatement(sql)){
+				ps.setInt(1, idAposta);
+				ps.setInt(2, idBilhete);
+				ps.executeUpdate();
+				System.out.println("Aposta retirada do bilhete com sucesso!");
+				ps.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public boolean bilheteNaoTemApostas(int idBilhete) {
+		String sql = "SELECT COUNT(idAposta) AS NumeroDeApostas FROM bilhete_aposta WHERE idbilhete = ?";
+		int qtd = 0;
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setInt(1, idBilhete);
+			//ps.executeUpdate();
+			System.out.println("Contagem de apostas no bilhete realizada!");
+			try(ResultSet rs = ps.executeQuery()){
+				if(rs.next()) {
+					qtd = rs.getInt("numerodeapostas");
+				}
+			}			
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}
+		
+		if(qtd <= 0) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	
+	public void removerBilhete(int idBilhete) {
+		String sql = "DELETE FROM bilhete WHERE id = ?";
+		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setInt(1, idBilhete);
+			ps.executeUpdate();
+			System.out.println("Bilhete removido por não conter apostas!");		
+		}
+		catch(SQLException e){
+			e.printStackTrace();
+		}	
 	}
 
 }
