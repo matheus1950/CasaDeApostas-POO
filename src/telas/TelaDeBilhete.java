@@ -210,7 +210,7 @@ public class TelaDeBilhete extends JFrame {
 						}
 					}
 					else {
-						JOptionPane.showMessageDialog(btnApostar, "Não insira vírgulas(,) nos números decimais, utilize pontos(.)!. Exemplo correto: 10.10");
+						JOptionPane.showMessageDialog(btnApostar, "Não insira vírgula(,) nos números decimais, utilize ponto(.)!. \nExemplo: 10.15");
 					}
 				}
 				else {
