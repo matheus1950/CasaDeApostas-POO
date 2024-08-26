@@ -17,6 +17,8 @@ import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
 import entidades.Evento;
+import entidades.Usuario;
+
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
@@ -200,6 +202,25 @@ public class TelaPrincipalUsuario extends JFrame {
         btnHistoricoDeAposta.setBackground(UIManager.getColor("CheckBox.focus"));
         btnHistoricoDeAposta.setBounds(10, 61, 114, 23);
         panel.add(btnHistoricoDeAposta);
+        
+        JTextArea campoSaldo = new JTextArea();
+        campoSaldo.setForeground(new Color(0, 255, 255));
+        campoSaldo.setBackground(new Color(0, 64, 0));
+        campoSaldo.setBounds(195, 41, 124, 22);
+        panel.add(campoSaldo);
+        campoSaldo.setText("Saldo = R$" + saldoUsuario(idUsuario));
+        
+        JButton btnDepositar = new JButton("Depositar");
+        btnDepositar.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		essaTela.setVisible(false);
+        		new TelaDeDeposito(idUsuario).setVisible(true);;
+        	}
+        });
+        btnDepositar.setForeground(new Color(0, 0, 128));
+        btnDepositar.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnDepositar.setBounds(349, 42, 79, 23);
+        panel.add(btnDepositar);;
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }
     
@@ -221,5 +242,10 @@ public class TelaPrincipalUsuario extends JFrame {
         
         ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
         preencherTabela(todosEventos);
+    }
+    
+    public double saldoUsuario(int idUsuario) {
+    	DaoFactory dao = new DaoFactory();
+    	return dao.criarUsuarioDaoJDBC().findUsuarioById(idUsuario).getCarteira();
     }
 }

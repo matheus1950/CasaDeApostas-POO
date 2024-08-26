@@ -52,7 +52,7 @@ public class Login extends JFrame {
 	public Login() {
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 360, 236);
+		setBounds(100, 100, 382, 379);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 64, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -120,14 +120,14 @@ public class Login extends JFrame {
 				
 			}
 		});
-		btnLogar.setBounds(64, 145, 59, 23);
+		btnLogar.setBounds(78, 261, 59, 23);
 		btnLogar.setForeground(new Color(0, 0, 128));
 		btnLogar.setBackground(UIManager.getColor("CheckBox.focus"));
 		contentPane.add(btnLogar);
 		
 		txtEmail = new JTextField();
 		txtEmail.setBackground(new Color(64, 128, 128));
-		txtEmail.setBounds(54, 64, 86, 20);
+		txtEmail.setBounds(51, 109, 86, 20);
 		txtEmail.setText("Email");
 		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEmail.setEditable(false);
@@ -135,13 +135,13 @@ public class Login extends JFrame {
 		contentPane.add(txtEmail);
 		
 		campoEmail = new JTextField();
-		campoEmail.setBounds(150, 64, 86, 20);
+		campoEmail.setBounds(203, 109, 86, 20);
 		campoEmail.setColumns(10);
 		contentPane.add(campoEmail);
 		
 		txtSenha = new JTextField();
 		txtSenha.setBackground(new Color(64, 128, 128));
-		txtSenha.setBounds(54, 95, 86, 20);
+		txtSenha.setBounds(51, 191, 86, 20);
 		txtSenha.setText("Senha");
 		txtSenha.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSenha.setEditable(false);
@@ -149,7 +149,7 @@ public class Login extends JFrame {
 		contentPane.add(txtSenha);
 		
 		campoSenha = new JPasswordField();
-		campoSenha.setBounds(150, 95, 86, 20);
+		campoSenha.setBounds(203, 191, 86, 20);
 		contentPane.add(campoSenha);
 		
 		btnVoltar = new JButton("Voltar");
@@ -167,7 +167,7 @@ public class Login extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(165, 145, 71, 23);
+		btnVoltar.setBounds(203, 261, 71, 23);
 		contentPane.add(btnVoltar);
 	}
 }

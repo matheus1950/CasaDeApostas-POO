@@ -46,9 +46,11 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 	        Usuario usuario = new Usuario();
 	        try (ResultSet rs = ps.executeQuery()) {
 	        	while(rs.next()) {
+	        		usuario.setId(rs.getInt("id"));
 		        	usuario.setSenha(rs.getString("senha"));
 		        	usuario.setNome(rs.getString("nome"));  
 		            usuario.setCpf(rs.getInt("cpf"));
+		            usuario.setCarteira(rs.getDouble("carteira"));
 		            usuario.setEmail(rs.getString("email"));
 		            return usuario;   
 	        	}         
@@ -128,8 +130,7 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		return (Integer) null; //não sei outra coisa para colocar aqui
 	}
 	
-	
-	
+		
 	//tive um problema para excluir por id enquanto havia a tabela "aposta"(violação da chave estrangeira),
 	//fiz drop table pra testar, depois ver como deletar com a tabela aposta no lugar! 
 	@Override
@@ -189,8 +190,24 @@ public class UsuarioDaoJDBC implements UsuarioDao{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return false;		
+	}
+	
+	public boolean editarCarteira(int idUsuario, double adicional) {
+		String sql = "UPDATE usuario SET carteira = ? WHERE id = ?";
+		double saldoAtual = 0;		
 		
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setDouble(1, (findUsuarioById(idUsuario).getCarteira() + adicional));
+			ps.setInt(2, idUsuario);
+			ps.executeUpdate();
+			System.out.println("Carteira de usuário atualizada com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;		
 	}
 	
 	
