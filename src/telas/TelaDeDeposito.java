@@ -140,7 +140,7 @@ public class TelaDeDeposito extends JFrame {
 		});
 		btnDepositar.setForeground(new Color(0, 0, 128));
 		btnDepositar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnDepositar.setBounds(152, 474, 81, 23);
+		btnDepositar.setBounds(152, 474, 95, 23);
 		panel.add(btnDepositar);
 	}
 	

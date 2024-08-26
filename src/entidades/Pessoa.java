@@ -2,6 +2,7 @@ package entidades;
 
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Pessoa {
 
@@ -60,8 +61,8 @@ public class Pessoa {
 	public Date getDataNascimento() {
 		return dataNascimento;
 	}
-	public void setDataNascimento(Date dataNascimento) {
-		this.dataNascimento = dataNascimento;
+	public void setDataNascimento(Date dataNascimentoSQL) {
+		this.dataNascimento = dataNascimentoSQL;
 	}
 
 	@Override

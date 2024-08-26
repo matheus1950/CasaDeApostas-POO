@@ -25,6 +25,12 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
@@ -56,6 +62,8 @@ public class CadastroDeUsuario extends JFrame {
 	private JTextField txtTipoDaConta;
 	private JTextField campoCodigoAdm;
 	private JTextField txtCodigoAdm;
+	
+	DateTimeFormatter formatoBrasileiro = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
 	/**
 	 * Launch the application.
@@ -220,13 +228,41 @@ public class CadastroDeUsuario extends JFrame {
 				}
 				
 				//verificação data de nascimento
-				if(!campoDataDeNascimento.getText().equals("")) {
-					pessoa.setDataNascimento(Date.valueOf(campoDataDeNascimento.getText()));
-					//JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento: " + pessoa.getDataNascimento());
-				}
-				else {
-					JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento não digitada!");
-					return;
+				if (!campoDataDeNascimento.getText().equals("")) {
+				    try {
+				        // Converte a string para java.util.Date
+				        LocalDate dataNascimentoLocal = LocalDate.parse(campoDataDeNascimento.getText(), formatoBrasileiro);
+				        
+				        // Converte java.util.Date para java.sql.Date
+				        java.sql.Date dataNascimentoSQL = java.sql.Date.valueOf(dataNascimentoLocal);
+				        
+				        // Define a data na entidade 'Pessoa'
+				        pessoa.setDataNascimento(dataNascimentoSQL);
+
+				        // Verifica se a pessoa tem mais de 18 anos				        		  		       
+				        int idade = Period.between(dataNascimentoLocal, LocalDate.now()).getYears();  // Calcula a idade				        
+				        
+				        if(idade < 18) {
+				        	 JOptionPane.showMessageDialog(btnCadastrar, "Você deve ter pelo menos 18 anos!");
+					         return;
+				        }				        
+				        else{
+				        	if(idade < 112) {
+				        		JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento: " + pessoa.getDataNascimento());
+				        	}
+				        	else {
+					            JOptionPane.showMessageDialog(btnCadastrar, "Idade inadequada!\n(Segundo o Guiness World Records, a pessoa mais velha do mundo possui 112 anos!)");
+					            return;
+				        	}
+				        }			        
+				    } catch (DateTimeParseException e1) {
+				        e1.printStackTrace();				        				       
+				        JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento inválida!\n" + e1.getMessage() + "\nUtilize o formato dd/MM/yyyy");
+				        return;
+				    }
+				} else {
+				    JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento não digitada!\nUtilize o formato dd/MM/yyyy");
+				    return;
 				}
 				
 				//verificação email

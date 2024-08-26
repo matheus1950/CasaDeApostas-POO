@@ -91,7 +91,7 @@ public class TelaDeBilhete extends JFrame {
 		txtrBilhete.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtrBilhete.setEditable(false);
 		txtrBilhete.setBackground(new Color(0, 64, 0));
-		txtrBilhete.setBounds(162, 5, 121, 42);
+		txtrBilhete.setBounds(162, 5, 121, 32);
 		panel.add(txtrBilhete);
 		
 		JButton btnLogout = new JButton("Logout");
@@ -191,7 +191,7 @@ public class TelaDeBilhete extends JFrame {
 				if(!campoValor.getText().equals("")) {
 					if(!campoValor.getText().contains(",")) {
 						Double retorno = Double.parseDouble(campoOdd.getText()) * Double.parseDouble(campoValor.getText());				
-						campoRetorno.setText("" + retorno);
+						campoRetorno.setText(String.format("%.2f", retorno));
 						int option = JOptionPane.showConfirmDialog(btnApostar, "Deseja realmente fazer a aposta?");
 						
 						if(option == JOptionPane.YES_OPTION) {				
@@ -239,13 +239,21 @@ public class TelaDeBilhete extends JFrame {
 		});
 		btnRetirar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnRetirar.setForeground(new Color(0, 0, 128));
-		btnRetirar.setBounds(10, 453, 114, 23);
+		btnRetirar.setBounds(10, 453, 130, 23);
 		panel.add(btnRetirar);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
 		separator_1.setBounds(565, 58, 9, 432);
 		panel.add(separator_1);
+		
+		JTextArea campoSaldo = new JTextArea();
+		campoSaldo.setText("Saldo = R$0.0");
+		campoSaldo.setForeground(Color.CYAN);
+		campoSaldo.setBackground(new Color(0, 64, 0));
+		campoSaldo.setBounds(162, 37, 124, 22);
+		panel.add(campoSaldo);
+		campoSaldo.setText("Saldo = R$" + saldoUsuario(idUsuario));
 	}
 	
 	public void preencherTabela(ArrayList<Aposta> apostas) {
@@ -334,5 +342,11 @@ public class TelaDeBilhete extends JFrame {
 		bilhete.setRetorno();
 		bilhete.setDataDeCriacao();
 		dao.criarBilheteDaoJDBC().apostar(bilhete);
+		dao.criarPessoaDaoJDBC().editarCarteira(idUsuario, -valor);
 	}
+	
+	public double saldoUsuario(int idUsuario) {
+    	DaoFactory dao = new DaoFactory();
+    	return dao.criarPessoaDaoJDBC().findUsuarioById(idUsuario).getCarteira();
+    }
 }

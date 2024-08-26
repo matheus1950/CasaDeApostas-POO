@@ -3,7 +3,6 @@ Pendências:
 3 - Botão de visualizar bilhete na tela de histórico!
 4 - Solucionar a questão de botões incompletos - redimensionar as telas?
 5 - Solcuionar a questão da descrição incompleta nas tabelas - botão para o usuário visualiza-la?
-6 - Relacionar a carteira do usuário com as apostas
 7 - Pensar numa maneira de encerrar a aposta e o dinheiro cair na conta do usuário - administrador faz manualmente ou data final?
 8 - CPF em Pessoa é int e não suporta o tamanho de um CPF!
-9 - Tratar erro ao inserir data num formato não permitido no cadastro(2022-02-01)
+9 - Tratamento de datas - falta ano bissexto, dia 30 do mês de fevereiro e etc

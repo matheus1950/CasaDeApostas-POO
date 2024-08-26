@@ -219,7 +219,7 @@ public class TelaPrincipalUsuario extends JFrame {
         });
         btnDepositar.setForeground(new Color(0, 0, 128));
         btnDepositar.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnDepositar.setBounds(349, 42, 79, 23);
+        btnDepositar.setBounds(349, 42, 89, 23);
         panel.add(btnDepositar);;
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
     }

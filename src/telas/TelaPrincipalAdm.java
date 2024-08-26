@@ -63,7 +63,7 @@ public class TelaPrincipalAdm extends JFrame {
     	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 790, 493);
+        setBounds(100, 100, 858, 493);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,7 +73,7 @@ public class TelaPrincipalAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(21, 11, 743, 425);
+        panel.setBounds(21, 11, 809, 425);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -88,7 +88,7 @@ public class TelaPrincipalAdm extends JFrame {
         
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 599, 330);
+        scrollPane.setBounds(10, 58, 641, 330);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -123,7 +123,7 @@ public class TelaPrincipalAdm extends JFrame {
         JButton btnExcluir = new JButton("Excluir Evento");
         btnExcluir.setForeground(new Color(0, 0, 128));
         btnExcluir.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnExcluir.setBounds(619, 115, 114, 23);
+        btnExcluir.setBounds(658, 116, 139, 23);
         btnExcluir.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
@@ -140,7 +140,7 @@ public class TelaPrincipalAdm extends JFrame {
         JButton btnVisualizarEvento = new JButton("Visualizar Evento");
         btnVisualizarEvento.setForeground(new Color(0, 0, 128));
         btnVisualizarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnVisualizarEvento.setBounds(619, 178, 114, 23);
+        btnVisualizarEvento.setBounds(658, 179, 139, 23);
         btnVisualizarEvento.addActionListener(e -> {
         		int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
@@ -174,7 +174,7 @@ public class TelaPrincipalAdm extends JFrame {
         });
         txtEditarEvento.setForeground(new Color(0, 0, 128));
         txtEditarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        txtEditarEvento.setBounds(619, 241, 114, 23);
+        txtEditarEvento.setBounds(658, 247, 139, 23);
         panel.add(txtEditarEvento);
         
         
@@ -188,7 +188,7 @@ public class TelaPrincipalAdm extends JFrame {
         });
         btnInserirEvento.setForeground(new Color(0, 0, 128));
         btnInserirEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnInserirEvento.setBounds(619, 298, 114, 23);
+        btnInserirEvento.setBounds(658, 300, 139, 23);
         panel.add(btnInserirEvento);
         
         JButton btnLogout = new JButton("Logout");
@@ -206,7 +206,7 @@ public class TelaPrincipalAdm extends JFrame {
         });
         btnLogout.setForeground(new Color(255, 0, 0));
         btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnLogout.setBounds(619, 18, 114, 23);
+        btnLogout.setBounds(683, 15, 114, 23);
         panel.add(btnLogout);
         
         JButton btnMinhaConta = new JButton("Minha conta");
@@ -219,7 +219,7 @@ public class TelaPrincipalAdm extends JFrame {
         });
         btnMinhaConta.setForeground(new Color(0, 0, 128));
         btnMinhaConta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnMinhaConta.setBounds(10, 18, 91, 23);
+        btnMinhaConta.setBounds(10, 18, 114, 23);
         panel.add(btnMinhaConta);
     }
     
