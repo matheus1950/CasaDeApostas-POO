@@ -246,6 +246,6 @@ public class TelaPrincipalUsuario extends JFrame {
     
     public double saldoUsuario(int idUsuario) {
     	DaoFactory dao = new DaoFactory();
-    	return dao.criarUsuarioDaoJDBC().findUsuarioById(idUsuario).getCarteira();
+    	return dao.criarPessoaDaoJDBC().findUsuarioById(idUsuario).getCarteira();
     }
 }

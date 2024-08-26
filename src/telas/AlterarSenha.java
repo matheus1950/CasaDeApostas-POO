@@ -189,7 +189,7 @@ public class AlterarSenha extends JFrame {
 		else {
 			if(campoSenhaAtual.getText().equals(senhaAntiga)) {
 				if(campoNovaSenha.getText().equals(campoConfirmar.getText())) {
-					dao.criarUsuarioDaoJDBC().editarSenha(id, campoConfirmar.getText());
+					dao.criarPessoaDaoJDBC().editarSenha(id, campoConfirmar.getText());
 					JOptionPane.showMessageDialog(botao, "Senha atualizada com sucesso!");
 				}
 				else {

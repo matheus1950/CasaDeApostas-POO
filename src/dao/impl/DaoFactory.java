@@ -2,8 +2,8 @@ package dao.impl;
 
 public class DaoFactory{
 	
-	public static UsuarioDaoJDBC criarUsuarioDaoJDBC() {
-		return new UsuarioDaoJDBC();
+	public static PessoaDaoJDBC criarPessoaDaoJDBC() {
+		return new PessoaDaoJDBC();
 	}
 	
 	public static ApostaDaoJDBC criarApostaDaoJDBC() {
@@ -16,6 +16,10 @@ public class DaoFactory{
 	
 	public static BilheteDaoJDBC criarBilheteDaoJDBC() {
 		return new BilheteDaoJDBC();
+	}
+	
+	public static  CodigoDeCadastroAdmDaoJDBC criarCodigoDeCadastroAdmDaoJDBC() {
+		return new CodigoDeCadastroAdmDaoJDBC();
 	}
 }
 

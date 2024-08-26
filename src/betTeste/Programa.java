@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import dao.impl.DaoFactory;
 import dao.impl.PovoamentoDaoJDBC;
-import dao.impl.UsuarioDaoJDBC;
 import db.DB;
 import entidades.Usuario;
 
@@ -13,12 +12,9 @@ public class Programa {
 	
 		public static void main(String[] args){
 			Date nascimento = Date.valueOf("1985-02-01");
-			Usuario user = new Usuario(1, "Ronaldo", "Ronaldo@fenomeno", "123", 0.0, 9, 22892332, nascimento);
-			Usuario user2 = new Usuario(7, "Ronaldo2", "Ronaldo2@fenomeno", "1234", 0.0, 92, 222, nascimento);
 			//UsuarioDaoJDBC banco = new UsuarioDaoJDBC(); - método de fazer sem a classe DaoFactory, podemos tirar qualquer coisa
 			DaoFactory dao = new DaoFactory();
-			
-			System.out.println(user);
+				
 			
 			//teste de conexão
 			DB.getConnection();

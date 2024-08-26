@@ -113,7 +113,7 @@ public class MinhaConta extends JFrame {
 		//Coletando informações de usuário pelo id
 		DaoFactory dao = new DaoFactory();
 		
-		Usuario usuario = dao.criarUsuarioDaoJDBC().findUsuarioById(idUsuario);
+		Usuario usuario = dao.criarPessoaDaoJDBC().findUsuarioById(idUsuario);
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
@@ -174,7 +174,7 @@ public class MinhaConta extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
         		if(option == JOptionPane.YES_OPTION) {
-        			if(dao.criarUsuarioDaoJDBC().findPermissaoById(idUsuario) == true) {
+        			if(dao.criarPessoaDaoJDBC().findPermissaoById(idUsuario) == true) {
 		        		essaTela.setVisible(false);
 		        		TelaPrincipalAdm adm = new TelaPrincipalAdm(idUsuario);
 		        		adm.setVisible(true);
@@ -239,10 +239,10 @@ public class MinhaConta extends JFrame {
 		}
 		else {
 			if(!campoNome.getText().equals("")) {
-				dao.criarUsuarioDaoJDBC().editarNome(id, campoNome.getText());
+				dao.criarPessoaDaoJDBC().editarNome(id, campoNome.getText());
 			}
 			if(!campoEmail.getText().equals("")) {
-				dao.criarUsuarioDaoJDBC().editarEmail(id, campoEmail.getText());
+				dao.criarPessoaDaoJDBC().editarEmail(id, campoEmail.getText());
 			}
 		}
 	}

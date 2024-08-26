@@ -8,7 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
+import entidades.Administrador;
+import entidades.Pessoa;
 import entidades.Usuario;
+
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import javax.swing.JTextArea;
 import java.awt.Color;
@@ -20,7 +25,6 @@ import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.Random;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
@@ -28,6 +32,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 
 public class CadastroDeUsuario extends JFrame {
 
@@ -46,6 +53,9 @@ public class CadastroDeUsuario extends JFrame {
 	private JTextField txtCPF;
 	private JTextField campoDataDeNascimento;
 	private JButton btnVoltar;
+	private JTextField txtTipoDaConta;
+	private JTextField campoCodigoAdm;
+	private JTextField txtCodigoAdm;
 
 	/**
 	 * Launch the application.
@@ -67,9 +77,10 @@ public class CadastroDeUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public CadastroDeUsuario() {
+		CadastroDeUsuario essaTela = this;
 		setTitle("cadastro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 384, 381);
+		setBounds(100, 100, 403, 475);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 128, 128));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -78,7 +89,7 @@ public class CadastroDeUsuario extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 318, 309);
+		panel.setBounds(10, 11, 352, 413);
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.setBackground(new Color(0, 64, 0));
 		contentPane.add(panel);
@@ -92,6 +103,20 @@ public class CadastroDeUsuario extends JFrame {
 		txtCadastrar.setEditable(false);
 		txtCadastrar.setBackground(new Color(0, 64, 0));
 		panel.add(txtCadastrar);
+		
+		campoCodigoAdm = new JTextField();
+		campoCodigoAdm.setBounds(161, 310, 102, 20);
+		panel.add(campoCodigoAdm);
+		campoCodigoAdm.setColumns(10);
+		
+		txtCodigoAdm = new JTextField();
+		txtCodigoAdm.setText("Código ADM");
+		txtCodigoAdm.setHorizontalAlignment(SwingConstants.CENTER);
+		txtCodigoAdm.setEditable(false);
+		txtCodigoAdm.setColumns(10);
+		txtCodigoAdm.setBackground(new Color(0, 128, 128));
+		txtCodigoAdm.setBounds(47, 310, 102, 20);
+		panel.add(txtCodigoAdm);
 		
 		txtDataNascimento = new JTextField();
 		txtDataNascimento.setBounds(47, 112, 116, 20);
@@ -129,22 +154,55 @@ public class CadastroDeUsuario extends JFrame {
 		txtEmail.setBackground(new Color(0, 128, 128));
 		panel.add(txtEmail);
 		
+		DefaultListModel<String> listModel = new DefaultListModel<>();
+        listModel.addElement("Apostador");
+        listModel.addElement("Administrador");
+		
+		JList<String> list = new JList<String>(listModel);
+        campoCodigoAdm.setVisible(false); // Inicialmente invisível
+        txtCodigoAdm.setVisible(false); //começa invisível
+
+	        // Adiciona um ListSelectionListener à JList
+	        list.addListSelectionListener(new ListSelectionListener() {
+	            @Override
+	            public void valueChanged(ListSelectionEvent e) {
+	                // Obtém o valor selecionado
+	                String selectedValue = list.getSelectedValue();
+
+	                // Mostra ou oculta o campo com base na seleção
+	                if ("Administrador".equals(selectedValue)) {
+	                    campoCodigoAdm.setVisible(true); // Torna o campo visível
+	                    txtCodigoAdm.setVisible(true);
+	                } else {
+	                    campoCodigoAdm.setVisible(false); // Torna o campo invisível
+	                    txtCodigoAdm.setVisible(false);
+	                }
+
+	                // Revalida o frame para aplicar as mudanças de visibilidade
+	                essaTela.revalidate();
+	                essaTela.repaint();
+	            }
+	        });
+		list.setBackground(Color.WHITE);
+		list.setForeground(new Color(0, 0, 0));
+		list.setBounds(161, 243, 102, 42);
+		panel.add(list);
+		
 		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(47, 275, 81, 23);
+		btnCadastrar.setBounds(47, 359, 102, 23);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuario usuario = new Usuario();
+				Pessoa pessoa = new Pessoa();
 				DaoFactory dao = new DaoFactory();
-				Random idContrato = new Random();
-				
+								
 				//verificação senha
 				if(campoSenha.getText().isEmpty()) {
 					JOptionPane.showMessageDialog(btnCadastrar, "Senha não digitada!"); //obviamente tirar essa linha depois
 					return; //para interromper a ação
 				}
 				else if(campoSenha.getText().equals(campoConfirmarSenha.getText())) {
-					usuario.setSenha(campoSenha.getText());
-					JOptionPane.showMessageDialog(btnCadastrar, "Senha: " + usuario.getSenha()); //obviamente tirar essa linha depois
+					pessoa.setSenha(campoSenha.getText());
+					JOptionPane.showMessageDialog(btnCadastrar, "Senha: " + pessoa.getSenha()); //obviamente tirar essa linha depois
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Senhas não correspondem!");
@@ -153,8 +211,8 @@ public class CadastroDeUsuario extends JFrame {
 				
 				//verificação nome
 				if(!campoNome.getText().equals("")) {
-					usuario.setNome(campoNome.getText());
-					JOptionPane.showMessageDialog(btnCadastrar, "Nome: " + usuario.getNome());
+					pessoa.setNome(campoNome.getText());
+					JOptionPane.showMessageDialog(btnCadastrar, "Nome: " + pessoa.getNome());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Nome não inserido!");
@@ -163,8 +221,8 @@ public class CadastroDeUsuario extends JFrame {
 				
 				//verificação data de nascimento
 				if(!campoDataDeNascimento.getText().equals("")) {
-					usuario.setDataNascimento(Date.valueOf(campoDataDeNascimento.getText()));
-					JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento: " + usuario.getDataNascimento());
+					pessoa.setDataNascimento(Date.valueOf(campoDataDeNascimento.getText()));
+					JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento: " + pessoa.getDataNascimento());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento não digitada!");
@@ -173,8 +231,8 @@ public class CadastroDeUsuario extends JFrame {
 				
 				//verificação email
 				if(!campoEmail.getText().equals("")) {
-					usuario.setEmail(campoEmail.getText());
-					JOptionPane.showMessageDialog(btnCadastrar, "Email: " + usuario.getEmail());
+					pessoa.setEmail(campoEmail.getText());
+					JOptionPane.showMessageDialog(btnCadastrar, "Email: " + pessoa.getEmail());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Email não digitado!");
@@ -183,24 +241,39 @@ public class CadastroDeUsuario extends JFrame {
 				
 				//verificação cpf - faltam melhorias
 				if(!campoCPF.getText().equals("")) {
-					usuario.setCpf(Integer.parseInt(campoCPF.getText()));
-					JOptionPane.showMessageDialog(btnCadastrar, "CPF: " + usuario.getCpf());
+					pessoa.setCpf(Integer.parseInt(campoCPF.getText()));
+					JOptionPane.showMessageDialog(btnCadastrar, "CPF: " + pessoa.getCpf());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "CPF não digitado!");
 					return;
 				}
 				
-				//passando um inteiro aleatório para o id de contrato!
-				usuario.setIdDeContrato(idContrato.nextInt(Integer.MAX_VALUE)); //intervalo de 0 até o maior inteiro suportado em int
-				JOptionPane.showMessageDialog(btnCadastrar, usuario.getIdDeContrato());
-				
-				//inserindo no banco de dados!
-				try {
-					dao.criarUsuarioDaoJDBC().insert(usuario);
-				} catch (SQLException e1) {
-					e1.printStackTrace();
+				//inserindo no banco de dados um apostador ou adm!
+				if(list.getSelectedValue().equals("Apostador")) {
+					try {
+						Usuario usuario = new Usuario(pessoa);
+						dao.criarPessoaDaoJDBC().insert(pessoa);
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(btnCadastrar, "Erro inesperado! Erro : " + e1.getMessage());
+					}
 				}
+				else {
+					if(dao.criarCodigoDeCadastroAdmDaoJDBC().findCodigoAdmById(Integer.parseInt(campoCodigoAdm.getText()))) {
+						try {
+							Administrador adm = new Administrador(pessoa);
+							dao.criarPessoaDaoJDBC().insertAdm(pessoa);
+						} catch (SQLException e2) {
+							e2.printStackTrace();
+							JOptionPane.showMessageDialog(btnCadastrar, "Erro inesperado! Erro : " + e2.getMessage());
+						}
+					}
+					else {
+						JOptionPane.showMessageDialog(btnCadastrar,"Código de adiministrador digitado é invalido!");
+					}
+				}
+					
 			}
 		});
 		btnCadastrar.setForeground(new Color(0, 0, 128));
@@ -253,7 +326,6 @@ public class CadastroDeUsuario extends JFrame {
 		campoDataDeNascimento.setColumns(10);
 		panel.add(campoDataDeNascimento);
 		
-		CadastroDeUsuario essaTela = this;
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
@@ -270,7 +342,18 @@ public class CadastroDeUsuario extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(194, 275, 81, 23);
+		btnVoltar.setBounds(237, 359, 81, 23);
 		panel.add(btnVoltar);
+		
+		
+		txtTipoDaConta = new JTextField();
+		txtTipoDaConta.setText("Tipo da Conta");
+		txtTipoDaConta.setHorizontalAlignment(SwingConstants.CENTER);
+		txtTipoDaConta.setEditable(false);
+		txtTipoDaConta.setColumns(10);
+		txtTipoDaConta.setBackground(new Color(0, 128, 128));
+		txtTipoDaConta.setBounds(47, 243, 102, 20);
+		panel.add(txtTipoDaConta);
+		
 	}
 }

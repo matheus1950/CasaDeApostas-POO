@@ -1,34 +1,29 @@
 package entidades;
 
+
 import java.sql.Date;
 
-public class Usuario extends Pessoa{
+public class Pessoa {
 
 	private int id;
 	private String nome;
 	private String email;
-	private String senha;
-	private double carteira;
-	private int cpf; //aumentar o int depois? não suporta os 11 digitos do cpf
+	private String senha;	
+	private int cpf; //aumentar o int?
 	private Date dataNascimento;
 	
-	public Usuario(int id, String nome, String email, String senha, double carteira, int cpf,
+	public Pessoa(int id, String nome, String email, String senha, int cpf,
 			Date dataNascimento) {
 		super();
 		this.id = id;
 		this.nome = nome;
 		this.email = email;
-		this.senha = senha;
-		this.carteira = carteira;		
+		this.senha = senha;				
 		this.cpf = cpf;
 		this.dataNascimento = dataNascimento;
 	}
 	
-	public Usuario(Pessoa pessoa) {
-		super();
-	}
-	
-	public Usuario() {
+	public Pessoa() {
 		super();
 	}
 
@@ -56,12 +51,6 @@ public class Usuario extends Pessoa{
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public double getCarteira() {
-		return carteira;
-	}
-	public void setCarteira(double carteira) {
-		this.carteira = carteira;
-	}
 	public int getCpf() {
 		return cpf;
 	}
@@ -77,8 +66,8 @@ public class Usuario extends Pessoa{
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", carteira="
-				+ carteira + ", cpf=" + cpf + ", dataNascimento=" + dataNascimento + "]";
+		return "Pessoa [id=" + id + ", nome=" + nome + ", email=" + email + ", senha=" + senha + ", cpf=" + cpf
+				+ ", dataNascimento=" + dataNascimento + "]";
 	}
 	
 }

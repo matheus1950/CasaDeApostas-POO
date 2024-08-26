@@ -146,12 +146,12 @@ public class TelaDeDeposito extends JFrame {
 	
 	public double saldoUsuario(int idUsuario) {
     	DaoFactory dao = new DaoFactory();
-    	return dao.criarUsuarioDaoJDBC().findUsuarioById(idUsuario).getCarteira();
+    	return dao.criarPessoaDaoJDBC().findUsuarioById(idUsuario).getCarteira();
     }
 	
 	public void depositar(int idUsuario) {
     	DaoFactory dao = new DaoFactory();
-    	dao.criarUsuarioDaoJDBC().editarCarteira(idUsuario, Double.parseDouble(campoValorAdicionado.getText()));
+    	dao.criarPessoaDaoJDBC().editarCarteira(idUsuario, Double.parseDouble(campoValorAdicionado.getText()));
     	campoCarteira.setText("R$" + saldoUsuario(idUsuario));
     }
 }

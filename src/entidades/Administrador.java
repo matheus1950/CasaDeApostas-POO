@@ -3,17 +3,17 @@ package entidades;
 import java.sql.Date;
 import java.util.ArrayList;
 
-public class Administrador extends Usuario{
+public class Administrador extends Pessoa{
 	ArrayList <Evento> eventos = new ArrayList();
 
-	public Administrador() {
+	public Administrador(Pessoa pessoa) {
 		super();
 	}
 	
 	//construtores sem passagem de eventos (somente possível por setEventos);
-	public Administrador(int id, String nome, String email, String senha, double carteira, int idDeContrato, int cpf,
+	public Administrador(int id, String nome, String email, String senha, int cpf,
 			Date dataNascimento) {
-		super(id, nome, email, senha, carteira, idDeContrato, cpf, dataNascimento);
+		super(id, nome, email, senha, cpf, dataNascimento);
 	}
 
 	public ArrayList<Evento> getEventos() {
@@ -22,7 +22,6 @@ public class Administrador extends Usuario{
 
 	public void setEventos(ArrayList<Evento> eventos) {
 		this.eventos = eventos;
-	}
-	
+	}	
 	
 }

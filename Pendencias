@@ -5,3 +5,7 @@ Pendências:
 5 - Solcuionar a questão da descrição incompleta nas tabelas - botão para o usuário visualiza-la?
 6 - Relacionar a carteira do usuário com as apostas
 7 - Pensar numa maneira de encerrar a aposta e o dinheiro cair na conta do usuário - administrador faz manualmente ou data final?
+8 - CPF em Pessoa é int e não suporta o tamanho de um CPF!
+9 - Tratar erro ao inserir data num formato não permitido no cadastro(2022-02-01)
+10 - Verificar CPF - deve ser único
+11 - Não pode ter 2 pessoas com mesmo email no banco

@@ -100,6 +100,9 @@ public class PovoamentoDaoJDBC implements PovoamentoDao{
         
        /* "ALTER TABLE bilhete_aposta\r\n"
         + "ADD CONSTRAINT uc_bilhete_aposta UNIQUE (idbilhete, idaposta); */
+        
+        //Criar tabela codigodecadastroadm
+        String createCodigoDeCadastroAdmTable = "CREATE TABLE codigodecadastroadm (codigodecadastroadm VARCHAR(50))";
     }
 
     //Método para inserir dados na tabela Usuario

@@ -74,50 +74,7 @@ public class Login extends JFrame {
 		JButton btnLogar = new JButton("Logar");
 		btnLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DaoFactory dao = new DaoFactory();
-				
-				//verificacao do campo login - por email
-				
-				if(!campoEmail.getText().equals("")) {
-					
-				}
-				else {
-					JOptionPane.showMessageDialog(btnLogar, "Login não digitado!");
-					return;
-				}
-				
-				//verificacao do campo senha
-				if(!campoSenha.getText().equals("")) {
-					
-				}
-				else {
-					JOptionPane.showMessageDialog(btnLogar, "Senha não digitada!");
-					return;
-				}
-				
-				//verificação da combinação email e senha
-				if(campoSenha.getText().equals(dao.criarUsuarioDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
-					JOptionPane.showMessageDialog(btnLogar, "Logado!");
-					//se o campo permissão for falso -> abrir tela de usuário
-					if(dao.criarUsuarioDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(), campoSenha.getText()) == false) {
-						//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
-						TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario(dao.criarUsuarioDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
-					    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
-					    telaUsuario.setVisible(true);
-					    essaTela.setVisible(false);
-				        telaUsuario.setVisible(true);
-					}//se o campo permissão for verdadeiro -> abrir tela de adm
-					else {
-						TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarUsuarioDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
-				        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
-				        essaTela.setVisible(false);
-				        telaAdm.setVisible(true);
-					}
-				}
-				else {
-					JOptionPane.showMessageDialog(btnLogar, "Combinação incorreta de email e senha!");
-				}
-				
+				logar(essaTela);			
 			}
 		});
 		btnLogar.setBounds(78, 261, 59, 23);
@@ -169,5 +126,52 @@ public class Login extends JFrame {
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnVoltar.setBounds(203, 261, 71, 23);
 		contentPane.add(btnVoltar);
+	}
+	
+	public void logar(Login essaTela) {
+		DaoFactory dao = new DaoFactory();
+		
+		//verificacao do campo login - por email	
+		if(!campoEmail.getText().equals("")) {
+			
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Login não digitado!");
+			return;
+		}
+		
+		//verificacao do campo senha
+		if(!campoSenha.getText().equals("")) {
+			
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Senha não digitada!");
+			return;
+		}
+		
+		//verificação da combinação email e senha
+		if(campoSenha.getText().equals(dao.criarPessoaDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
+			JOptionPane.showMessageDialog(this, "Logado!");
+			//se o campo permissão for falso -> abrir tela de usuário
+			if(dao.criarPessoaDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(), campoSenha.getText()) == false) {
+				//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
+				TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario(dao.criarPessoaDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
+				
+			    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
+			    telaUsuario.setVisible(true);
+			    essaTela.setVisible(false);
+		        telaUsuario.setVisible(true);
+			}//se o campo permissão for verdadeiro -> abrir tela de adm
+			else {
+				TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarPessoaDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
+				
+		        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
+		        essaTela.setVisible(false);
+		        telaAdm.setVisible(true);
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Combinação incorreta de email e senha!");
+		}
 	}
 }
