@@ -197,12 +197,12 @@ public class CadastroDeUsuario extends JFrame {
 								
 				//verificação senha
 				if(campoSenha.getText().isEmpty()) {
-					JOptionPane.showMessageDialog(btnCadastrar, "Senha não digitada!"); //obviamente tirar essa linha depois
+					//JOptionPane.showMessageDialog(btnCadastrar, "Senha não digitada!"); //obviamente tirar essa linha depois
 					return; //para interromper a ação
 				}
 				else if(campoSenha.getText().equals(campoConfirmarSenha.getText())) {
 					pessoa.setSenha(campoSenha.getText());
-					JOptionPane.showMessageDialog(btnCadastrar, "Senha: " + pessoa.getSenha()); //obviamente tirar essa linha depois
+					//JOptionPane.showMessageDialog(btnCadastrar, "Senha: " + pessoa.getSenha()); //obviamente tirar essa linha depois
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Senhas não correspondem!");
@@ -212,7 +212,7 @@ public class CadastroDeUsuario extends JFrame {
 				//verificação nome
 				if(!campoNome.getText().equals("")) {
 					pessoa.setNome(campoNome.getText());
-					JOptionPane.showMessageDialog(btnCadastrar, "Nome: " + pessoa.getNome());
+					///JOptionPane.showMessageDialog(btnCadastrar, "Nome: " + pessoa.getNome());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Nome não inserido!");
@@ -222,7 +222,7 @@ public class CadastroDeUsuario extends JFrame {
 				//verificação data de nascimento
 				if(!campoDataDeNascimento.getText().equals("")) {
 					pessoa.setDataNascimento(Date.valueOf(campoDataDeNascimento.getText()));
-					JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento: " + pessoa.getDataNascimento());
+					//JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento: " + pessoa.getDataNascimento());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Data de nascimento não digitada!");
@@ -232,7 +232,7 @@ public class CadastroDeUsuario extends JFrame {
 				//verificação email
 				if(!campoEmail.getText().equals("")) {
 					pessoa.setEmail(campoEmail.getText());
-					JOptionPane.showMessageDialog(btnCadastrar, "Email: " + pessoa.getEmail());
+					//JOptionPane.showMessageDialog(btnCadastrar, "Email: " + pessoa.getEmail());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Email não digitado!");
@@ -242,15 +242,15 @@ public class CadastroDeUsuario extends JFrame {
 				//verificação cpf - faltam melhorias
 				if(!campoCPF.getText().equals("")) {
 					pessoa.setCpf(Integer.parseInt(campoCPF.getText()));
-					JOptionPane.showMessageDialog(btnCadastrar, "CPF: " + pessoa.getCpf());
+					//JOptionPane.showMessageDialog(btnCadastrar, "CPF: " + pessoa.getCpf());
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "CPF não digitado!");
 					return;
 				}
 				
-				//inserindo no banco de dados um apostador ou adm!
-				if(list.getSelectedValue().equals("Apostador")) {
+				//inserindo no banco de dados um apostador ou adm!				
+				if("Apostador".equals(list.getSelectedValue())) {
 					try {
 						Usuario usuario = new Usuario(pessoa);
 						dao.criarPessoaDaoJDBC().insert(pessoa);
@@ -259,12 +259,12 @@ public class CadastroDeUsuario extends JFrame {
 						JOptionPane.showMessageDialog(btnCadastrar, "Erro inesperado! Erro : " + e1.getMessage());
 					}
 				}
-				else {
+				else if("Administrador".equals(list.getSelectedValue())) {
 					if(dao.criarCodigoDeCadastroAdmDaoJDBC().findCodigoAdmById(Integer.parseInt(campoCodigoAdm.getText()))) {
 						try {
 							Administrador adm = new Administrador(pessoa);
 							dao.criarPessoaDaoJDBC().insertAdm(pessoa);
-						} catch (SQLException e2) {
+						} catch (SQLException e2) {							
 							e2.printStackTrace();
 							JOptionPane.showMessageDialog(btnCadastrar, "Erro inesperado! Erro : " + e2.getMessage());
 						}
@@ -273,7 +273,10 @@ public class CadastroDeUsuario extends JFrame {
 						JOptionPane.showMessageDialog(btnCadastrar,"Código de adiministrador digitado é invalido!");
 					}
 				}
-					
+				else{
+					JOptionPane.showMessageDialog(btnCadastrar, "Selecione uma opção de tipo de conta!");
+				}
+				
 			}
 		});
 		btnCadastrar.setForeground(new Color(0, 0, 128));

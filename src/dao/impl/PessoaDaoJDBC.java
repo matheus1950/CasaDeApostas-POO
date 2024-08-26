@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.postgresql.util.PSQLException;
+
 import dao.PessoaDao;
 import dao.UsuarioDao;
 import db.DB;
@@ -20,7 +22,7 @@ public class PessoaDaoJDBC implements PessoaDao{
 	//funcionando, mas, provavelmente por questão do valor único do id, não está indo ao banco com o id especificado!
 	//exemplo: testei inserir Ronaldo com id = 1, mas foi ao banco com id = 5
 	
-	public void insert(Pessoa pessoa) throws SQLException {
+	public void insert(Pessoa pessoa) throws SQLException, PSQLException {
 		String sql = "INSERT INTO Pessoa "
 				+ "(nome, email, senha, cpf, dataNascimento, permissao) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -37,6 +39,7 @@ public class PessoaDaoJDBC implements PessoaDao{
         }
 		catch(SQLException e){
 			e.printStackTrace();
+			throw e;
 		}
 	}
 	
@@ -150,7 +153,7 @@ public class PessoaDaoJDBC implements PessoaDao{
 	
 	//------------------- Métodos de Usuário ------------------------------------------------------------------------------//
 	
-	public void insert(Usuario usuario) throws SQLException {
+	public void insert(Usuario usuario) throws SQLException, PSQLException {
 		String sql = "INSERT INTO Pessoa "
 				+ "(nome, email, senha, carteira, cpf, dataNascimento, permissao) "
                 + "VALUES (?, ?, ?, ?, ?, ?, ?)";
@@ -168,6 +171,7 @@ public class PessoaDaoJDBC implements PessoaDao{
         }
 		catch(SQLException e){
 			e.printStackTrace();
+			throw e;
 		}
 	}
 	
@@ -345,7 +349,7 @@ public class PessoaDaoJDBC implements PessoaDao{
 	
 	//-----------------------------------------Métodos de ADM -------------------------------------------------------------
 
-	public void insertAdm(Pessoa adm) throws SQLException{
+	public void insertAdm(Pessoa adm) throws SQLException, PSQLException{
 		String sql = "INSERT INTO Pessoa "
 				+ "(nome, email, senha, cpf, dataNascimento, permissao) "
                 + "VALUES (?, ?, ?, ?, ?, ?)";
@@ -362,6 +366,7 @@ public class PessoaDaoJDBC implements PessoaDao{
         }
 		catch(SQLException e){
 			e.printStackTrace();
+			throw e;
 		}	
 	}
 }

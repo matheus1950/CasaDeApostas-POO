@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.SwingConstants;
 
 public class BoasVindas extends JFrame {
 
@@ -42,9 +43,10 @@ public class BoasVindas extends JFrame {
 	 * Create the frame.
 	 */
 	public BoasVindas() {
+		BoasVindas essaTela = this;
 		setTitle("boas vindas!");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 318, 247);
+		setBounds(100, 100, 301, 283);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 64, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,6 +55,7 @@ public class BoasVindas extends JFrame {
 		contentPane.setLayout(null);
 		
 		textField = new JTextField();
+		textField.setHorizontalAlignment(SwingConstants.CENTER);
 		textField.setBounds(10, 53, 129, 20);
 		textField.setText("Não possui cadastro?");
 		textField.setEditable(false);
@@ -64,15 +67,17 @@ public class BoasVindas extends JFrame {
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new CadastroDeUsuario().setVisible(true);
+				essaTela.setVisible(false);
 			}
 		});
-		btnCadastrar.setBounds(10, 75, 81, 23);
+		btnCadastrar.setBounds(10, 75, 129, 23);
 		btnCadastrar.setForeground(new Color(0, 0, 128));
 		btnCadastrar.setBackground(UIManager.getColor("CheckBox.focus"));
 		contentPane.add(btnCadastrar);
 		
 		textField_1 = new JTextField();
-		textField_1.setBounds(10, 133, 86, 20);
+		textField_1.setHorizontalAlignment(SwingConstants.CENTER);
+		textField_1.setBounds(10, 133, 129, 20);
 		textField_1.setText("Possui conta?");
 		textField_1.setEditable(false);
 		textField_1.setColumns(10);
@@ -93,9 +98,10 @@ public class BoasVindas extends JFrame {
 		btnLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new Login().setVisible(true);
+				essaTela.setVisible(false);
 			}
 		});
-		btnLogar.setBounds(10, 157, 59, 23);
+		btnLogar.setBounds(10, 157, 129, 23);
 		btnLogar.setForeground(new Color(0, 0, 128));
 		contentPane.add(btnLogar);
 	}

@@ -148,6 +148,10 @@ public class HistoricoDeApostas extends JFrame {
 		panel.add(btnBilhete);
 		
 		JButton btnVisualizar = new JButton("Visualizar bilhete");
+		btnVisualizar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnVisualizar.setForeground(new Color(0, 0, 128));
 		btnVisualizar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnVisualizar.setBounds(579, 114, 139, 23);

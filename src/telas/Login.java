@@ -77,7 +77,7 @@ public class Login extends JFrame {
 				logar(essaTela);			
 			}
 		});
-		btnLogar.setBounds(78, 261, 59, 23);
+		btnLogar.setBounds(66, 261, 71, 23);
 		btnLogar.setForeground(new Color(0, 0, 128));
 		btnLogar.setBackground(UIManager.getColor("CheckBox.focus"));
 		contentPane.add(btnLogar);
