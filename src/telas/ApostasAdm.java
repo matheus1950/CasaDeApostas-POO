@@ -41,7 +41,7 @@ public class ApostasAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ApostasAdm frame = new ApostasAdm(-1, -1); //-1 padrão, não se deve manter
+                    ApostasAdm frame = new ApostasAdm(-1, -1); //-1 padrão
                     frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -202,15 +202,13 @@ public class ApostasAdm extends JFrame {
         btnLerDescricao.setBounds(902, 306, 151, 23);
         panel.add(btnLerDescricao);
         
-        //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    // Obtém o ID do aposta a partir da linha selecionada, por exemplo:
+                if (selectedRow != -1) {                   
                     int id = (int) table.getValueAt(selectedRow, 0);
-                    // A partir do nome ou de outra coluna, você pode encontrar o ID do aposta
+                    
                     System.out.println("Id do aposta: " + id);
                 }
             }

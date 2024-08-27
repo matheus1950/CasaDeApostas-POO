@@ -1,5 +1,5 @@
 package dao;
 
 public interface CodigoDeCadastroAdmDao {
-	public Boolean findCodigoAdmById(int idCodigo);
+	public Boolean findCodigoAdmById(String idCodigo);
 }

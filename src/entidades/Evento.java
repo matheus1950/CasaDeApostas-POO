@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class Evento {
 	private int id;
-	private int idDeUsuario; //não entendi direito
+	private int idDeUsuario; 
 	private String nome;
 	private boolean permissao;
 	private Date dataDeCriacao;
@@ -17,7 +17,7 @@ public class Evento {
 	
 	public Evento() {
 		super();
-		this.dataDeCriacao = new Date();  //aqui ou na declaração de variável?
+		this.dataDeCriacao = new Date();  
 	}
 	
 	public Evento(int id, int idDeUsuario, String nome, boolean permissao, String descricao, String status) {
@@ -26,7 +26,7 @@ public class Evento {
 		this.idDeUsuario = idDeUsuario;
 		this.nome = nome;
 		this.permissao = permissao;
-		this.dataDeCriacao = new Date(); //aqui ou na declaração de variável?
+		this.dataDeCriacao = new Date(); 
 		this.descricao = descricao;
 		this.status = status;
 	}

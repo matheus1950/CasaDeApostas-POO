@@ -7,11 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import dao.ApostaDao;
 import db.DB;
 import entidades.Aposta;
 import entidades.Evento;
 
-public class ApostaDaoJDBC {
+public class ApostaDaoJDBC implements ApostaDao{
 	
 	private Connection conn = DB.getConnection();
 		

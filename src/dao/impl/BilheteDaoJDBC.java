@@ -25,8 +25,7 @@ public class BilheteDaoJDBC implements BilheteDao{
 	        ps.setInt(1, idUsuario);;
 	        try (ResultSet rs = ps.executeQuery()) {
 	        	while(rs.next()) {
-	                if(rs.getBoolean("efetuado") == false) {	                
-	                	System.out.println("id do bilhete:" + rs.getInt("id"));
+	                if(rs.getBoolean("efetuado") == false) {	                	                	
 	                	return rs.getInt("id");	                	
 	                }
 	            }
@@ -189,8 +188,7 @@ public class BilheteDaoJDBC implements BilheteDao{
 		int qtd = 0;
 		
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
-			ps.setInt(1, idBilhete);
-			//ps.executeUpdate();
+			ps.setInt(1, idBilhete);			
 			System.out.println("Contagem de apostas no bilhete realizada!");
 			try(ResultSet rs = ps.executeQuery()){
 				if(rs.next()) {

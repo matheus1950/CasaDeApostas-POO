@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import org.postgresql.util.PSQLException;
 
 import dao.PessoaDao;
-import dao.UsuarioDao;
 import db.DB;
 import entidades.Administrador;
 import entidades.Pessoa;
@@ -19,9 +18,6 @@ import entidades.Usuario;
 public class PessoaDaoJDBC implements PessoaDao{
 
 	private Connection conn = DB.getConnection();
-	
-	//funcionando, mas, provavelmente por questão do valor único do id, não está indo ao banco com o id especificado!
-	//exemplo: testei inserir Ronaldo com id = 1, mas foi ao banco com id = 5
 	
 	public void insert(Pessoa pessoa) throws SQLException, PSQLException {
 		String sql = "INSERT INTO Pessoa "
@@ -33,7 +29,7 @@ public class PessoaDaoJDBC implements PessoaDao{
             ps.setString(3, pessoa.getSenha());                      
             ps.setInt(4, pessoa.getCpf());
             ps.setDate(5, pessoa.getDataNascimento());
-            ps.setBoolean(6, false); //inicia em falso - depois ver se mudo essa lógica
+            ps.setBoolean(6, false); //inicia em falso
             ps.executeUpdate();
             System.out.println("Usuário inserido com sucesso!");
             ps.close();
@@ -44,113 +40,6 @@ public class PessoaDaoJDBC implements PessoaDao{
 		}
 	}
 	
-	public Pessoa findPessoaById(int idPessoa) {
-		String sql = "SELECT * FROM usuario WHERE id = ?";
-		
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setInt(1, idPessoa);
-	        Pessoa pessoa = new Pessoa();
-	        try (ResultSet rs = ps.executeQuery()) {
-	        	while(rs.next()) {
-	        		pessoa.setId(rs.getInt("id"));
-		        	pessoa.setSenha(rs.getString("senha"));
-		        	pessoa.setNome(rs.getString("nome"));  
-		            pessoa.setCpf(rs.getInt("cpf"));		           
-		            pessoa.setEmail(rs.getString("email"));
-		            return pessoa;   
-	        	}         
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-		return null; //não sei outra coisa para colocar aqui
-	}
-
-	@Override
-	public String findPasswordByPessoaEmail(String email) {
-		String sql = "SELECT senha FROM pessoa WHERE email = ?";
-		String senha = null;
-		
-		try(PreparedStatement ps = conn.prepareStatement(sql)){
-			ps.setString(1, email);
-			try(ResultSet rs = ps.executeQuery()){
-				if(rs.next()) {
-					senha = rs.getString("senha");
-				}
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return senha;
-	}
-	
-	public boolean findPermissaoByPessoaEmailSenha(String email, String senha) {
-		String sql = "SELECT permissao FROM pessoa WHERE email = ? AND senha = ?";
-		
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setString(1, email);
-	        ps.setString(2, senha);
-	        try (ResultSet rs = ps.executeQuery()) {
-	            if (rs.next()) {
-	                return rs.getBoolean("permissao");
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-		return (Boolean) null; //não sei outra coisa para colocar aqui
-	}
-	
-	public boolean findPermissaoByPessoaId(int idPessoa) {
-		String sql = "SELECT permissao FROM pessoa WHERE id = ?";
-		
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setInt(1, idPessoa);
-	        try (ResultSet rs = ps.executeQuery()) {
-	            if (rs.next()) {
-	                return rs.getBoolean("permissao");
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-		return (Boolean) null; //não sei outra coisa para colocar aqui
-	}
-	
-	public int findIdByPessoaEmailSenha(String email, String senha) {
-		String sql = "SELECT id FROM pessoa WHERE email = ? AND senha = ?";
-		
-		try (PreparedStatement ps = conn.prepareStatement(sql)) {
-	        ps.setString(1, email);
-	        ps.setString(2, senha);
-	        try (ResultSet rs = ps.executeQuery()) {
-	            if (rs.next()) {
-	                return rs.getInt("id");
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	    }
-		return (Integer) null; //não sei outra coisa para colocar aqui
-	}
-	
-		
-	//tive um problema para excluir por id enquanto havia a tabela "aposta"(violação da chave estrangeira),
-	//fiz drop table pra testar, depois ver como deletar com a tabela aposta no lugar! 
-	@Override
-	public void deleteByPessoaId(int id) throws SQLException{  
-		String sql = "DELETE FROM pessoa WHERE id = ?";
-				
-		try(PreparedStatement ps = conn.prepareStatement(sql)){
-			ps.setInt(1, id);
-			ps.executeUpdate();
-			System.out.println("Usuário deletado com sucesso!");
-			ps.close();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}		
-	}
 	
 	//------------------- Métodos de Usuário ------------------------------------------------------------------------------//
 	
@@ -196,7 +85,7 @@ public class PessoaDaoJDBC implements PessoaDao{
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-		return null; //não sei outra coisa para colocar aqui
+		return null; 
 	}
 
 	@Override
@@ -305,12 +194,9 @@ public class PessoaDaoJDBC implements PessoaDao{
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-		return usuarios; //não sei outra coisa para colocar aqui
+		return usuarios; 
 	}
 	
-		
-	//tive um problema para excluir por id enquanto havia a tabela "aposta"(violação da chave estrangeira),
-	//fiz drop table pra testar, depois ver como deletar com a tabela aposta no lugar! 
 	@Override
 	public void deleteById(int id) throws SQLException{  
 		String sql = "DELETE FROM Pessoa WHERE id = ?";
@@ -400,7 +286,7 @@ public class PessoaDaoJDBC implements PessoaDao{
             ps.setString(3, adm.getSenha());                      
             ps.setInt(4, adm.getCpf());
             ps.setDate(5, adm.getDataNascimento());
-            ps.setBoolean(6, true); //inicia em true - depois ver se mudo essa lógica
+            ps.setBoolean(6, true); //inicia em true
             ps.executeUpdate();
             System.out.println("Usuário inserido com sucesso!");
             ps.close();

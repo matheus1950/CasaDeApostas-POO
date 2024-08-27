@@ -110,8 +110,7 @@ public class MinhaConta extends JFrame {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(0, 218, 727, 12);
 		panel.add(separator);
-		
-		//Coletando informações de usuário pelo id
+				
 		DaoFactory dao = new DaoFactory();
 		
 		Usuario usuario = dao.criarPessoaDaoJDBC().findUsuarioById(idUsuario);
@@ -193,14 +192,13 @@ public class MinhaConta extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(384, 343, 81, 23);
+		btnVoltar.setBounds(383, 343, 81, 23);
 		panel.add(btnVoltar);
 		
 		JButton btnNewButton = new JButton("Senha");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				AlterarSenha senha = new AlterarSenha(idUsuario, dao.criarPessoaDaoJDBC().findPasswordByEmail(usuario.getEmail()));
-        		//this aqui é para passar a própria frame no argumento ^
         		senha.setVisible(true);
         		essaTela.setVisible(false);
 			}

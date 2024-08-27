@@ -24,8 +24,6 @@ import javax.swing.UIManager;
 import javax.swing.SwingConstants;
 
 public class CadastroDeEvento extends JFrame {
-	//Incompleta
-	//Não vem de lugar algum ainda, ela deve vir da tela de administração de eventos
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;

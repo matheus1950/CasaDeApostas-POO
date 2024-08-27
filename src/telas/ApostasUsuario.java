@@ -163,14 +163,12 @@ public class ApostasUsuario extends JFrame {
 		btnBilhete.setForeground(new Color(0, 0, 128));
 		btnBilhete.setBounds(867, 258, 139, 23);
 		panel.add(btnBilhete);
-
-		// table.setEnabled(false); - uma opção diferente para desativar a edição das células(mas não são selecionáveis nesse caso)
+		
 
 		table.getSelectionModel().addListSelectionListener(e -> {
 			if (!e.getValueIsAdjusting()) {
 				int selectedRow = table.getSelectedRow();
-				if (selectedRow != -1) {
-					// Obtém o ID do aposta a partir da linha selecionada
+				if (selectedRow != -1) {				
 					int id = (int) table.getValueAt(selectedRow, 0);
 					System.out.println("Id do aposta: " + id);
 				}
@@ -227,10 +225,9 @@ public class ApostasUsuario extends JFrame {
 			Bilhete bilhete = new Bilhete();
 			bilhete.setIdDeUsuario(idUsuario);
 			dao.criarBilheteDaoJDBC().inserirBilhete(bilhete);
-			int idBilhete = dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario); // reutilizando o método, já
-																							// que agora temos o bilhete
-																							// inserido, para pegar o id
-																							// dele
+			// reutilizando o método, já que agora temos o bilhete inserido	
+			int idBilhete = dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario);
+																							
 			try{
 				dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(idBilhete, idAposta);
 				JOptionPane.showMessageDialog(botao, "Bilhete criado com sucesso! Aposta adicionada com sucesso!");
@@ -240,17 +237,10 @@ public class ApostasUsuario extends JFrame {
 			    JOptionPane.showMessageDialog(botao, "Erro inesperado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 			}
 				
-		} else { // inserir no bilhete pendente encontrado
-					// a próxima linha utiliza um método para achar o bilhete pendente por meio do
-					// id que pegamos no método usuarioTemBilhetePendente(devolve o id do bilhete
-					// pendente)
+		} else { 
 			Bilhete bilhete = dao.criarBilheteDaoJDBC().findBilheteById(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario));
-			bilhete.addAposta(dao.criarApostaDaoJDBC().findApostaById(idAposta)); // adicionar a aposta pelo Id que
-																					// pegamos neste método
-			
-			//dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(bilhete.getId(), idAposta);
-			//JOptionPane.showMessageDialog(botao, "Aposta adicionada ao bilhete!");	
-			
+			bilhete.addAposta(dao.criarApostaDaoJDBC().findApostaById(idAposta)); 
+					
 			try {		
 			    dao.criarBilheteDaoJDBC().inserirApostaNoBilheteById(bilhete.getId(), idAposta);
 			    JOptionPane.showMessageDialog(botao, "Aposta adicionada ao bilhete com sucesso!");

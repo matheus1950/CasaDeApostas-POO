@@ -199,7 +199,7 @@ public class EventoDaoJDBC implements EventoDao{
 	        e.printStackTrace();
 	    }
 		
-		return null; //não sei outra coisa para colocar aqui
+		return null; 
 	}
 
 	

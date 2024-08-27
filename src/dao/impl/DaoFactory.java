@@ -23,4 +23,4 @@ public class DaoFactory{
 	}
 }
 
-//para instanciar as implementações DAO! Pode ser apagado se optarmos por instanciar diretamente!
+//para instanciar as implementações DAO! 

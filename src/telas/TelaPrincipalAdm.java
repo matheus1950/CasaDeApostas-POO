@@ -40,7 +40,7 @@ public class TelaPrincipalAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaPrincipalAdm frame = new TelaPrincipalAdm(-1); //coloquei um id padrão, não sei se tem problema
+                    TelaPrincipalAdm frame = new TelaPrincipalAdm(-1); //-1 padrão
                     frame.setVisible(true);
                     
                     //preencher a tabela com todos eventos

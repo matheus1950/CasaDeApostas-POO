@@ -91,7 +91,7 @@ public class CadastroDeUsuario extends JFrame {
 		CadastroDeUsuario essaTela = this;
 		setTitle("cadastro");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 403, 475);
+		setBounds(100, 100, 546, 535);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 128, 128));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -100,14 +100,14 @@ public class CadastroDeUsuario extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(10, 11, 352, 413);
+		panel.setBounds(10, 11, 505, 484);
 		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		panel.setBackground(new Color(0, 64, 0));
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
 		JTextArea txtCadastrar = new JTextArea();
-		txtCadastrar.setBounds(81, 2, 158, 42);
+		txtCadastrar.setBounds(164, 0, 158, 42);
 		txtCadastrar.setText("Cadastrar");
 		txtCadastrar.setForeground(new Color(128, 255, 255));
 		txtCadastrar.setFont(new Font("Tahoma", Font.BOLD, 31));
@@ -116,7 +116,8 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(txtCadastrar);
 		
 		campoCodigoAdm = new JTextField();
-		campoCodigoAdm.setBounds(161, 310, 102, 20);
+		campoCodigoAdm.setHorizontalAlignment(SwingConstants.CENTER);
+		campoCodigoAdm.setBounds(203, 310, 192, 20);
 		panel.add(campoCodigoAdm);
 		campoCodigoAdm.setColumns(10);
 		
@@ -126,7 +127,7 @@ public class CadastroDeUsuario extends JFrame {
 		txtCodigoAdm.setEditable(false);
 		txtCodigoAdm.setColumns(10);
 		txtCodigoAdm.setBackground(new Color(0, 128, 128));
-		txtCodigoAdm.setBounds(47, 310, 102, 20);
+		txtCodigoAdm.setBounds(47, 310, 116, 20);
 		panel.add(txtCodigoAdm);
 		
 		txtDataNascimento = new JTextField();
@@ -139,7 +140,7 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(txtDataNascimento);
 		
 		txtSenha = new JTextField();
-		txtSenha.setBounds(47, 177, 86, 20);
+		txtSenha.setBounds(47, 177, 116, 20);
 		txtSenha.setText("Senha");
 		txtSenha.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSenha.setEditable(false);
@@ -148,7 +149,7 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(txtSenha);
 		
 		txtConfirmarSenha = new JTextField();
-		txtConfirmarSenha.setBounds(47, 208, 102, 20);
+		txtConfirmarSenha.setBounds(47, 208, 116, 20);
 		txtConfirmarSenha.setText("Confirmar a senha");
 		txtConfirmarSenha.setHorizontalAlignment(SwingConstants.CENTER);
 		txtConfirmarSenha.setEditable(false);
@@ -157,7 +158,7 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(txtConfirmarSenha);
 		
 		txtEmail = new JTextField();
-		txtEmail.setBounds(47, 81, 86, 20);
+		txtEmail.setBounds(47, 81, 116, 20);
 		txtEmail.setText("E-mail");
 		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEmail.setEditable(false);
@@ -196,11 +197,11 @@ public class CadastroDeUsuario extends JFrame {
 	        });
 		list.setBackground(Color.WHITE);
 		list.setForeground(new Color(0, 0, 0));
-		list.setBounds(161, 243, 102, 42);
+		list.setBounds(203, 239, 192, 42);
 		panel.add(list);
 		
 		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(47, 359, 102, 23);
+		btnCadastrar.setBounds(47, 432, 102, 23);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Pessoa pessoa = new Pessoa();
@@ -275,7 +276,7 @@ public class CadastroDeUsuario extends JFrame {
 				//verificação email
 				if(!campoEmail.getText().equals("")) {
 					pessoa.setEmail(campoEmail.getText());
-					//JOptionPane.showMessageDialog(btnCadastrar, "Email: " + pessoa.getEmail());
+					
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "Email não digitado!");
@@ -284,8 +285,7 @@ public class CadastroDeUsuario extends JFrame {
 				
 				//verificação cpf - faltam melhorias
 				if(!campoCPF.getText().equals("")) {
-					pessoa.setCpf(Integer.parseInt(campoCPF.getText()));
-					//JOptionPane.showMessageDialog(btnCadastrar, "CPF: " + pessoa.getCpf());
+					pessoa.setCpf(Integer.parseInt(campoCPF.getText()));					
 				}
 				else {
 					JOptionPane.showMessageDialog(btnCadastrar, "CPF não digitado!");
@@ -297,16 +297,18 @@ public class CadastroDeUsuario extends JFrame {
 					try {
 						Usuario usuario = new Usuario(pessoa);
 						dao.criarPessoaDaoJDBC().insert(pessoa);
+						JOptionPane.showInternalMessageDialog(btnCadastrar, "Cadastrado com sucesso!");
 					} catch (SQLException e1) {
 						e1.printStackTrace();
-						JOptionPane.showMessageDialog(btnCadastrar, "Erro inesperado! Erro : " + e1.getMessage());
+						JOptionPane.showMessageDialog(null, "Erro inesperado! Erro : " + e1.getMessage());
 					}
 				}
 				else if("Administrador".equals(list.getSelectedValue())) {
-					if(dao.criarCodigoDeCadastroAdmDaoJDBC().findCodigoAdmById(Integer.parseInt(campoCodigoAdm.getText()))) {
+					if(dao.criarCodigoDeCadastroAdmDaoJDBC().findCodigoAdmById(campoCodigoAdm.getText())) {
 						try {
 							Administrador adm = new Administrador(pessoa);
 							dao.criarPessoaDaoJDBC().insertAdm(pessoa);
+							JOptionPane.showInternalMessageDialog(null, "Cadastrado com sucesso!");
 						} catch (SQLException e2) {							
 							e2.printStackTrace();
 							JOptionPane.showMessageDialog(btnCadastrar, "Erro inesperado! Erro : " + e2.getMessage());
@@ -327,25 +329,25 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(btnCadastrar);
 		
 		campoSenha = new JPasswordField();
-		campoSenha.setBounds(145, 177, 118, 20);
+		campoSenha.setBounds(203, 177, 192, 20);
 		panel.add(campoSenha);
 		
 		campoConfirmarSenha = new JPasswordField();
-		campoConfirmarSenha.setBounds(153, 208, 110, 20);
+		campoConfirmarSenha.setBounds(203, 208, 192, 20);
 		panel.add(campoConfirmarSenha);
 		
 		campoEmail = new JTextField();
-		campoEmail.setBounds(153, 81, 86, 20);
+		campoEmail.setBounds(203, 81, 192, 20);
 		campoEmail.setColumns(10);
 		panel.add(campoEmail);
 		
 		campoNome = new JTextField();
-		campoNome.setBounds(153, 55, 86, 20);
+		campoNome.setBounds(203, 50, 192, 20);
 		campoNome.setColumns(10);
 		panel.add(campoNome);
 		
 		txtNome = new JTextField();
-		txtNome.setBounds(47, 55, 94, 20);
+		txtNome.setBounds(47, 50, 116, 20);
 		txtNome.setText("Nome de usuário");
 		txtNome.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNome.setEditable(false);
@@ -354,12 +356,12 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(txtNome);
 		
 		campoCPF = new JTextField();
-		campoCPF.setBounds(153, 143, 86, 20);
+		campoCPF.setBounds(203, 143, 192, 20);
 		campoCPF.setColumns(10);
 		panel.add(campoCPF);
 		
 		txtCPF = new JTextField();
-		txtCPF.setBounds(47, 143, 86, 20);
+		txtCPF.setBounds(47, 143, 116, 20);
 		txtCPF.setText("CPF");
 		txtCPF.setHorizontalAlignment(SwingConstants.CENTER);
 		txtCPF.setEditable(false);
@@ -368,7 +370,7 @@ public class CadastroDeUsuario extends JFrame {
 		panel.add(txtCPF);
 		
 		campoDataDeNascimento = new JTextField();
-		campoDataDeNascimento.setBounds(173, 112, 86, 20);
+		campoDataDeNascimento.setBounds(203, 112, 192, 20);
 		campoDataDeNascimento.setColumns(10);
 		panel.add(campoDataDeNascimento);
 		
@@ -382,7 +384,7 @@ public class CadastroDeUsuario extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(237, 359, 81, 23);
+		btnVoltar.setBounds(384, 432, 81, 23);
 		panel.add(btnVoltar);
 		
 		
@@ -392,7 +394,7 @@ public class CadastroDeUsuario extends JFrame {
 		txtTipoDaConta.setEditable(false);
 		txtTipoDaConta.setColumns(10);
 		txtTipoDaConta.setBackground(new Color(0, 128, 128));
-		txtTipoDaConta.setBounds(47, 243, 102, 20);
+		txtTipoDaConta.setBounds(47, 243, 116, 20);
 		panel.add(txtTipoDaConta);
 		
 	}

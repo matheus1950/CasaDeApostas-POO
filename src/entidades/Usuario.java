@@ -3,13 +3,13 @@ package entidades;
 import java.sql.Date;
 
 public class Usuario extends Pessoa{
-
+	
 	private int id;
 	private String nome;
 	private String email;
 	private String senha;
 	private double carteira;
-	private int cpf; //aumentar o int depois? não suporta os 11 digitos do cpf
+	private int cpf; 
 	private Date dataNascimento;
 	
 	public Usuario(int id, String nome, String email, String senha, double carteira, int cpf,

@@ -21,18 +21,18 @@ public class Bilhete {
 		this.idDeUsuario = idDeUsuario;		
 		this.dataDeCriacao = new Date();
 		this.status = status;		
-		this.efetuado = false; //aqui ou na declaração
-		this.status = "pendente"; //aqui ou na declaração
-		this.valor = 0; //aqui ou na declaração		
+		this.efetuado = false; 
+		this.status = "pendente"; 
+		this.valor = 0; 	
 		this.retorno = this.valor * oddTotal;
 	}
 	
 	public Bilhete() {
 		super();
 		this.dataDeCriacao = new Date();		
-		this.efetuado = false; //aqui ou na declaração
-		this.status = "pendente"; //aqui ou na declaração
-		this.valor = 0; //aqui ou na declaração	
+		this.efetuado = false; 
+		this.status = "pendente"; 
+		this.valor = 0; 
 		this.retorno = valor * oddTotal;
 	}
 

@@ -12,13 +12,13 @@ import entidades.Pessoa;
 public class CodigoDeCadastroAdmDaoJDBC implements CodigoDeCadastroAdmDao {
 	private Connection conn = DB.getConnection();
 	
-	public Boolean findCodigoAdmById(int idCodigo) {
+	public Boolean findCodigoAdmById(String idCodigo) {
 		String sql = "SELECT * FROM Codigodecadastroadm";
 		
 		try (PreparedStatement ps = conn.prepareStatement(sql)) {	              
 	        try (ResultSet rs = ps.executeQuery()) {
 	        	while(rs.next()) {
-	        		if(idCodigo == rs.getInt("codigodecadastroadm")) {
+	        		if(idCodigo.equals(rs.getString("codigodecadastroadm"))) {
 	        			return true;
 	        		}
 	        	}         
@@ -26,6 +26,6 @@ public class CodigoDeCadastroAdmDaoJDBC implements CodigoDeCadastroAdmDao {
 	    } catch (SQLException e) {
 	        e.printStackTrace();
 	    }
-		return false; //não sei outra coisa para colocar aqui
+		return false; 
 	}
 }

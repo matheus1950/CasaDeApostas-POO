@@ -114,12 +114,12 @@ public class EncerrarEvento extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				alterarStatusDoEvento(idEvento, dao);
 				alterarResultadoDoEvento(idEvento,Integer.parseInt(campoVencedor.getText()), dao);
-				
 				try {				
 					encerrarBilhetesComTodosEventosEncerrados(dao);
 				} catch (SQLException e1) {					
 					e1.printStackTrace();
 				}
+				JOptionPane.showInternalMessageDialog(null, "Evento encerrado com sucesso!");
 			}
 		});
 		btnEncerrar.setForeground(new Color(0, 0, 128));
@@ -214,20 +214,20 @@ public class EncerrarEvento extends JFrame {
 
 	    
 	    for (Usuario usuario : pessoaDao.todosUsuarios()) {
-	        // Obter todos os bilhetes do usuário
+	        
 	        ArrayList<Bilhete> bilhetes = bilheteDao.todosBilhetesPorUsuarioId(usuario.getId());
 
 	        if (bilhetes != null) {
 	            for (Bilhete bilhete : bilhetes) {
-	                if (bilhete.isEfetuado() && bilhete.getStatus().equals("pendente")) { // Verifica se o bilhete foi efetuado
+	                if (bilhete.isEfetuado() && bilhete.getStatus().equals("pendente")) { 
 	                    boolean todosEventosEncerrados = true;
 	                    boolean ganhou = true;
 
-	                    // Obter todas as apostas do bilhete
+	                    
 	                    ArrayList<Aposta> apostas = bilheteDao.obterApostasPorBilheteId(bilhete.getId());
 	                    if (apostas != null) {
 	                        for (Aposta aposta : apostas) {
-	                            // Obter evento associado à aposta	                        	
+	                                                    	
 	                            Evento evento = eventoDao.findEventoById(aposta.getIdDeEvento());
 	                            
 	                            if (evento == null || evento.getStatus() == null) {	                                
@@ -235,21 +235,18 @@ public class EncerrarEvento extends JFrame {
 	                                todosEventosEncerrados = false;
 	                                break;
 	                            }
-
-	                            // Verificar se o evento está encerrado
+	                            
 	                            if (!evento.getStatus().equalsIgnoreCase("encerrado")) {
 	                                todosEventosEncerrados = false;
 	                                break;
 	                            }
-
-	                            // Verificar se a aposta coincide com o resultado do evento
+	                            
 	                            if (!aposta.getDescricao().equalsIgnoreCase(evento.getResultado())) {
 	                                ganhou = false;
 	                            }
 	                        }
 	                    }
-
-	                    // Atualizar o status do bilhete conforme os resultados das verificações
+	               
 	                    if (todosEventosEncerrados) {
 	                        if (ganhou) {
 	                            bilheteDao.editarStatusBilhete(bilhete.getId(), "venceu");
@@ -259,14 +256,13 @@ public class EncerrarEvento extends JFrame {
 	                        }
 	                    }
 
-	                } else { // Bilhete não efetuado
+	                } else { 
 	                    ArrayList<Aposta> apostas = bilheteDao.obterApostasPorBilheteId(bilhete.getId());
 	                    if (apostas != null) {
 	                        for (Aposta aposta : apostas) {
 	                            Evento evento = eventoDao.findEventoById(aposta.getIdDeEvento());
 
-	                            if (evento != null && evento.getStatus() != null && evento.getStatus().equalsIgnoreCase("encerrado")) {
-	                                // Remover apostas de eventos encerrados para bilhetes não efetuados
+	                            if (evento != null && evento.getStatus() != null && evento.getStatus().equalsIgnoreCase("encerrado")) {	                                
 	                                bilheteDao.removerDoBilhete(bilhete.getId(), aposta.getId());
 	                            }
 	                        }

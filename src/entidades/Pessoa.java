@@ -10,7 +10,7 @@ public class Pessoa {
 	private String nome;
 	private String email;
 	private String senha;	
-	private int cpf; //aumentar o int?
+	private int cpf; 
 	private Date dataNascimento;
 	
 	public Pessoa(int id, String nome, String email, String senha, int cpf,
