@@ -98,6 +98,7 @@ public class CadastroDeEvento extends JFrame {
 				
 				evento.setIdDeUsuario(idUsuario);
 				dao.criarEventoDaoJDBC().insert(evento);
+				JOptionPane.showMessageDialog(btnCadastrar, "Evento inserido com sucesso!");
 				frame.atualizarTabela();
 			}
 		});

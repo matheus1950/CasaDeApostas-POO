@@ -60,7 +60,7 @@ public class ApostasAdm extends JFrame {
     	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 797, 574);
+        setBounds(100, 100, 1103, 746);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -70,7 +70,7 @@ public class ApostasAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(10, 11, 750, 513);
+        panel.setBounds(10, 11, 1065, 684);
         contentPane.add(panel);
         panel.setLayout(null);
         
@@ -80,14 +80,14 @@ public class ApostasAdm extends JFrame {
         txtApostasAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtApostasAdm.setEditable(false);
         txtApostasAdm.setBackground(new Color(0, 64, 0));
-        txtApostasAdm.setBounds(230, 0, 294, 42);
+        txtApostasAdm.setBounds(326, 4, 294, 42);
         panel.add(txtApostasAdm);
         
         scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 567, 433);
+        scrollPane.setBounds(10, 58, 878, 614);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -118,7 +118,7 @@ public class ApostasAdm extends JFrame {
         });
         btnExcluirAposta.setForeground(new Color(0, 0, 128));
         btnExcluirAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnExcluirAposta.setBounds(587, 112, 132, 23);
+        btnExcluirAposta.setBounds(900, 104, 153, 23);
         panel.add(btnExcluirAposta);
         
         JButton btnEditarAposta = new JButton("Editar Aposta");
@@ -137,7 +137,7 @@ public class ApostasAdm extends JFrame {
         });
         btnEditarAposta.setForeground(new Color(0, 0, 128));
         btnEditarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnEditarAposta.setBounds(587, 172, 132, 23);
+        btnEditarAposta.setBounds(900, 165, 153, 23);
         panel.add(btnEditarAposta);
        
         
@@ -151,7 +151,7 @@ public class ApostasAdm extends JFrame {
         });
         btnCadastrarAposta.setForeground(new Color(0, 0, 128));
         btnCadastrarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnCadastrarAposta.setBounds(587, 237, 132, 23);
+        btnCadastrarAposta.setBounds(900, 229, 153, 23);
         panel.add(btnCadastrarAposta);
         
         JButton btnLogout = new JButton("Logout");
@@ -169,7 +169,7 @@ public class ApostasAdm extends JFrame {
         });
         btnLogout.setForeground(Color.RED);
         btnLogout.setBackground(Color.BLACK);
-        btnLogout.setBounds(605, 11, 114, 23);
+        btnLogout.setBounds(939, 15, 114, 23);
         panel.add(btnLogout);
         
         JButton btnVoltar = new JButton("Voltar");
@@ -189,8 +189,24 @@ public class ApostasAdm extends JFrame {
         });
         btnVoltar.setForeground(new Color(0, 0, 128));
         btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnVoltar.setBounds(602, 468, 81, 23);
+        btnVoltar.setBounds(939, 602, 81, 23);
         panel.add(btnVoltar);
+        
+        JButton btnLerDescricao = new JButton("Ler Descrição");
+        btnLerDescricao.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if (table.getSelectedRow() != -1) {
+        			JOptionPane.showInternalMessageDialog(null, "Descrição: " + table.getValueAt(table.getSelectedRow(), 1));
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(null, "Selecione uma aposta para visualizar a descrição!");
+        		}
+        	}
+        });
+        btnLerDescricao.setForeground(new Color(0, 0, 128));
+        btnLerDescricao.setBackground(UIManager.getColor("Button.focus"));
+        btnLerDescricao.setBounds(902, 306, 151, 23);
+        panel.add(btnLerDescricao);
         
         //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
         

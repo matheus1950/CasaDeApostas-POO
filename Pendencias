@@ -1,8 +1,8 @@
 Pendências:
-2 - Senha com criptografia!
 3 - Botão de visualizar bilhete na tela de histórico!
 4 - Solucionar a questão de botões incompletos - redimensionar as telas?
 5 - Solcuionar a questão da descrição incompleta nas tabelas - botão para o usuário visualiza-la?
 7 - Pensar numa maneira de encerrar a aposta e o dinheiro cair na conta do usuário - administrador faz manualmente ou data final?
 8 - CPF em Pessoa é int e não suporta o tamanho de um CPF!
 9 - Tratamento de datas - falta ano bissexto, dia 30 do mês de fevereiro e etc
+10 - arrumar as classes Dao!

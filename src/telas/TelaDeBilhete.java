@@ -65,7 +65,7 @@ public class TelaDeBilhete extends JFrame {
 		TelaDeBilhete essaTela = this;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 801, 599);
+		setBounds(100, 100, 1052, 872);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -76,13 +76,13 @@ public class TelaDeBilhete extends JFrame {
 		contentPane_1.setLayout(null);
 		contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane_1.setBackground(new Color(64, 128, 128));
-		contentPane_1.setBounds(0, 0, 772, 542);
+		contentPane_1.setBounds(0, 0, 1036, 833);
 		contentPane.add(contentPane_1);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(0, 64, 0));
-		panel.setBounds(10, 11, 752, 520);
+		panel.setBounds(10, 11, 1016, 811);
 		contentPane_1.add(panel);
 		
 		JTextArea txtrBilhete = new JTextArea();
@@ -91,13 +91,25 @@ public class TelaDeBilhete extends JFrame {
 		txtrBilhete.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtrBilhete.setEditable(false);
 		txtrBilhete.setBackground(new Color(0, 64, 0));
-		txtrBilhete.setBounds(162, 5, 121, 32);
+		txtrBilhete.setBounds(308, -1, 121, 32);
 		panel.add(txtrBilhete);
 		
 		JButton btnLogout = new JButton("Logout");
+		btnLogout.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int option = JOptionPane.showConfirmDialog(btnLogout, "Deseja realmente fazer logout?");
+        		if(option == JOptionPane.YES_OPTION) {
+	        		essaTela.setVisible(false);
+	        		new Login().setVisible(true);
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(btnLogout, "Logout cancelado!");
+        		}
+			}
+		});
 		btnLogout.setForeground(Color.RED);
-		btnLogout.setBackground(Color.BLACK);
-		btnLogout.setBounds(473, 5, 114, 23);
+		btnLogout.setBackground(UIManager.getColor("Button.focus"));
+		btnLogout.setBounds(876, 14, 114, 23);
 		panel.add(btnLogout);
 		
 		JButton btnVoltar = new JButton("Voltar");
@@ -117,13 +129,13 @@ public class TelaDeBilhete extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(10, 5, 81, 23);
+		btnVoltar.setBounds(24, 14, 81, 23);
 		panel.add(btnVoltar);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setBounds(17, 58, 538, 352);
+		scrollPane.setBounds(17, 71, 802, 590);
 		panel.add(scrollPane);
 		
 		//criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -144,7 +156,7 @@ public class TelaDeBilhete extends JFrame {
 		
 		campoOdd = new JTextField();
 		campoOdd.setEditable(false);
-		campoOdd.setBounds(172, 454, 86, 20);
+		campoOdd.setBounds(227, 705, 86, 20);
 		panel.add(campoOdd);
 		campoOdd.setColumns(10);
 		
@@ -152,15 +164,15 @@ public class TelaDeBilhete extends JFrame {
 		txtrOdd.setText("ODD ");
 		txtrOdd.setForeground(new Color(0, 255, 255));
 		txtrOdd.setBackground(new Color(0, 64, 0));
-		txtrOdd.setBounds(172, 421, 42, 22);
+		txtrOdd.setBounds(227, 672, 42, 22);
 		panel.add(txtrOdd);
 		
 		JSeparator separator = new JSeparator();
-		separator.setBounds(565, 58, 177, 8);
+		separator.setBounds(829, 58, 177, 8);
 		panel.add(separator);
 		
 		campoValor = new JTextField();
-		campoValor.setBounds(623, 118, 119, 20);
+		campoValor.setBounds(887, 129, 119, 20);
 		panel.add(campoValor);
 		campoValor.setColumns(10);
 		
@@ -168,19 +180,19 @@ public class TelaDeBilhete extends JFrame {
 		txtrValorApostado.setText("Valor Apostado");
 		txtrValorApostado.setForeground(Color.CYAN);
 		txtrValorApostado.setBackground(new Color(0, 64, 0));
-		txtrValorApostado.setBounds(621, 73, 121, 22);
+		txtrValorApostado.setBounds(885, 73, 121, 22);
 		panel.add(txtrValorApostado);
 		
 		JTextArea txtrPossvelRetorno = new JTextArea();
 		txtrPossvelRetorno.setText("Possível retorno");
 		txtrPossvelRetorno.setForeground(Color.CYAN);
 		txtrPossvelRetorno.setBackground(new Color(0, 64, 0));
-		txtrPossvelRetorno.setBounds(591, 178, 151, 22);
+		txtrPossvelRetorno.setBounds(862, 176, 144, 22);
 		panel.add(txtrPossvelRetorno);
 		
 		campoRetorno = new JTextField();
 		campoRetorno.setColumns(10);
-		campoRetorno.setBounds(623, 221, 119, 20);
+		campoRetorno.setBounds(887, 209, 119, 20);
 		panel.add(campoRetorno);
 		
 		
@@ -219,7 +231,7 @@ public class TelaDeBilhete extends JFrame {
 		});
 		btnApostar.setForeground(new Color(0, 0, 128));
 		btnApostar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnApostar.setBounds(661, 298, 81, 23);
+		btnApostar.setBounds(909, 375, 81, 23);
 		panel.add(btnApostar);
 		
 		JButton btnRetirar = new JButton("Retirar Aposta");
@@ -239,21 +251,32 @@ public class TelaDeBilhete extends JFrame {
 		});
 		btnRetirar.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnRetirar.setForeground(new Color(0, 0, 128));
-		btnRetirar.setBounds(10, 453, 130, 23);
+		btnRetirar.setBounds(10, 704, 130, 23);
 		panel.add(btnRetirar);
 		
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setOrientation(SwingConstants.VERTICAL);
-		separator_1.setBounds(565, 58, 9, 432);
+		separator_1.setBounds(829, 58, 9, 742);
 		panel.add(separator_1);
 		
 		JTextArea campoSaldo = new JTextArea();
 		campoSaldo.setText("Saldo = R$0.0");
 		campoSaldo.setForeground(Color.CYAN);
 		campoSaldo.setBackground(new Color(0, 64, 0));
-		campoSaldo.setBounds(162, 37, 124, 22);
+		campoSaldo.setBounds(308, 43, 124, 20);
 		panel.add(campoSaldo);
 		campoSaldo.setText("Saldo = R$" + saldoUsuario(idUsuario));
+		
+		JButton btnLerDescricao = new JButton("Ler Descrição");
+		btnLerDescricao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showInternalMessageDialog(null, "Descrição: " + table.getValueAt(table.getSelectedRow(), 1));
+			}
+		});
+		btnLerDescricao.setForeground(new Color(0, 0, 128));
+		btnLerDescricao.setBackground(UIManager.getColor("Button.focus"));
+		btnLerDescricao.setBounds(597, 704, 114, 23);
+		panel.add(btnLerDescricao);
 	}
 	
 	public void preencherTabela(ArrayList<Aposta> apostas) {

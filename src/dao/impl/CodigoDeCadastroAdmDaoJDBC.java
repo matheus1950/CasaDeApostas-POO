@@ -5,10 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import dao.CodigoDeCadastroAdmDao;
 import db.DB;
 import entidades.Pessoa;
 
-public class CodigoDeCadastroAdmDaoJDBC {
+public class CodigoDeCadastroAdmDaoJDBC implements CodigoDeCadastroAdmDao {
 	private Connection conn = DB.getConnection();
 	
 	public Boolean findCodigoAdmById(int idCodigo) {

@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import dao.impl.DaoFactory;
+import entidades.Aposta;
 import entidades.Bilhete;
 import entidades.Evento;
 
@@ -52,7 +54,7 @@ public class HistoricoDeApostas extends JFrame {
 	public HistoricoDeApostas(int idUsuario) {
 		HistoricoDeApostas essaTela = this;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 793, 583);
+		setBounds(100, 100, 1036, 751);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -63,13 +65,13 @@ public class HistoricoDeApostas extends JFrame {
 		contentPane_1.setLayout(null);
 		contentPane_1.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane_1.setBackground(new Color(64, 128, 128));
-		contentPane_1.setBounds(0, 0, 762, 540);
+		contentPane_1.setBounds(0, 0, 1010, 701);
 		contentPane.add(contentPane_1);
 		
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(0, 64, 0));
-		panel.setBounds(24, 11, 728, 518);
+		panel.setBounds(24, 11, 976, 679);
 		contentPane_1.add(panel);
 		
 		JTextArea txtrHistrico = new JTextArea();
@@ -78,14 +80,14 @@ public class HistoricoDeApostas extends JFrame {
 		txtrHistrico.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtrHistrico.setEditable(false);
 		txtrHistrico.setBackground(new Color(0, 64, 0));
-		txtrHistrico.setBounds(132, 0, 160, 42);
+		txtrHistrico.setBounds(310, 5, 160, 42);
 		panel.add(txtrHistrico);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setForeground(Color.BLACK);
-		scrollPane.setBounds(10, 58, 559, 449);
+		scrollPane.setBounds(10, 58, 807, 573);
 		panel.add(scrollPane);
 		
 		// criar uma variável para receber um objeto DefaultTableModel e só depois
@@ -116,7 +118,7 @@ public class HistoricoDeApostas extends JFrame {
 		});
 		btnLogout.setForeground(Color.RED);
 		btnLogout.setBackground(Color.BLACK);
-		btnLogout.setBounds(604, 18, 114, 23);
+		btnLogout.setBounds(852, 19, 114, 23);
 		panel.add(btnLogout);
 		
 		JButton btnVoltar = new JButton("Voltar");
@@ -138,23 +140,34 @@ public class HistoricoDeApostas extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(637, 484, 81, 23);
+		btnVoltar.setBounds(885, 608, 81, 23);
 		panel.add(btnVoltar);
 		
 		JButton btnBilhete = new JButton("Bilhete");
 		btnBilhete.setForeground(new Color(0, 0, 128));
 		btnBilhete.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnBilhete.setBounds(579, 191, 139, 23);
+		btnBilhete.setBounds(827, 194, 139, 23);
 		panel.add(btnBilhete);
 		
 		JButton btnVisualizar = new JButton("Visualizar bilhete");
 		btnVisualizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(table.getSelectedRow() != -1) {
+					DaoFactory dao = new DaoFactory();									
+					ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().findApostasByBilheteId((int)table.getValueAt(table.getSelectedRow(), 0));
+					VisualizarBilhete visualizar = new VisualizarBilhete(idUsuario);
+					visualizar.setVisible(true);
+					essaTela.setVisible(false);
+					visualizar.preencherTabela(apostas);	
+				}
+				else {
+					JOptionPane.showInternalMessageDialog(null, "Selecione um bilhete para visualizar!");
+				}
 			}
 		});
 		btnVisualizar.setForeground(new Color(0, 0, 128));
 		btnVisualizar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVisualizar.setBounds(579, 114, 139, 23);
+		btnVisualizar.setBounds(827, 117, 139, 23);
 		panel.add(btnVisualizar);
 	}
 	
