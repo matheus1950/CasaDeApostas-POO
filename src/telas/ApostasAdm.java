@@ -168,7 +168,7 @@ public class ApostasAdm extends JFrame {
         	}
         });
         btnLogout.setForeground(Color.RED);
-        btnLogout.setBackground(Color.BLACK);
+        btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
         btnLogout.setBounds(939, 15, 114, 23);
         panel.add(btnLogout);
         

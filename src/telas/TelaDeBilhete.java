@@ -86,12 +86,12 @@ public class TelaDeBilhete extends JFrame {
 		contentPane_1.add(panel);
 		
 		JTextArea txtrBilhete = new JTextArea();
-		txtrBilhete.setText("Bilhete");
+		txtrBilhete.setText("Bilhete Pendente");
 		txtrBilhete.setForeground(new Color(128, 255, 255));
 		txtrBilhete.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtrBilhete.setEditable(false);
 		txtrBilhete.setBackground(new Color(0, 64, 0));
-		txtrBilhete.setBounds(308, -1, 121, 32);
+		txtrBilhete.setBounds(308, -1, 278, 32);
 		panel.add(txtrBilhete);
 		
 		JButton btnLogout = new JButton("Logout");
@@ -263,7 +263,7 @@ public class TelaDeBilhete extends JFrame {
 		campoSaldo.setText("Saldo = R$0.0");
 		campoSaldo.setForeground(Color.CYAN);
 		campoSaldo.setBackground(new Color(0, 64, 0));
-		campoSaldo.setBounds(308, 43, 124, 20);
+		campoSaldo.setBounds(367, 39, 124, 20);
 		panel.add(campoSaldo);
 		campoSaldo.setText("Saldo = R$" + saldoUsuario(idUsuario));
 		

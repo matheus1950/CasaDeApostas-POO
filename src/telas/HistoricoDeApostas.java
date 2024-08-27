@@ -117,7 +117,7 @@ public class HistoricoDeApostas extends JFrame {
 			}
 		});
 		btnLogout.setForeground(Color.RED);
-		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnLogout.setBounds(852, 19, 114, 23);
 		panel.add(btnLogout);
 		
@@ -143,7 +143,27 @@ public class HistoricoDeApostas extends JFrame {
 		btnVoltar.setBounds(885, 608, 81, 23);
 		panel.add(btnVoltar);
 		
-		JButton btnBilhete = new JButton("Bilhete");
+		JButton btnBilhete = new JButton("Bilhete Pendente");
+		btnBilhete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DaoFactory dao = new DaoFactory();
+				//verificando se o usuário tem bilhete com "efetuado" pendente e, se passar, verificando se o mesmo bilhete tem apostas associadas
+				if(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario) != -1) {
+					if(dao.criarBilheteDaoJDBC().bilheteNaoTemApostas(dao.criarBilheteDaoJDBC().usuarioTemBilhetePendente(idUsuario)) == false) {
+						TelaDeBilhete bilhete = new TelaDeBilhete(idUsuario);					
+						essaTela.setVisible(false);					
+						bilhete.setVisible(true);					
+						bilhete.atualizarTabela(idUsuario, btnBilhete);	
+					}
+					else {
+						JOptionPane.showMessageDialog(btnBilhete, "Usuário não tem bilhete pendente! adicione apostas!");
+					}
+				}
+				else {
+					JOptionPane.showMessageDialog(btnBilhete, "Usuário não tem bilhete pendente! adicione apostas!");
+				}
+			}		
+		});
 		btnBilhete.setForeground(new Color(0, 0, 128));
 		btnBilhete.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnBilhete.setBounds(827, 194, 139, 23);

@@ -146,7 +146,7 @@ public class ApostasUsuario extends JFrame {
 		btnVoltar.setBounds(892, 717, 81, 23);
 		panel.add(btnVoltar);
 
-		btnBilhete = new JButton("Bilhete");
+		btnBilhete = new JButton("Bilhete Pendente");
 		btnBilhete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				DaoFactory dao = new DaoFactory();

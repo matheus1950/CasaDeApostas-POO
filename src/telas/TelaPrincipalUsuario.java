@@ -146,7 +146,7 @@ public class TelaPrincipalUsuario extends JFrame {
         });
         btnLogout.setForeground(Color.RED);
         btnLogout.setBackground(new Color(0, 0, 0));
-        btnLogout.setBounds(960, 18, 114, 23);
+        btnLogout.setBounds(1025, 18, 114, 23);
         panel.add(btnLogout);
         
         JButton btnMinhaConta = new JButton("Minha conta");
@@ -162,7 +162,7 @@ public class TelaPrincipalUsuario extends JFrame {
         btnMinhaConta.setBounds(10, 18, 114, 23);
         panel.add(btnMinhaConta);
         
-        btnBilhete = new JButton("Bilhete");
+        btnBilhete = new JButton("Bilhete Pendente");
         btnBilhete.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		DaoFactory dao = new DaoFactory();
@@ -185,7 +185,7 @@ public class TelaPrincipalUsuario extends JFrame {
         });
         btnBilhete.setForeground(new Color(0, 0, 128));
         btnBilhete.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnBilhete.setBounds(985, 167, 154, 23);
+        btnBilhete.setBounds(985, 206, 154, 23);
         panel.add(btnBilhete);
         
         JButton btnHistoricoDeAposta = new JButton("Meu histórico");

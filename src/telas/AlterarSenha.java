@@ -145,7 +145,7 @@ public class AlterarSenha extends JFrame {
 			}
 		});
 		btnLogout.setForeground(Color.RED);
-		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnLogout.setBounds(283, 29, 97, 23);
 		panel.add(btnLogout);
 		

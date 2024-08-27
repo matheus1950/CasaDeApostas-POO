@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import dao.impl.DaoFactory;
 import entidades.Aposta;
 
 import java.awt.Color;
@@ -78,7 +79,7 @@ public class VisualizarBilhete extends JFrame {
 		txtrApostasNoBilhete.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtrApostasNoBilhete.setEditable(false);
 		txtrApostasNoBilhete.setBackground(new Color(0, 64, 0));
-		txtrApostasNoBilhete.setBounds(120, 5, 304, 42);
+		txtrApostasNoBilhete.setBounds(261, 4, 304, 42);
 		panel.add(txtrApostasNoBilhete);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -121,9 +122,11 @@ public class VisualizarBilhete extends JFrame {
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				DaoFactory dao = new DaoFactory();
 				essaTela.setVisible(false);
 				HistoricoDeApostas historico = new HistoricoDeApostas(idUsuario);
 				historico.setVisible(true);
+				historico.preencherTabela(dao.criarBilheteDaoJDBC().todosBilhetesPorUsuarioId(idUsuario));
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
