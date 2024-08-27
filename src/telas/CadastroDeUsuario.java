@@ -2,6 +2,7 @@ package telas;
 
 import java.awt.EventQueue;
 
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -41,6 +42,8 @@ import com.jgoodies.forms.layout.RowSpec;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
+
+import org.mindrot.jbcrypt.BCrypt;
 
 public class CadastroDeUsuario extends JFrame {
 
@@ -209,7 +212,11 @@ public class CadastroDeUsuario extends JFrame {
 					return; //para interromper a ação
 				}
 				else if(campoSenha.getText().equals(campoConfirmarSenha.getText())) {
-					pessoa.setSenha(campoSenha.getText());
+					// Criptografa a senha usando BCrypt
+		            String senhaHash = BCrypt.hashpw(new String(campoSenha.getPassword()), BCrypt.gensalt());
+		            System.out.println(senhaHash);
+		            pessoa.setSenha(senhaHash);
+					//pessoa.setSenha(campoSenha.getText());
 					//JOptionPane.showMessageDialog(btnCadastrar, "Senha: " + pessoa.getSenha()); //obviamente tirar essa linha depois
 				}
 				else {

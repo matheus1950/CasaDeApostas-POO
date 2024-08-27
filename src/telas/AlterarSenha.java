@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import dao.impl.DaoFactory;
 
 import java.awt.Color;
@@ -79,7 +81,12 @@ public class AlterarSenha extends JFrame {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				salvar(btnSalvar, idUsuario, senhaAntiga);
+				if(salvar(btnSalvar, idUsuario, senhaAntiga)) {
+					//Forma que achei de não ficar com a senhaAntiga armazenando uma senha atualizada(voltar de tela)
+					MinhaConta conta = new MinhaConta(idUsuario);
+					conta.setVisible(true);
+					essaTela.setVisible(false);
+				}				
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 128));
@@ -176,21 +183,23 @@ public class AlterarSenha extends JFrame {
 		panel.add(campoConfirmar);
 	}
 	
-	public void salvar(JButton botao, int id, String senhaAntiga) {
+	public boolean salvar(JButton botao, int id, String senhaAntiga) {
+		System.out.println(senhaAntiga);
 		DaoFactory dao = new DaoFactory();
 		//Se forem ambos campos vazios ou ambos iguais aos campos já registrados, não chama o método de editar
 	
 		if(campoSenhaAtual.getText().equals("") || campoNovaSenha.getText().equals("") || campoConfirmar.getText().equals("")) {
 			JOptionPane.showMessageDialog(botao, "Nenhum campo pode ficar em branco!");
 		}
-		else if(campoNovaSenha.getText().equals(senhaAntiga)) {
+		else if(BCrypt.checkpw(campoNovaSenha.getText(), senhaAntiga)) {
 			JOptionPane.showMessageDialog(botao, "Senha igual a anterior, coloque uma senha diferente!");
 		}
 		else {
-			if(campoSenhaAtual.getText().equals(senhaAntiga)) {
+			if(BCrypt.checkpw(campoSenhaAtual.getText(), senhaAntiga)) {
 				if(campoNovaSenha.getText().equals(campoConfirmar.getText())) {
-					dao.criarPessoaDaoJDBC().editarSenha(id, campoConfirmar.getText());
+					dao.criarPessoaDaoJDBC().editarSenha(id, BCrypt.hashpw(campoConfirmar.getText(), senhaAntiga));
 					JOptionPane.showMessageDialog(botao, "Senha atualizada com sucesso!");
+					return true;
 				}
 				else {
 					JOptionPane.showMessageDialog(botao, "A confirmação de nova senha não confere!");
@@ -200,6 +209,7 @@ public class AlterarSenha extends JFrame {
 				JOptionPane.showMessageDialog(botao, "Senha atual não confere!");
 			}
 		}
+		return false;
 	}
 
 }

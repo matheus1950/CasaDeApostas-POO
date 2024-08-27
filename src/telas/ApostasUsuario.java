@@ -63,7 +63,7 @@ public class ApostasUsuario extends JFrame {
 		
 		setTitle("telaAdm");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 580, 420);
+		setBounds(100, 100, 774, 545);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(64, 128, 128));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,7 +73,7 @@ public class ApostasUsuario extends JFrame {
 
 		JPanel panel = new JPanel();
 		panel.setBackground(new Color(0, 64, 0));
-		panel.setBounds(24, 11, 515, 359);
+		panel.setBounds(24, 11, 724, 484);
 		contentPane.add(panel);
 		panel.setLayout(null);
 
@@ -83,14 +83,14 @@ public class ApostasUsuario extends JFrame {
 		txtApostas.setFont(new Font("Tahoma", Font.BOLD, 31));
 		txtApostas.setEditable(false);
 		txtApostas.setBackground(new Color(0, 64, 0));
-		txtApostas.setBounds(162, 5, 160, 42);
+		txtApostas.setBounds(222, 5, 160, 42);
 		panel.add(txtApostas);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setForeground(new Color(0, 0, 0));
-		scrollPane.setBounds(10, 58, 351, 290);
+		scrollPane.setBounds(10, 58, 555, 403);
 		panel.add(scrollPane);
 
 		// criar uma variável para receber um objeto DefaultTableModel e só depois
@@ -120,7 +120,7 @@ public class ApostasUsuario extends JFrame {
 		});
 		btnLogout.setForeground(Color.RED);
 		btnLogout.setBackground(Color.BLACK);
-		btnLogout.setBounds(396, 18, 114, 23);
+		btnLogout.setBounds(600, 23, 114, 23);
 		panel.add(btnLogout);
 
 		btnVoltar = new JButton("Voltar");
@@ -142,7 +142,7 @@ public class ApostasUsuario extends JFrame {
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(396, 325, 81, 23);
+		btnVoltar.setBounds(633, 438, 81, 23);
 		panel.add(btnVoltar);
 
 		btnBilhete = new JButton("Bilhete");
@@ -168,7 +168,7 @@ public class ApostasUsuario extends JFrame {
 		});
 		btnBilhete.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnBilhete.setForeground(new Color(0, 0, 128));
-		btnBilhete.setBounds(371, 147, 139, 23);
+		btnBilhete.setBounds(575, 160, 139, 23);
 		panel.add(btnBilhete);
 
 		// table.setEnabled(false); - uma opção diferente para desativar a edição das células(mas não são selecionáveis nesse caso)
@@ -197,7 +197,7 @@ public class ApostasUsuario extends JFrame {
 		});
 		btnAdicionarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnAdicionarAposta.setForeground(new Color(0, 0, 128));
-		btnAdicionarAposta.setBounds(371, 87, 139, 23);
+		btnAdicionarAposta.setBounds(575, 91, 139, 23);
 		panel.add(btnAdicionarAposta);
 	}
 

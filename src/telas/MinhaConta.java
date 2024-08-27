@@ -200,7 +200,7 @@ public class MinhaConta extends JFrame {
 		JButton btnNewButton = new JButton("Senha");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				AlterarSenha senha = new AlterarSenha(idUsuario, usuario.getSenha());
+				AlterarSenha senha = new AlterarSenha(idUsuario, dao.criarPessoaDaoJDBC().findPasswordByEmail(usuario.getEmail()));
         		//this aqui é para passar a própria frame no argumento ^
         		senha.setVisible(true);
         		essaTela.setVisible(false);
