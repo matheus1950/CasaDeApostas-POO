@@ -78,12 +78,12 @@ public class TelaPrincipalAdm extends JFrame {
         panel.setLayout(null);
         
         JTextArea txtTelaPrincipalAdm = new JTextArea();
-        txtTelaPrincipalAdm.setText("Tela Principal Adm");
+        txtTelaPrincipalAdm.setText("Tela Principal");
         txtTelaPrincipalAdm.setForeground(new Color(128, 255, 255));
         txtTelaPrincipalAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtTelaPrincipalAdm.setEditable(false);
         txtTelaPrincipalAdm.setBackground(new Color(0, 64, 0));
-        txtTelaPrincipalAdm.setBounds(338, 0, 294, 42);
+        txtTelaPrincipalAdm.setBounds(338, 0, 257, 42);
         panel.add(txtTelaPrincipalAdm);
         
         scrollPane = new JScrollPane();

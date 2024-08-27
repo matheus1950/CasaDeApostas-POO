@@ -75,12 +75,12 @@ public class ApostasAdm extends JFrame {
         panel.setLayout(null);
         
         JTextArea txtApostasAdm = new JTextArea();
-        txtApostasAdm.setText("Apostas(Adm)");
+        txtApostasAdm.setText("Apostas");
         txtApostasAdm.setForeground(new Color(128, 255, 255));
         txtApostasAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtApostasAdm.setEditable(false);
         txtApostasAdm.setBackground(new Color(0, 64, 0));
-        txtApostasAdm.setBounds(326, 4, 294, 42);
+        txtApostasAdm.setBounds(326, 4, 194, 42);
         panel.add(txtApostasAdm);
         
         scrollPane = new JScrollPane();

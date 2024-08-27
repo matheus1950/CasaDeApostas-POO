@@ -78,7 +78,7 @@ public class TelaPrincipalUsuario extends JFrame {
         panel.setLayout(null);
         
         JTextArea txtTelaPrincipal = new JTextArea();
-        txtTelaPrincipal.setText("Tela Principal (User)");
+        txtTelaPrincipal.setText("Tela Principal");
         txtTelaPrincipal.setForeground(new Color(128, 255, 255));
         txtTelaPrincipal.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtTelaPrincipal.setEditable(false);
@@ -145,7 +145,7 @@ public class TelaPrincipalUsuario extends JFrame {
         	}
         });
         btnLogout.setForeground(Color.RED);
-        btnLogout.setBackground(new Color(0, 0, 0));
+        btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
         btnLogout.setBounds(1025, 18, 114, 23);
         panel.add(btnLogout);
         

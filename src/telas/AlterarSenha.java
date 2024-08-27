@@ -146,7 +146,7 @@ public class AlterarSenha extends JFrame {
 		});
 		btnLogout.setForeground(Color.RED);
 		btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnLogout.setBounds(283, 29, 97, 23);
+		btnLogout.setBounds(283, 11, 97, 23);
 		panel.add(btnLogout);
 		
 		JButton btnVoltar = new JButton("Voltar");
