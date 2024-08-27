@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
+import entidades.Aposta;
 
 import java.awt.Color;
 import javax.swing.JTextArea;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.DropMode;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class EditarAposta extends JFrame {
@@ -117,7 +119,7 @@ public class EditarAposta extends JFrame {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				salvar(btnSalvar, idAposta, oddAntiga, descricaoAntiga);
+				salvar(btnSalvar, idAposta, oddAntiga, descricaoAntiga, idEvento);
 				frame.atualizarTabela(idEvento);
 			}
 		});
@@ -208,7 +210,7 @@ public class EditarAposta extends JFrame {
 		
 	}
 	
-	public void salvar(JButton botao, int idAposta, double oddAntiga, String descricaoAntiga) {
+	public void salvar(JButton botao, int idAposta, double oddAntiga, String descricaoAntiga, int idEvento) {
 		DaoFactory dao = new DaoFactory();
 		//Se forem ambos campos vazios ou ambos iguais aos campos já registrados, não chama o método de editar
 		if((campoOdd.getText().equals("") && campoDescricao.getText().equals("")) ||
@@ -217,13 +219,81 @@ public class EditarAposta extends JFrame {
 		}
 		else {
 			if(!campoOdd.getText().equals("")) {
-				dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
+				if(contarApostas(idEvento, dao) == 2) {		
+					dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
+					
+					System.out.println("id aposta: " + idAposta);
+					
+					double odd = calculoDaOddOposta(Double.parseDouble(campoOdd.getText())); //calcular oddoposta e passar na seguida para a outra aposta
+					odd = Math.round(odd * 100.0) / 100.0;
+					
+					System.out.println("id da outra: " + idDaOutraApostaDoEvento(idEvento, dao, idAposta));
+					
+					dao.criarApostaDaoJDBC().editarOdd(idDaOutraApostaDoEvento(idEvento, dao, idAposta), odd);
+				}
+				else { //só pode ter 1
+					dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
+				}
 			}
 			if(!campoDescricao.getText().equals("")) {
 				dao.criarApostaDaoJDBC().editarDescricao(idAposta, campoDescricao.getText());
 			}
 			JOptionPane.showMessageDialog(botao, "Aposta atualizada com sucesso!");
 		}
+		
+		atualizarTela(idAposta);
+	}
+	
+	public int contarApostas(int idEvento, DaoFactory dao) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		
+		return apostas.size();
+	}
+	
+	public Double oddDaOutraApostaDoEvento(int idEvento, DaoFactory dao, int idAposta) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		Double odd = null;
+		
+		for(Aposta aposta : apostas) {
+			if(aposta.getId() != idAposta) {
+				odd = aposta.getOdd();
+			}
+		}
+		
+		return odd;
+	}
+	
+	public Double calculoDaOddOposta(Double odd1) {
+		Double odd2 = (odd1/(odd1 - 1));
+		System.out.println("odd2> + " + odd2);
+		return odd2;
+	}
+	
+	public int idDaOutraApostaDoEvento(int idEvento, DaoFactory dao, int idAposta) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		int id = -1;
+		
+		for(Aposta aposta : apostas) {
+			if(aposta.getId() != idAposta) {
+				id = aposta.getId();
+			}
+		}
+		
+		return id;
+	}
+	
+	public void atualizarTela(int idAposta) {
+	    DaoFactory dao = new DaoFactory();
+	    Aposta aposta = dao.criarApostaDaoJDBC().findApostaById(idAposta);
+	    
+	    if (aposta != null) {
+	        // Atualiza os campos com os valores da aposta
+	        campoDescricao.setText(aposta.getDescricao());
+	        campoOdd.setText(String.valueOf(aposta.getOdd()));
+	        campoEventoEdit.setText("Descrição: " + aposta.getDescricao() + "\nOdd: " + aposta.getOdd());
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Aposta não encontrada.");
+	    }
 	}
 	
 }
