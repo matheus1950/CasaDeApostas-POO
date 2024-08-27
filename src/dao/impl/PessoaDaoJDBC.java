@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import org.postgresql.util.PSQLException;
 
@@ -267,6 +268,46 @@ public class PessoaDaoJDBC implements PessoaDao{
 		return (Integer) null; //não sei outra coisa para colocar aqui
 	}
 	
+	public Integer findIdByEmail(String email) {
+	    String sql = "SELECT id FROM Pessoa WHERE email = ?";
+	    
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setString(1, email);
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	                return rs.getInt("id");
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+	    return null; // Retorna null caso não encontre o id
+	}
+
+	
+	public ArrayList<Usuario> todosUsuarios() {
+		String sql = "SELECT * FROM Pessoa";
+		ArrayList<Usuario> usuarios = new ArrayList<Usuario>();
+		
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {	        
+	        try (ResultSet rs = ps.executeQuery()) {
+	            if (rs.next()) {
+	            	Usuario usuario = new Usuario();
+	            	usuario.setId(rs.getInt("id"));
+		        	usuario.setSenha(rs.getString("senha"));
+		        	usuario.setNome(rs.getString("nome"));  
+		            usuario.setCpf(rs.getInt("cpf"));
+		            usuario.setCarteira(rs.getDouble("carteira"));
+		            usuario.setEmail(rs.getString("email"));
+		            usuarios.add(usuario); 
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		return usuarios; //não sei outra coisa para colocar aqui
+	}
+	
 		
 	//tive um problema para excluir por id enquanto havia a tabela "aposta"(violação da chave estrangeira),
 	//fiz drop table pra testar, depois ver como deletar com a tabela aposta no lugar! 
@@ -299,7 +340,7 @@ public class PessoaDaoJDBC implements PessoaDao{
 		return false;
 	}
 
-	public boolean editarEmail(int id, String email) {
+	public boolean editarEmail(int id, String email) throws SQLException{
 		String sql = "UPDATE Pessoa SET email = ? WHERE id = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			ps.setString(1, email);
@@ -309,13 +350,13 @@ public class PessoaDaoJDBC implements PessoaDao{
 			ps.close();
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace();		
 		}
 		return false;
 		
 	}
 	
-	public boolean editarSenha(int id, String senha) {
+	public boolean editarSenha(int id, String senha) throws SQLException{
 		String sql = "UPDATE Pessoa SET senha = ? WHERE id = ?";
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			ps.setString(1, senha);
@@ -325,7 +366,7 @@ public class PessoaDaoJDBC implements PessoaDao{
 			ps.close();
 			return true;
 		} catch (SQLException e) {
-			e.printStackTrace();
+			e.printStackTrace();			
 		}
 		return false;		
 	}

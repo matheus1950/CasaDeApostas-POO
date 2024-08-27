@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 import javax.swing.JPasswordField;
@@ -75,17 +76,21 @@ public class AlterarSenha extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setBackground(new Color(0, 64, 0));
-		panel.setBounds(10, 22, 393, 268);
+		panel.setBounds(10, 22, 393, 282);
 		contentPane_1.add(panel);
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(salvar(btnSalvar, idUsuario, senhaAntiga)) {
-					//Forma que achei de não ficar com a senhaAntiga armazenando uma senha atualizada(voltar de tela)
-					MinhaConta conta = new MinhaConta(idUsuario);
-					conta.setVisible(true);
-					essaTela.setVisible(false);
+				try {
+					if(salvar(btnSalvar, idUsuario, senhaAntiga)) {					
+						MinhaConta conta = new MinhaConta(idUsuario);
+						conta.setVisible(true);
+						essaTela.setVisible(false);
+					}
+				} catch (SQLException e1) {
+					JOptionPane.showInternalMessageDialog(btnSalvar,"Erro: " +  e1);
+					e1.printStackTrace();
 				}				
 			}
 		});
@@ -151,16 +156,10 @@ public class AlterarSenha extends JFrame {
 		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		MinhaConta conta = new MinhaConta(idUsuario);
-	        		conta.setVisible(true);
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+			public void actionPerformed(ActionEvent e) {				
+        		essaTela.setVisible(false);
+        		MinhaConta conta = new MinhaConta(idUsuario);
+        		conta.setVisible(true);     		       		
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
@@ -183,7 +182,7 @@ public class AlterarSenha extends JFrame {
 		panel.add(campoConfirmar);
 	}
 	
-	public boolean salvar(JButton botao, int id, String senhaAntiga) {
+	public boolean salvar(JButton botao, int id, String senhaAntiga) throws SQLException {
 		System.out.println(senhaAntiga);
 		DaoFactory dao = new DaoFactory();
 		//Se forem ambos campos vazios ou ambos iguais aos campos já registrados, não chama o método de editar

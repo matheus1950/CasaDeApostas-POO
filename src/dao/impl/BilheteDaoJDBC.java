@@ -52,11 +52,10 @@ public class BilheteDaoJDBC implements BilheteDao{
 	                    bilhete.setOddTotal(rs.getDouble("oddTotal"));
 	                    bilhete.setIdDeUsuario(rs.getInt("idDeUsuario"));                    
 	                    bilhete.setDataDeCriacao(rs.getDate("dataDeCriacao"));
-	                    bilhete.setStatus(rs.getString("status"));
-	                    bilhete.setResultado(rs.getString("resultado"));
+	                    bilhete.setStatus(rs.getString("status"));	                    
 	                    bilhete.setEfetuado(rs.getBoolean("efetuado"));
 	                    bilhete.setRetorno(); //método de cálculo da própria entidade
-	                    bilhetes.add(bilhete);//adicionando ao array
+	                    bilhetes.add(bilhete);
 	                }
 	            }
 	        }
@@ -79,8 +78,7 @@ public class BilheteDaoJDBC implements BilheteDao{
                     bilhete.setId(rs.getInt("id"));
                     bilhete.setIdDeUsuario(rs.getInt("idDeUsuario"));                    
                     bilhete.setDataDeCriacao(rs.getDate("dataDeCriacao"));
-                    bilhete.setStatus(rs.getString("status"));
-                    bilhete.setResultado(rs.getString("resultado"));
+                    bilhete.setStatus(rs.getString("status"));                    
                     bilhete.setEfetuado(rs.getBoolean("efetuado"));                   
                 }
             }
@@ -92,19 +90,16 @@ public class BilheteDaoJDBC implements BilheteDao{
     }
 	
 	public void inserirBilhete(Bilhete bilhete) {
-		String sql = "INSERT INTO Bilhete (retorno, oddTotal, status, resultado, efetuado, iddeusuario) "
-    			+ "VALUES (?, ?, ?, ?, ?, ?)";	    
+		String sql = "INSERT INTO Bilhete (retorno, oddTotal, status, efetuado, iddeusuario) "
+    			+ "VALUES (?, ?, ?, ?, ?)";	    
 	    
 	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
 	        ps.setDouble(1, bilhete.getRetorno());
 	        ps.setDouble(2, bilhete.getOddTotal());
-	        ps.setString(3, bilhete.getStatus());
-	        ps.setString(4, bilhete.getResultado());
-	        ps.setBoolean(5, bilhete.isEfetuado());
-	        ps.setInt(6, bilhete.getIdDeUsuario());
-	        ps.executeUpdate();
-	        System.out.println("Bilhete inserido com sucesso!");
-	        ps.close();
+	        ps.setString(3, bilhete.getStatus());	       
+	        ps.setBoolean(4, bilhete.isEfetuado());
+	        ps.setInt(5, bilhete.getIdDeUsuario());
+	        ps.executeUpdate();        
 	    } catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -144,6 +139,37 @@ public class BilheteDaoJDBC implements BilheteDao{
 	        throw e;
 	    }
 	}
+	
+	public ArrayList<Aposta> obterApostasPorBilheteId(int idBilhete) throws SQLException {	    
+	    String sql = "SELECT aposta.* FROM aposta INNER JOIN bilhete_aposta ON aposta.id = bilhete_aposta.idaposta WHERE bilhete_aposta.idbilhete = ?";
+	    
+	    ArrayList<Aposta> apostas = new ArrayList<Aposta>();
+
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, idBilhete);
+
+	        try (ResultSet rs = ps.executeQuery()) {	            
+	            while (rs.next()) {	                
+	                Aposta aposta = new Aposta();
+	                aposta.setId(rs.getInt("id")); 
+	                aposta.setDescricao(rs.getString("descricao")); 
+	                aposta.setOdd(rs.getDouble("odd"));
+	                aposta.setDataDeCriacao(rs.getDate("datadecriacao"));
+	                aposta.setIdDeEvento(rs.getInt("iddeevento"));
+	                aposta.setStatus(rs.getString("status"));
+                
+	                apostas.add(aposta);
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	        throw e;
+	    }
+
+	    // Converte a lista de apostas para um array e retorna
+	    return apostas;
+	}
+
 		
 	public void removerDoBilhete(int idAposta, int idBilhete) {		
 			String sql = "DELETE FROM bilhete_aposta WHERE idaposta = ? AND idbilhete = ?";
@@ -152,7 +178,6 @@ public class BilheteDaoJDBC implements BilheteDao{
 				ps.setInt(1, idAposta);
 				ps.setInt(2, idBilhete);
 				ps.executeUpdate();
-				System.out.println("Aposta retirada do bilhete com sucesso!");
 				ps.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -197,5 +222,20 @@ public class BilheteDaoJDBC implements BilheteDao{
 			e.printStackTrace();
 		}	
 	}
+	
+	public void editarStatusBilhete(int idBilhete, String novoStatus) throws SQLException {
+	    
+	    String sql = "UPDATE bilhete SET status = ? WHERE id = ?";
+
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) {	       
+	        ps.setString(1, novoStatus);
+	        ps.setInt(2, idBilhete);	        	        
+	        ps.executeUpdate();        	        
+	    } catch (SQLException e) {        
+	        e.printStackTrace();
+	        throw e;
+	    }
+	}
+
 
 }

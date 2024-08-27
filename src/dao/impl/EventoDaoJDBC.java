@@ -9,7 +9,9 @@ import java.util.ArrayList;
 
 import dao.EventoDao;
 import db.DB;
+import entidades.Aposta;
 import entidades.Evento;
+import entidades.Pessoa;
 
 public class EventoDaoJDBC implements EventoDao{
 	
@@ -18,8 +20,8 @@ public class EventoDaoJDBC implements EventoDao{
 	
 	@Override
 	public void insert(Evento evento) {
-	        String sql = "INSERT INTO Evento (nome, dataDeCriacao, descricao, permissao, idDeUsuario) "
-	        			+ "VALUES (?, ?, ?, ?, ?)";
+	        String sql = "INSERT INTO Evento (nome, dataDeCriacao, descricao, permissao, idDeUsuario, resultado, status) "
+	        			+ "VALUES (?, ?, ?, ?, ?, ?, ?)";
 	        
 	        java.sql.Date sqlDate = new java.sql.Date(evento.getDataDeCriacao().getTime()); //linha de cast de util.Date para sql.Date
 	        
@@ -29,9 +31,10 @@ public class EventoDaoJDBC implements EventoDao{
 	            ps.setString(3, evento.getDescricao());
 	            ps.setBoolean(4, evento.isPermissao());
 	            ps.setInt(5, evento.getIdDeUsuario());
+	            ps.setString(6, evento.getResultado());
+	            ps.setString(7, evento.getStatus());
 	            ps.executeUpdate();
-	            System.out.println("Evento inserido com sucesso!");
-	            ps.close();
+	            System.out.println("Evento inserido com sucesso!");	            
 	        } catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -60,6 +63,30 @@ public class EventoDaoJDBC implements EventoDao{
         }
 
         return eventos;
+    }
+	
+	public ArrayList<Evento> listarTodosEventosNaoEncerrados() {
+		String sql = "SELECT * FROM Evento WHERE status != 'encerrado'";
+	    ArrayList<Evento> eventos = new ArrayList<>();
+
+	    try (PreparedStatement ps = conn.prepareStatement(sql);
+	         ResultSet rs = ps.executeQuery()) {
+
+	        while (rs.next()) {
+	            Evento evento = new Evento();
+	            evento.setId(rs.getInt("id"));
+	            evento.setIdDeUsuario(rs.getInt("iddeusuario"));
+	            evento.setNome(rs.getString("nome"));
+	            evento.setDescricao(rs.getString("descricao"));
+	            evento.setDataDeCriacao(rs.getDate("datadecriacao"));
+	            evento.setStatus(rs.getString("status")); 
+	            eventos.add(evento);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return eventos;
     }
 
 	@Override
@@ -93,10 +120,46 @@ public class EventoDaoJDBC implements EventoDao{
 		return false;
 	}
 	
+	public boolean editarStatus(int id, String status) {
+		String sql = "UPDATE evento SET status = ? WHERE id = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, status);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Evento atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public boolean editarResultado(int id, String resultado) {
+		String sql = "UPDATE evento SET resultado = ? WHERE id = ?";
+		try(PreparedStatement ps = conn.prepareStatement(sql)){
+			ps.setString(1, resultado);
+			ps.setInt(2, id);
+			ps.executeUpdate();
+			System.out.println("Evento atualizado com sucesso!");
+			ps.close();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 
 	@Override
 	public boolean deleteById(int id) {
+		DaoFactory dao = new DaoFactory();
+		ArrayList<Aposta> apostas = apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(id);
 		String sql = "DELETE FROM evento WHERE id = ?";
+		
+		for(Aposta aposta : apostas) {
+			dao.criarApostaDaoJDBC().deleteById(aposta.getId());
+		}
 		
 		try(PreparedStatement ps = conn.prepareStatement(sql)){
 			ps.setInt(1, id);
@@ -107,7 +170,37 @@ public class EventoDaoJDBC implements EventoDao{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return false;
 	}
+	
+	public Evento findEventoById(int idEvento) {
+		String sql = "SELECT * FROM evento WHERE id = ?";
+		DaoFactory dao = new DaoFactory();
+		
+		try (PreparedStatement ps = conn.prepareStatement(sql)) {
+	        ps.setInt(1, idEvento);
+	        Evento evento = new Evento();
+	        try (ResultSet rs = ps.executeQuery()) {
+	        	if(rs.next()) {
+	        		evento.setId(rs.getInt("id"));
+	                evento.setIdDeUsuario(rs.getInt("iddeusuario"));
+	                evento.setNome(rs.getString("nome"));
+	                evento.setDescricao(rs.getString("descricao"));
+	                evento.setDataDeCriacao(rs.getDate("datadecriacao"));
+	                evento.setDescricao(rs.getString("descricao"));
+	                evento.setResultado(rs.getString("resultado"));
+	                evento.setStatus(rs.getString("status"));
+	                evento.setAssociadas(dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento));	                
+		            return evento;   
+	        	}         
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+		
+		return null; //não sei outra coisa para colocar aqui
+	}
+
 	
 }

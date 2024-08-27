@@ -173,16 +173,10 @@ public class CadastroDeAposta extends JFrame {
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela(idEvento);
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+        		essaTela.setVisible(false);
+        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
+        		adm.setVisible(true);
+        		adm.atualizarTabela(idEvento);
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));

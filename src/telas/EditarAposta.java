@@ -181,17 +181,11 @@ public class EditarAposta extends JFrame {
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela(idEvento);
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+			public void actionPerformed(ActionEvent e) {				
+        		essaTela.setVisible(false);
+        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
+        		adm.setVisible(true);
+        		adm.atualizarTabela(idEvento);       		
 			}		
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
@@ -222,12 +216,8 @@ public class EditarAposta extends JFrame {
 				if(contarApostas(idEvento, dao) == 2) {		
 					dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
 					
-					System.out.println("id aposta: " + idAposta);
-					
 					double odd = calculoDaOddOposta(Double.parseDouble(campoOdd.getText())); //calcular oddoposta e passar na seguida para a outra aposta
-					odd = Math.round(odd * 100.0) / 100.0;
-					
-					System.out.println("id da outra: " + idDaOutraApostaDoEvento(idEvento, dao, idAposta));
+					odd = Math.round(odd * 100.0) / 100.0;					
 					
 					dao.criarApostaDaoJDBC().editarOdd(idDaOutraApostaDoEvento(idEvento, dao, idAposta), odd);
 				}

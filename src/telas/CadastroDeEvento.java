@@ -96,9 +96,12 @@ public class CadastroDeEvento extends JFrame {
 					return;
 				}
 				
+				evento.setStatus("pendente");
+				evento.setResultado("pendente");				
 				evento.setIdDeUsuario(idUsuario);
+				
 				dao.criarEventoDaoJDBC().insert(evento);
-				JOptionPane.showMessageDialog(btnCadastrar, "Evento inserido com sucesso!");
+				JOptionPane.showMessageDialog(null, "Evento inserido com sucesso!");
 				frame.atualizarTabela();
 			}
 		});
@@ -158,23 +161,17 @@ public class CadastroDeEvento extends JFrame {
 			}
 		});
 		btnLogout.setForeground(Color.RED);
-		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnLogout.setBounds(348, 29, 114, 23);
 		panel.add(btnLogout);
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		TelaPrincipalAdm adm = new TelaPrincipalAdm(idUsuario);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela();
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+			public void actionPerformed(ActionEvent e) {			
+        		essaTela.setVisible(false);
+        		TelaPrincipalAdm adm = new TelaPrincipalAdm(idUsuario);
+        		adm.setVisible(true);
+        		adm.atualizarTabela();        		
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));

@@ -174,17 +174,11 @@ public class ApostasAdm extends JFrame {
         
         JButton btnVoltar = new JButton("Voltar");
         btnVoltar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		TelaPrincipalAdm adm =  new TelaPrincipalAdm(idUsuario);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela();	        		
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+        	public void actionPerformed(ActionEvent e) {       		
+        		essaTela.setVisible(false);
+        		TelaPrincipalAdm adm =  new TelaPrincipalAdm(idUsuario);
+        		adm.setVisible(true);
+        		adm.atualizarTabela();	        		  		
         	} 	
         });
         btnVoltar.setForeground(new Color(0, 0, 128));

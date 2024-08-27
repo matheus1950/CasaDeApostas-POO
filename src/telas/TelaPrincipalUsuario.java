@@ -240,7 +240,7 @@ public class TelaPrincipalUsuario extends JFrame {
     	DaoFactory dao = new DaoFactory();
         tableModel.setRowCount(0); // Limpa todos os dados da tabela
         
-        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados();
         preencherTabela(todosEventos);
     }
     

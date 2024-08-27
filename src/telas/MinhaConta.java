@@ -19,6 +19,7 @@ import javax.swing.JSeparator;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class MinhaConta extends JFrame {
@@ -118,8 +119,12 @@ public class MinhaConta extends JFrame {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {					
-				salvar(btnSalvar, idUsuario, usuario.getNome(), usuario.getEmail());
-				//frame.atualizarTabela(idEvento);
+				try {
+					salvar(btnSalvar, idUsuario, usuario.getNome(), usuario.getEmail());
+				} catch (SQLException e1) {
+					JOptionPane.showInternalMessageDialog(btnSalvar, "Erro inesperado" + e);
+					e1.printStackTrace();
+				}				
 			}
 		});
 		btnSalvar.setForeground(new Color(0, 0, 128));
@@ -165,31 +170,25 @@ public class MinhaConta extends JFrame {
 			}
 		});
 		btnLogout.setForeground(Color.RED);
-		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnLogout.setBounds(613, 18, 114, 23);
 		panel.add(btnLogout);
 		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-        			if(dao.criarPessoaDaoJDBC().findPermissaoById(idUsuario) == true) {
-		        		essaTela.setVisible(false);
-		        		TelaPrincipalAdm adm = new TelaPrincipalAdm(idUsuario);
-		        		adm.setVisible(true);
-		        		adm.atualizarTabela();
-        			}
-        			else {
-        				essaTela.setVisible(false);
-		        		TelaPrincipalUsuario user = new TelaPrincipalUsuario(idUsuario);
-		        		user.setVisible(true);
-		        		user.atualizarTabela();
-        			}
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+			public void actionPerformed(ActionEvent e) {				
+    			if(dao.criarPessoaDaoJDBC().findPermissaoById(idUsuario) == true) {
+	        		essaTela.setVisible(false);
+	        		TelaPrincipalAdm adm = new TelaPrincipalAdm(idUsuario);
+	        		adm.setVisible(true);
+	        		adm.atualizarTabela();
+    			}
+    			else {
+    				essaTela.setVisible(false);
+	        		TelaPrincipalUsuario user = new TelaPrincipalUsuario(idUsuario);
+	        		user.setVisible(true);
+	        		user.atualizarTabela();
+    			}   		       		
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
@@ -230,7 +229,7 @@ public class MinhaConta extends JFrame {
 		panel.add(txtrModificarSenha);
 	}
 	
-	public void salvar(JButton botao, int id, String nomeAntigo, String emailAntigo) {
+	public void salvar(JButton botao, int id, String nomeAntigo, String emailAntigo) throws SQLException {
 		DaoFactory dao = new DaoFactory();
 		//Se forem ambos campos vazios ou ambos iguais aos campos já registrados, não chama o método de editar
 		if((campoNome.getText().equals("") && campoEmail.getText().equals("")) ||

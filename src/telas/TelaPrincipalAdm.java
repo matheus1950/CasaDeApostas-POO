@@ -45,7 +45,7 @@ public class TelaPrincipalAdm extends JFrame {
                     
                     //preencher a tabela com todos eventos
                     DaoFactory dao = new DaoFactory();
-                    ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+                    ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados();
                     frame.preencherTabela(todosEventos);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -221,6 +221,38 @@ public class TelaPrincipalAdm extends JFrame {
         btnMinhaConta.setBackground(UIManager.getColor("CheckBox.focus"));
         btnMinhaConta.setBounds(10, 18, 114, 23);
         panel.add(btnMinhaConta);
+        
+        JButton btnEncerrarEvento = new JButton("Encerrar Evento");
+        btnEncerrarEvento.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		DaoFactory dao = new DaoFactory();
+                               
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {                 
+                    JOptionPane.showMessageDialog(btnEncerrarEvento, "Por favor, selecione um evento para encerrar.");
+                    return;
+                }
+
+                int option = JOptionPane.showConfirmDialog(btnEncerrarEvento, "Deseja realmente encerrar o evento selecionado?"); 
+                
+                if (option == JOptionPane.YES_OPTION) {
+                    int idEvento = (int) table.getValueAt(selectedRow, 0); 
+                    if (contarApostas(idEvento, dao) == 2) {
+                        EncerrarEvento encerrar = new EncerrarEvento(idUsuario, idEvento);
+                        encerrar.setVisible(true);
+                        essaTela.setVisible(false);  
+                    } else {
+                        JOptionPane.showMessageDialog(btnEncerrarEvento, "Não pode encerrar um evento que não tenha o mínimo de 2 apostas!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(btnEncerrarEvento, "Cancelado!");
+                }                        
+            }
+        });
+        btnEncerrarEvento.setForeground(new Color(0, 0, 128));
+        btnEncerrarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnEncerrarEvento.setBounds(896, 387, 137, 23);
+        panel.add(btnEncerrarEvento);
     }
     
     public void preencherTabela(ArrayList<Evento> eventos) {
@@ -239,7 +271,7 @@ public class TelaPrincipalAdm extends JFrame {
     	DaoFactory dao = new DaoFactory();
         tableModel.setRowCount(0); // Limpa todos os dados da tabela
         
-        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados();
         preencherTabela(todosEventos);
     }
     
@@ -267,6 +299,12 @@ public class TelaPrincipalAdm extends JFrame {
             }
         }
     }
+    
+    public int contarApostas(int idEvento, DaoFactory dao) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		
+		return apostas.size();
+	}
     
     
 }

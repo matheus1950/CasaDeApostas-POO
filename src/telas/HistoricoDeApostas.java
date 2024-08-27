@@ -93,7 +93,7 @@ public class HistoricoDeApostas extends JFrame {
 		// criar uma variável para receber um objeto DefaultTableModel e só depois
 		// colocalo como argumento em new JTable!
 		tableModel = new DefaultTableModel(new Object[][] {},
-				new String[] { "Id", "Data de criação", "Odd", "Status", "Valor", "Resultado", "Retorno" }) {
+				new String[] { "Id", "Data de criação", "Odd", "Status", "Valor", "Retorno" }) {
 			@Override // sobrescrevendo o método de DefaultTable para as células não serem editáveis
 			public boolean isCellEditable(int row, int column) {
 				return false;
@@ -123,19 +123,11 @@ public class HistoricoDeApostas extends JFrame {
 		
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); // acho que aqui
-																									// posso tirar esse
-																									// tipo de
-																									// confirmação
-				if (option == JOptionPane.YES_OPTION) {
+			public void actionPerformed(ActionEvent e) {				
 				essaTela.setVisible(false);
 				TelaPrincipalUsuario usuario = new TelaPrincipalUsuario(idUsuario);
 				usuario.setVisible(true);
-				usuario.atualizarTabela();
-				} else {
-				JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-				}
+				usuario.atualizarTabela();				
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
@@ -198,8 +190,7 @@ public class HistoricoDeApostas extends JFrame {
                 bilhete.getDataDeCriacao(),
                 bilhete.getOddTotal(),
                 bilhete.getStatus(),
-                bilhete.getValor(),
-                bilhete.getResultado(),
+                bilhete.getValor(),               
                 bilhete.getRetorno()
             };
             tableModel.addRow(row);

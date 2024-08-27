@@ -27,8 +27,7 @@ public class ApostaDaoJDBC {
             ps.setDouble(3, aposta.getOdd());
             ps.setInt(2, aposta.getIdDeEvento());
             ps.setString(5, "pendente");  //por enquanto o status vai começar como pendente!!
-            ps.executeUpdate();
-            System.out.println("Aposta inserida com sucesso!");
+            ps.executeUpdate();            
             ps.close();
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -47,19 +46,17 @@ public class ApostaDaoJDBC {
             while (rs.next()) {
                 Aposta aposta = new Aposta();
                 aposta.setId(rs.getInt("id"));
-                aposta.setStatus(rs.getString("status"));
-                aposta.setResultado(rs.getString("resultado"));
+                aposta.setStatus(rs.getString("status"));              
                 aposta.setDataDeCriacao(rs.getDate("datadecriacao"));
                 aposta.setOdd(rs.getDouble("odd"));
                 aposta.setDescricao(rs.getString("descricao"));
+                aposta.setIdDeEvento(rs.getInt("iddeevento"));
                 apostas.add(aposta);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for(Aposta aposta : apostas) {
-        	System.out.println(aposta);
-        }
+        
         return apostas;
 	}
 	
@@ -159,8 +156,8 @@ public class ApostaDaoJDBC {
 	public ArrayList<Aposta> findApostasByBilheteId(int idBilhete) {
         ArrayList<Aposta> apostas = new ArrayList<Aposta>();
         String sql = "SELECT Aposta.* FROM Aposta " +
-                     "JOIN Bilhete_Aposta ON Aposta.id = Bilhete_Aposta.idAposta " +
-                     "WHERE Bilhete_Aposta.idBilhete = ?";
+                     "JOIN Bilhete_Aposta ON Aposta.id = Bilhete_Aposta.idaposta " +
+                     "WHERE Bilhete_Aposta.idbilhete = ?";
         
         try (PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, idBilhete);
@@ -172,18 +169,13 @@ public class ApostaDaoJDBC {
                     aposta.setIdDeEvento(rs.getInt("idDeEvento"));
                     aposta.setOdd(rs.getDouble("odd"));
                     aposta.setDataDeCriacao(rs.getDate("dataDeCriacao"));
-                    aposta.setStatus(rs.getString("status"));
-                    aposta.setResultado(rs.getString("resultado"));
+                    aposta.setStatus(rs.getString("status"));                   
                     apostas.add(aposta);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        //teste
-        for(Aposta a : apostas) {
-        	System.out.println(a);
-        }
+        }        
         return apostas;
     }
 }

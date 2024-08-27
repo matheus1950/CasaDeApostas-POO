@@ -113,15 +113,9 @@ public class Login extends JFrame {
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
+			public void actionPerformed(ActionEvent e) {				
 	        		essaTela.setVisible(false);
-	        		new BoasVindas().setVisible(true);
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+	        		new BoasVindas().setVisible(true);      		
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
@@ -157,17 +151,17 @@ public class Login extends JFrame {
 			//se o campo permissão for falso -> abrir tela de usuário
 			if(dao.criarPessoaDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(),dao.criarPessoaDaoJDBC().findPasswordByEmail(campoEmail.getText())) == false) {
 				//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
-				TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario(dao.criarPessoaDaoJDBC().findIdByEmailSenha(campoEmail.getText(), dao.criarPessoaDaoJDBC().findPasswordByEmail(campoEmail.getText())));
+				TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario(dao.criarPessoaDaoJDBC().findIdByEmail(campoEmail.getText()));
 				
-			    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
+			    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados());
 			    telaUsuario.setVisible(true);
 			    essaTela.setVisible(false);
 		        telaUsuario.setVisible(true);
 			}//se o campo permissão for verdadeiro -> abrir tela de adm
 			else {
-				TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarPessoaDaoJDBC().findIdByEmailSenha(campoEmail.getText(), dao.criarPessoaDaoJDBC().findPasswordByEmail(campoEmail.getText())));
+				TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarPessoaDaoJDBC().findIdByEmail(campoEmail.getText()));
 				
-		        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
+		        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados());
 		        essaTela.setVisible(false);
 		        telaAdm.setVisible(true);
 			}

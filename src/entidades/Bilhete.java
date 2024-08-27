@@ -10,7 +10,6 @@ public class Bilhete {
 	private double retorno;
 	private Date dataDeCriacao;
 	private String status;
-	private String resultado;
 	private ArrayList <Aposta> apostas = new ArrayList();
 	private boolean efetuado;
 	private double valor;
@@ -21,8 +20,7 @@ public class Bilhete {
 		this.id = id;
 		this.idDeUsuario = idDeUsuario;		
 		this.dataDeCriacao = new Date();
-		this.status = status;
-		this.resultado = "pendente";
+		this.status = status;		
 		this.efetuado = false; //aqui ou na declaração
 		this.status = "pendente"; //aqui ou na declaração
 		this.valor = 0; //aqui ou na declaração		
@@ -31,8 +29,7 @@ public class Bilhete {
 	
 	public Bilhete() {
 		super();
-		this.dataDeCriacao = new Date();
-		this.resultado = "pendente";
+		this.dataDeCriacao = new Date();		
 		this.efetuado = false; //aqui ou na declaração
 		this.status = "pendente"; //aqui ou na declaração
 		this.valor = 0; //aqui ou na declaração	
@@ -90,12 +87,6 @@ public class Bilhete {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getResultado() {
-		return resultado;
-	}
-	public void setResultado(String resultado) {
-		this.resultado = resultado;
-	}
 
 	public ArrayList<Aposta> getApostas() {
 		return apostas;
@@ -128,8 +119,8 @@ public class Bilhete {
 	@Override
 	public String toString() {
 		return "Bilhete [id=" + id + ", idDeUsuario=" + idDeUsuario + ", oddTotal=" + oddTotal + ", retorno=" + retorno
-				+ ", dataDeCriacao=" + dataDeCriacao + ", status=" + status + ", resultado=" + resultado + ", apostas="
-				+ apostas + ", efetuado=" + efetuado + ", valor=" + valor + "]";
-	}
+				+ ", dataDeCriacao=" + dataDeCriacao + ", status=" + status + ", apostas=" + apostas + ", efetuado="
+				+ efetuado + ", valor=" + valor + "]";
+	}	
 			
 }
