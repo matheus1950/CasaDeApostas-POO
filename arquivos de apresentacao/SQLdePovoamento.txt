@@ -1,0 +1,188 @@
+CREATE TABLE aposta (
+    id SERIAL PRIMARY KEY,
+    iddeevento INTEGER NOT NULL,
+    odd DOUBLE PRECISION NOT NULL,
+    datadecriacao DATE NOT NULL,
+    status CHARACTER VARYING(50) NOT NULL,
+    descricao CHARACTER VARYING(100)
+);
+
+
+CREATE TABLE bilhete (
+    id SERIAL PRIMARY KEY,
+    iddeusuario INTEGER NOT NULL,
+    oddtotal DOUBLE PRECISION NOT NULL,
+    retorno DOUBLE PRECISION NOT NULL,
+    datadecriacao TIMESTAMP WITHOUT TIME ZONE,
+    status CHARACTER VARYING(50) NOT NULL,
+    efetuado BOOLEAN NOT NULL,
+    valor DOUBLE PRECISION,
+    FOREIGN KEY (iddeusuario) REFERENCES pessoa(id)  
+);
+
+
+CREATE TABLE bilhete_aposta (
+    idbilhete INTEGER NOT NULL,
+    idaposta INTEGER NOT NULL,
+    PRIMARY KEY (idbilhete, idaposta),
+    FOREIGN KEY (idbilhete) REFERENCES bilhete(id),
+    FOREIGN KEY (idaposta) REFERENCES aposta(id)
+);
+
+
+CREATE TABLE codigodecadastroadm (
+    codigodecadastroadm CHARACTER VARYING(50)
+);
+
+
+CREATE TABLE evento (
+    id SERIAL PRIMARY KEY,
+    nome CHARACTER VARYING(100) NOT NULL,
+    datadecriacao DATE NOT NULL,
+    iddeusuario INTEGER,
+    permissao BOOLEAN,
+    descricao CHARACTER VARYING(100) NOT NULL,
+    resultado CHARACTER VARYING(100),
+    status CHARACTER VARYING(100),
+    FOREIGN KEY (iddeusuario) REFERENCES pessoa(id) 
+);
+
+
+CREATE TABLE pessoa (
+    id SERIAL PRIMARY KEY,
+    nome CHARACTER VARYING(100) NOT NULL,
+    email CHARACTER VARYING(100) NOT NULL,
+    senha CHARACTER VARYING(100) NOT NULL,
+    carteira NUMERIC(10, 2) DEFAULT 0.00,
+    cpf INTEGER NOT NULL,
+    datanascimento DATE NOT NULL,
+    permissao BOOLEAN
+);
+
+INSERT INTO aposta (id, iddeevento, odd, datadecriacao, status, descricao)
+VALUES 
+    -- Evento 1
+    (1, 1, 1.5, '2024-08-27', 'pendente', 'Time A vence'),
+    (2, 1, 2.5, '2024-08-27', 'pendente', 'Time B vence'),
+    -- Evento 2
+    (3, 2, 1.8, '2024-08-26', 'pendente', 'Time C vence'),
+    (4, 2, 3.2, '2024-08-26', 'pendente', 'Time D vence'),
+    -- Evento 3
+    (5, 3, 2.0, '2024-08-25', 'pendente', 'Time E vence'),
+    (6, 3, 2.8, '2024-08-25', 'pendente', 'Time F vence'),
+    -- Evento 4
+    (7, 4, 1.7, '2024-08-24', 'pendente', 'Time G vence'),
+    (8, 4, 2.3, '2024-08-24', 'pendente', 'Time H vence'),
+    -- Evento 5
+    (9, 5, 1.6, '2024-08-23', 'pendente', 'Time I vence'),
+    (10, 5, 3.0, '2024-08-23', 'pendente', 'Time J vence'),
+    -- Evento 6
+    (11, 6, 2.2, '2024-08-22', 'encerrado', 'Time K vence'),
+    (12, 6, 2.7, '2024-08-22', 'encerrado', 'Time L vence'),
+    -- Evento 7
+    (13, 7, 1.9, '2024-08-21', 'pendente', 'Time M vence'),
+    (14, 7, 2.1, '2024-08-21', 'pendente', 'Time N vence'),
+    -- Evento 8
+    (15, 8, 2.0, '2024-08-20', 'pendente'', 'Time O vence');
+
+
+INSERT INTO bilhete (id, iddeusuario, oddtotal, retorno, datadecriacao, status, efetuado, valor)
+VALUES 
+    (1, 1, 4.0, 3.5, '2024-08-27 10:00:00', 'pendente', TRUE, 100.00),
+    (2, 1, 5.0, 4.0, '2024-08-27 11:00:00', 'pendente', FALSE, 150.00),
+    (3, 2, 4.0, 3.0, '2024-08-26 09:00:00', 'pendente'', TRUE, 200.00),
+    (4, 2, 5.5, 4.5, '2024-08-26 10:00:00', 'pendente'', TRUE, 250.00),
+    (5, 3, 5.5, 4.5, '2024-08-25 08:00:00', 'pendente', FALSE, 300.00),
+    (6, 3, 7.0, 6.0, '2024-08-25 09:00:00', 'pendente', TRUE, 350.00),
+    (7, 4, 3.0, 2.5, '2024-08-24 07:00:00', 'pendente'', TRUE, 400.00),
+    (8, 4, 4.5, 4.0, '2024-08-24 08:00:00', 'pendente'', FALSE, 450.00),
+    (9, 5, 2.5, 2.0, '2024-08-23 06:00:00', 'pendente', TRUE, 500.00),
+    (10, 5, 3.5, 3.0, '2024-08-23 07:00:00', 'pendente', FALSE, 550.00),
+    (11, 6, 4.2, 3.5, '2024-08-22 05:00:00', 'pendente'', TRUE, 600.00),
+    (12, 6, 5.0, 4.5, '2024-08-22 06:00:00', 'pendente'', FALSE, 650.00),
+    (13, 7, 3.5, 3.0, '2024-08-21 04:00:00', 'pendente', TRUE, 700.00),
+    (14, 7, 4.0, 3.5, '2024-08-21 05:00:00', 'pendente', FALSE, 750.00),
+    (15, 8, 4.0, 3.5, '2024-08-20 03:00:00', 'pendente'', TRUE, 800.00);
+
+
+INSERT INTO bilhete_aposta (idbilhete, idaposta)
+VALUES 
+    (1, 1),
+    (1, 2),
+    (2, 3),
+    (2, 4),
+    (3, 5),
+    (3, 6),
+    (4, 7),
+    (4, 8),
+    (5, 9),
+    (5, 10),
+    (6, 11),
+    (6, 12),
+    (7, 13),
+    (7, 14),
+    (8, 15);
+
+
+INSERT INTO codigodecadastroadm (codigodecadastroadm)
+VALUES 
+    ('ADM123456'),
+    ('ADM654321'),
+    ('ADM789012'),
+    ('ADM345678'),
+    ('ADM901234'),
+    ('ADM567890'),
+    ('ADM234567'),
+    ('ADM890123'),
+    ('ADM456789'),
+    ('ADM123789'),
+    ('ADM456123'),
+    ('ADM789456'),
+    ('ADM012345'),
+    ('ADM678901'),
+    ('ADM345012');
+
+INSERT INTO evento (id, nome, datadecriacao, iddeusuario, permissao, descricao, resultado, status)
+VALUES 
+    (1, 'Partida de Futebol A vs B', '2024-08-27', 1, TRUE, 'A equipe A enfrenta a equipe B.', 'pendente', 'pendente'),
+    (2, 'Partida de Futebol C vs D', '2024-08-26', 2, FALSE, 'A equipe C enfrenta a equipe D.', 'Time C vence', pendente'),
+    (3, 'Partida de Futebol E vs F', '2024-08-25', 1, TRUE, 'A equipe E enfrenta a equipe F.', 'Time E vence', 'pendente'),
+    (4, 'Partida de Futebol G vs H', '2024-08-24', 2, FALSE, 'A equipe G enfrenta a equipe H.', 'Time G vence', pendente'),
+    (5, 'Partida de Futebol I vs J', '2024-08-23', 3, TRUE, 'A equipe I enfrenta a equipe J.', 'Time J vence', 'pendente'),
+    (6, 'Partida de Futebol K vs L', '2024-08-22', 3, FALSE, 'A equipe K enfrenta a equipe L.', 'Time K vence', pendente'),
+    (7, 'Partida de Futebol M vs N', '2024-08-21', 4, TRUE, 'A equipe M enfrenta a equipe N.', 'Time N vence', 'pendente'),
+    (8, 'Partida de Futebol O vs P', '2024-08-20', 4, FALSE, 'A equipe O enfrenta a equipe P.', 'Time O vence', pendente');
+
+
+INSERT INTO pessoa (id, nome, email, senha, carteira, cpf, datanascimento, permissao)
+VALUES 
+    (1, 'João Silva', 'joao.silva@example.com', 'senha123', 150.00, 123456789, '1990-01-01', TRUE),
+    (2, 'Maria Oliveira', 'maria.oliveira@example.com', 'senha456', 200.00, 987654321, '1985-02-15', FALSE),
+    (3, 'Carlos Pereira', 'carlos.pereira@example.com', 'senha789', 250.00, 123789456, '1992-03-22', TRUE),
+    (4, 'Ana Costa', 'ana.costa@example.com', 'senha012', 300.00, 456123789, '1988-04-30', FALSE),
+    (5, 'Fernando Santos', 'fernando.santos@example.com', 'senha345', 350.00, 789456123, '1991-05-18', TRUE),
+    (6, 'Juliana Almeida', 'juliana.almeida@example.com', 'senha678', 400.00, 321654987, '1995-06-25', FALSE),
+    (7, 'Roberto Lima', 'roberto.lima@example.com', 'senha901', 450.00, 654987321, '1993-07-10', TRUE),
+    (8, 'Fernanda Martins', 'fernanda.martins@example.com', 'senha234', 500.00, 987321654, '1990-08-05', FALSE),
+    (9, 'Lucas Silva', 'lucas.silva@example.com', 'senha567', 550.00, 654321987, '1987-09-15', TRUE),
+    (10, 'Camila Rocha', 'camila.rocha@example.com', 'senha890', 600.00, 321987654, '1992-10-20', FALSE),
+    (11, 'Marcos Ferreira', 'marcos.ferreira@example.com', 'senha1234', 650.00, 789123456, '1989-11-30', TRUE),
+    (12, 'Patrícia Sousa', 'patricia.sousa@example.com', 'senha5678', 700.00, 456789123, '1991-12-05', FALSE),
+    (13, 'Gabriel Santos', 'gabriel.santos@example.com', 'senha910', 750.00, 123456798, '1994-01-10', TRUE),
+    (14, 'Sofia Alves', 'sofia.alves@example.com', 'senha112', 800.00, 987654123, '1990-02-25', FALSE),
+    (15, 'Pedro Oliveira', 'pedro.oliveira@example.com', 'senha223', 850.00, 654321789, '1988-03-15', TRUE);
+
+
+
+//-------------Atualizar os SERIAL dos meus ids -----------------
+
+SELECT setval('pessoa_id_seq', (SELECT MAX(id) FROM pessoa));
+
+
+SELECT setval('evento_id_seq', (SELECT MAX(id) FROM evento));
+
+
+SELECT setval('aposta_id_seq', (SELECT MAX(id) FROM aposta));
+
+
+SELECT setval('bilhete_id_seq', (SELECT MAX(id) FROM bilhete));
