@@ -1,11 +1,8 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 # betTeste
 1. Visão Geral
 Este projeto é uma casa de apostas construída inteiramente em Java. Ele permite que usuários realizem apostas em eventos esportivos. Existem dois tipos de usuários no sistema:
-=======
+
 Visão Geral Este projeto é uma casa de apostas construída inteiramente em Java. Ele permite que usuários realizem apostas em eventos esportivos. Existem dois tipos de usuários no sistema: Usuário Comum: Pode acessar os eventos e fazer apostas nas opções disponíveis. Administrador: Tem a permissão de criar novos eventos (ex: Bahia versus Vitória) e definir as opções de apostas dentro desses eventos.
->>>>>>> bdcaa387d8dd825149bbb25660af43c4977d9a30
 
 O projeto utiliza um banco de dados PostgreSQL para armazenamento das informações e possui uma interface gráfica para interação com os usuários.
 
@@ -27,9 +24,8 @@ Iniciar e fechar conexões. Carregar propriedades do banco. Fechar declarações
 
 ApostaDaoJDBC: Responsável por gerenciar as operações relacionadas às apostas, como inserir novas apostas, listar apostas por evento, listar todas as apostas, editar a descrição ou a odd de uma aposta, e deletar apostas por ID.
 
-<<<<<<< HEAD
-  DaoFactory: Fábrica de objetos DAO, responsável por fornecer instâncias das classes DAO conforme necessário.
-=======
+DaoFactory: Fábrica de objetos DAO, responsável por fornecer instâncias das classes DAO conforme necessário.
+
 Visão Geral Este projeto é uma casa de apostas construída inteiramente em Java. Ele permite que usuários realizem apostas em eventos esportivos. Existem dois tipos de usuários no sistema:
 Usuário Comum: Pode acessar os eventos e fazer apostas nas opções disponíveis. Administrador: Tem a permissão de criar novos eventos (ex: Bahia versus Vitória) e definir as opções de apostas dentro desses eventos.
 
@@ -53,8 +49,6 @@ Iniciar e fechar conexões. Carregar propriedades do banco. Fechar declarações
 
 ApostaDaoJDBC: Responsável por gerenciar as operações relacionadas às apostas, como inserir novas apostas, listar apostas por evento, listar todas as apostas, editar a descrição ou a odd de uma aposta, e deletar apostas por ID.
 
-=======
->>>>>>> bdcaa387d8dd825149bbb25660af43c4977d9a30
 EventoDaoJDBC: Gerencia as operações referentes aos eventos, como criar novos eventos, editar eventos existentes, deletar eventos e listar eventos.
 
 UsuarioDaoJDBC: Responsável pelas operações relacionadas aos usuários, como cadastro, login e gerenciamento de dados de usuários.
@@ -62,7 +56,3 @@ UsuarioDaoJDBC: Responsável pelas operações relacionadas aos usuários, como 
 PovoamentoDaoJDBC: Realiza o povoamento inicial do banco de dados com informações padrão ou de teste, como a criação de usuários e eventos de exemplo.
 
 DaoFactory: Fábrica de objetos DAO, responsável por fornecer instâncias das classes DAO conforme necessário.
-<<<<<<< HEAD
->>>>>>> master
-=======
->>>>>>> bdcaa387d8dd825149bbb25660af43c4977d9a30
