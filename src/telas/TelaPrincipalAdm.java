@@ -40,12 +40,12 @@ public class TelaPrincipalAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    TelaPrincipalAdm frame = new TelaPrincipalAdm(-1); //coloquei um id padrão, não sei se tem problema
+                    TelaPrincipalAdm frame = new TelaPrincipalAdm(-1); //-1 padrão
                     frame.setVisible(true);
                     
                     //preencher a tabela com todos eventos
                     DaoFactory dao = new DaoFactory();
-                    ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+                    ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados();
                     frame.preencherTabela(todosEventos);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -63,7 +63,7 @@ public class TelaPrincipalAdm extends JFrame {
     	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 790, 528);
+        setBounds(100, 100, 1079, 788);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -73,22 +73,22 @@ public class TelaPrincipalAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(21, 11, 743, 454);
+        panel.setBounds(10, 11, 1043, 727);
         contentPane.add(panel);
         panel.setLayout(null);
         
         JTextArea txtTelaPrincipalAdm = new JTextArea();
-        txtTelaPrincipalAdm.setText("Tela Principal Adm");
+        txtTelaPrincipalAdm.setText("Tela Principal");
         txtTelaPrincipalAdm.setForeground(new Color(128, 255, 255));
         txtTelaPrincipalAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtTelaPrincipalAdm.setEditable(false);
         txtTelaPrincipalAdm.setBackground(new Color(0, 64, 0));
-        txtTelaPrincipalAdm.setBounds(220, 0, 294, 42);
+        txtTelaPrincipalAdm.setBounds(338, 0, 257, 42);
         panel.add(txtTelaPrincipalAdm);
         
         scrollPane = new JScrollPane();
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 599, 330);
+        scrollPane.setBounds(10, 58, 874, 658);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -123,7 +123,7 @@ public class TelaPrincipalAdm extends JFrame {
         JButton btnExcluir = new JButton("Excluir Evento");
         btnExcluir.setForeground(new Color(0, 0, 128));
         btnExcluir.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnExcluir.setBounds(619, 115, 114, 23);
+        btnExcluir.setBounds(894, 102, 139, 23);
         btnExcluir.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
             if (selectedRow != -1) {
@@ -140,7 +140,7 @@ public class TelaPrincipalAdm extends JFrame {
         JButton btnVisualizarEvento = new JButton("Visualizar Evento");
         btnVisualizarEvento.setForeground(new Color(0, 0, 128));
         btnVisualizarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnVisualizarEvento.setBounds(619, 178, 114, 23);
+        btnVisualizarEvento.setBounds(894, 169, 139, 23);
         btnVisualizarEvento.addActionListener(e -> {
         		int selectedRow = table.getSelectedRow();
                 if (selectedRow != -1) {
@@ -174,7 +174,7 @@ public class TelaPrincipalAdm extends JFrame {
         });
         txtEditarEvento.setForeground(new Color(0, 0, 128));
         txtEditarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        txtEditarEvento.setBounds(619, 241, 114, 23);
+        txtEditarEvento.setBounds(894, 244, 139, 23);
         panel.add(txtEditarEvento);
         
         
@@ -188,7 +188,7 @@ public class TelaPrincipalAdm extends JFrame {
         });
         btnInserirEvento.setForeground(new Color(0, 0, 128));
         btnInserirEvento.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnInserirEvento.setBounds(619, 298, 114, 23);
+        btnInserirEvento.setBounds(894, 320, 139, 23);
         panel.add(btnInserirEvento);
         
         JButton btnLogout = new JButton("Logout");
@@ -206,8 +206,53 @@ public class TelaPrincipalAdm extends JFrame {
         });
         btnLogout.setForeground(new Color(255, 0, 0));
         btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnLogout.setBounds(619, 18, 114, 23);
+        btnLogout.setBounds(919, 18, 114, 23);
         panel.add(btnLogout);
+        
+        JButton btnMinhaConta = new JButton("Minha conta");
+        btnMinhaConta.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		essaTela.setVisible(false);
+        		MinhaConta Conta = new MinhaConta(idUsuario);
+        		Conta.setVisible(true);	
+        	}
+        });
+        btnMinhaConta.setForeground(new Color(0, 0, 128));
+        btnMinhaConta.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnMinhaConta.setBounds(10, 18, 114, 23);
+        panel.add(btnMinhaConta);
+        
+        JButton btnEncerrarEvento = new JButton("Encerrar Evento");
+        btnEncerrarEvento.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		DaoFactory dao = new DaoFactory();
+                               
+                int selectedRow = table.getSelectedRow();
+                if (selectedRow == -1) {                 
+                    JOptionPane.showMessageDialog(btnEncerrarEvento, "Por favor, selecione um evento para encerrar.");
+                    return;
+                }
+
+                int option = JOptionPane.showConfirmDialog(btnEncerrarEvento, "Deseja realmente encerrar o evento selecionado?"); 
+                
+                if (option == JOptionPane.YES_OPTION) {
+                    int idEvento = (int) table.getValueAt(selectedRow, 0); 
+                    if (contarApostas(idEvento, dao) == 2) {
+                        EncerrarEvento encerrar = new EncerrarEvento(idUsuario, idEvento);
+                        encerrar.setVisible(true);
+                        essaTela.setVisible(false);  
+                    } else {
+                        JOptionPane.showMessageDialog(btnEncerrarEvento, "Não pode encerrar um evento que não tenha o mínimo de 2 apostas!");
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(btnEncerrarEvento, "Cancelado!");
+                }                        
+            }
+        });
+        btnEncerrarEvento.setForeground(new Color(0, 0, 128));
+        btnEncerrarEvento.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnEncerrarEvento.setBounds(896, 387, 137, 23);
+        panel.add(btnEncerrarEvento);
     }
     
     public void preencherTabela(ArrayList<Evento> eventos) {
@@ -226,7 +271,7 @@ public class TelaPrincipalAdm extends JFrame {
     	DaoFactory dao = new DaoFactory();
         tableModel.setRowCount(0); // Limpa todos os dados da tabela
         
-        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventos();
+        ArrayList<Evento> todosEventos = dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados();
         preencherTabela(todosEventos);
     }
     
@@ -254,6 +299,12 @@ public class TelaPrincipalAdm extends JFrame {
             }
         }
     }
+    
+    public int contarApostas(int idEvento, DaoFactory dao) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		
+		return apostas.size();
+	}
     
     
 }

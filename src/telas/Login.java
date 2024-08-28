@@ -7,6 +7,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import org.mindrot.jbcrypt.BCrypt;
+
 import dao.impl.DaoFactory;
 
 import javax.swing.JTextArea;
@@ -52,7 +54,7 @@ public class Login extends JFrame {
 	public Login() {
 		setTitle("Login");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 360, 236);
+		setBounds(100, 100, 382, 379);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(0, 64, 0));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -74,60 +76,17 @@ public class Login extends JFrame {
 		JButton btnLogar = new JButton("Logar");
 		btnLogar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DaoFactory dao = new DaoFactory();
-				
-				//verificacao do campo login - por email
-				
-				if(!campoEmail.getText().equals("")) {
-					
-				}
-				else {
-					JOptionPane.showMessageDialog(btnLogar, "Login não digitado!");
-					return;
-				}
-				
-				//verificacao do campo senha
-				if(!campoSenha.getText().equals("")) {
-					
-				}
-				else {
-					JOptionPane.showMessageDialog(btnLogar, "Senha não digitada!");
-					return;
-				}
-				
-				//verificação da combinação email e senha
-				if(campoSenha.getText().equals(dao.criarUsuarioDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
-					JOptionPane.showMessageDialog(btnLogar, "Logado!");
-					//se o campo permissão for falso -> abrir tela de usuário
-					if(dao.criarUsuarioDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(), campoSenha.getText()) == false) {
-						//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
-						TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario();
-					    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
-					    telaUsuario.setVisible(true);
-					    essaTela.setVisible(false);
-				        telaUsuario.setVisible(true);
-					}//se o campo permissão for verdadeiro -> abrir tela de adm
-					else {
-						TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarUsuarioDaoJDBC().findIdByEmailSenha(campoEmail.getText(), campoSenha.getText()));
-				        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventos());
-				        essaTela.setVisible(false);
-				        telaAdm.setVisible(true);
-					}
-				}
-				else {
-					JOptionPane.showMessageDialog(btnLogar, "Combinação incorreta de email e senha!");
-				}
-				
+				logar(essaTela);			
 			}
 		});
-		btnLogar.setBounds(64, 145, 59, 23);
+		btnLogar.setBounds(66, 261, 71, 23);
 		btnLogar.setForeground(new Color(0, 0, 128));
 		btnLogar.setBackground(UIManager.getColor("CheckBox.focus"));
 		contentPane.add(btnLogar);
 		
 		txtEmail = new JTextField();
 		txtEmail.setBackground(new Color(64, 128, 128));
-		txtEmail.setBounds(54, 64, 86, 20);
+		txtEmail.setBounds(51, 109, 86, 20);
 		txtEmail.setText("Email");
 		txtEmail.setHorizontalAlignment(SwingConstants.CENTER);
 		txtEmail.setEditable(false);
@@ -135,13 +94,13 @@ public class Login extends JFrame {
 		contentPane.add(txtEmail);
 		
 		campoEmail = new JTextField();
-		campoEmail.setBounds(150, 64, 86, 20);
+		campoEmail.setBounds(203, 109, 86, 20);
 		campoEmail.setColumns(10);
 		contentPane.add(campoEmail);
 		
 		txtSenha = new JTextField();
 		txtSenha.setBackground(new Color(64, 128, 128));
-		txtSenha.setBounds(54, 95, 86, 20);
+		txtSenha.setBounds(51, 191, 86, 20);
 		txtSenha.setText("Senha");
 		txtSenha.setHorizontalAlignment(SwingConstants.CENTER);
 		txtSenha.setEditable(false);
@@ -149,25 +108,66 @@ public class Login extends JFrame {
 		contentPane.add(txtSenha);
 		
 		campoSenha = new JPasswordField();
-		campoSenha.setBounds(150, 95, 86, 20);
+		campoSenha.setBounds(203, 191, 86, 20);
 		contentPane.add(campoSenha);
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
+			public void actionPerformed(ActionEvent e) {				
 	        		essaTela.setVisible(false);
-	        		new BoasVindas().setVisible(true);
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+	        		new BoasVindas().setVisible(true);      		
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(165, 145, 71, 23);
+		btnVoltar.setBounds(203, 261, 71, 23);
 		contentPane.add(btnVoltar);
+	}
+	
+	public void logar(Login essaTela) {
+		DaoFactory dao = new DaoFactory();
+		
+		//verificacao do campo login - por email	
+		if(!campoEmail.getText().equals("")) {
+			
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Login não digitado!");
+			return;
+		}
+		
+		//verificacao do campo senha
+		if(!campoSenha.getText().equals("")) {
+			
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Senha não digitada!");
+			return;
+		}
+		
+		//verificação da combinação email e senha
+		if(BCrypt.checkpw(campoSenha.getText(), dao.criarPessoaDaoJDBC().findPasswordByEmail(campoEmail.getText()))) {
+			JOptionPane.showMessageDialog(this, "Logado!");
+			//se o campo permissão for falso -> abrir tela de usuário
+			if(dao.criarPessoaDaoJDBC().findPermissaoByEmailSenha(campoEmail.getText(),dao.criarPessoaDaoJDBC().findPasswordByEmail(campoEmail.getText())) == false) {
+				//necessário colocar a instância numa variável para poder utilizar o método de preencher a tabela(caso contrário vem vazia)
+				TelaPrincipalUsuario telaUsuario = new TelaPrincipalUsuario(dao.criarPessoaDaoJDBC().findIdByEmail(campoEmail.getText()));
+				
+			    telaUsuario.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados());
+			    telaUsuario.setVisible(true);
+			    essaTela.setVisible(false);
+		        telaUsuario.setVisible(true);
+			}//se o campo permissão for verdadeiro -> abrir tela de adm
+			else {
+				TelaPrincipalAdm telaAdm = new TelaPrincipalAdm(dao.criarPessoaDaoJDBC().findIdByEmail(campoEmail.getText()));
+				
+		        telaAdm.preencherTabela(dao.criarEventoDaoJDBC().listarTodosEventosNaoEncerrados());
+		        essaTela.setVisible(false);
+		        telaAdm.setVisible(true);
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(this, "Combinação incorreta de email e senha!");
+		}
 	}
 }

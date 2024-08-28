@@ -7,11 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import dao.ApostaDao;
 import db.DB;
 import entidades.Aposta;
 import entidades.Evento;
 
-public class ApostaDaoJDBC {
+public class ApostaDaoJDBC implements ApostaDao{
 	
 	private Connection conn = DB.getConnection();
 		
@@ -27,8 +28,7 @@ public class ApostaDaoJDBC {
             ps.setDouble(3, aposta.getOdd());
             ps.setInt(2, aposta.getIdDeEvento());
             ps.setString(5, "pendente");  //por enquanto o status vai começar como pendente!!
-            ps.executeUpdate();
-            System.out.println("Aposta inserida com sucesso!");
+            ps.executeUpdate();            
             ps.close();
         } catch (SQLException e) {
 			e.printStackTrace();
@@ -47,19 +47,17 @@ public class ApostaDaoJDBC {
             while (rs.next()) {
                 Aposta aposta = new Aposta();
                 aposta.setId(rs.getInt("id"));
-                aposta.setStatus(rs.getString("status"));
-                aposta.setResultado(rs.getString("resultado"));
+                aposta.setStatus(rs.getString("status"));              
                 aposta.setDataDeCriacao(rs.getDate("datadecriacao"));
                 aposta.setOdd(rs.getDouble("odd"));
                 aposta.setDescricao(rs.getString("descricao"));
+                aposta.setIdDeEvento(rs.getInt("iddeevento"));
                 apostas.add(aposta);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        for(Aposta aposta : apostas) {
-        	System.out.println(aposta);
-        }
+        
         return apostas;
 	}
 	
@@ -117,6 +115,28 @@ public class ApostaDaoJDBC {
         return apostas;
     }
 	
+	public Aposta findApostaById(int idAposta) {
+	    String sql = "SELECT * FROM Aposta WHERE id = ?";
+	    Aposta aposta = null;
+
+	    try (PreparedStatement ps = conn.prepareStatement(sql)) { 
+	        ps.setInt(1, idAposta);
+	        try (ResultSet rs = ps.executeQuery()) {  
+	            if (rs.next()) {  
+	                aposta = new Aposta();
+	                aposta.setId(rs.getInt("id"));
+	                aposta.setOdd(rs.getDouble("odd"));
+	                aposta.setDescricao(rs.getString("descricao"));
+	                aposta.setDataDeCriacao(rs.getDate("datadecriacao"));
+	            }
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
+
+	    return aposta;
+	}
+	
 	public boolean editarDescricao(int id, String descricao) {
 		String sql = "UPDATE aposta SET descricao = ? WHERE id = ?";
 		
@@ -132,4 +152,31 @@ public class ApostaDaoJDBC {
 		}
 		return false;
 	}
+	
+	//Daqui para baixo não sei se deveria estar nessa classe ou numa ApostaBilheteDaoJDBC, já que são operações pra tabela que lhes conecta
+	public ArrayList<Aposta> findApostasByBilheteId(int idBilhete) {
+        ArrayList<Aposta> apostas = new ArrayList<Aposta>();
+        String sql = "SELECT Aposta.* FROM Aposta " +
+                     "JOIN Bilhete_Aposta ON Aposta.id = Bilhete_Aposta.idaposta " +
+                     "WHERE Bilhete_Aposta.idbilhete = ?";
+        
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, idBilhete);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    Aposta aposta = new Aposta();
+                    aposta.setId(rs.getInt("id"));
+                    aposta.setDescricao(rs.getString("descricao"));
+                    aposta.setIdDeEvento(rs.getInt("idDeEvento"));
+                    aposta.setOdd(rs.getDouble("odd"));
+                    aposta.setDataDeCriacao(rs.getDate("dataDeCriacao"));
+                    aposta.setStatus(rs.getString("status"));                   
+                    apostas.add(aposta);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }        
+        return apostas;
+    }
 }

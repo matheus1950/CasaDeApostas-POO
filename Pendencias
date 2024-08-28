@@ -1,0 +1,7 @@
+Pendências:
+8 - CPF em Pessoa é int e não suporta o tamanho de um CPF!
+9 - Tratamento de datas - falta ano bissexto, dia 30 do mês de fevereiro e etc
+10 - arrumar as classes Dao!
+11 - Aumentar as informações das tabelas -> colocar resultado e etc
+12 - ADM deve poder excluir usuários
+13 - Resolver mensagem para senhas erradas no login!

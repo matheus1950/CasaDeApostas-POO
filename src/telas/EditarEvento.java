@@ -82,7 +82,7 @@ public class EditarEvento extends JFrame {
 		panel.add(txtEditarEvento);
 		
 		campoDescricao = new JTextField();
-		campoDescricao.setBounds(30, 267, 164, 20);
+		campoDescricao.setBounds(30, 308, 164, 20);
 		panel.add(campoDescricao);
 		campoDescricao.setColumns(10);
 		
@@ -92,7 +92,7 @@ public class EditarEvento extends JFrame {
 		txtNome.setText("Nome");
 		txtNome.setToolTipText("");
 		txtNome.setBackground(new Color(64, 128, 128));
-		txtNome.setBounds(478, 236, 164, 20);
+		txtNome.setBounds(478, 267, 164, 20);
 		panel.add(txtNome);
 		txtNome.setColumns(10);
 		
@@ -101,7 +101,7 @@ public class EditarEvento extends JFrame {
 		txtDescrio.setBackground(new Color(64, 128, 128));
 		txtDescrio.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDescrio.setText("Descrição");
-		txtDescrio.setBounds(30, 236, 164, 20);
+		txtDescrio.setBounds(30, 267, 164, 20);
 		panel.add(txtDescrio);
 		txtDescrio.setColumns(10);
 		
@@ -121,11 +121,11 @@ public class EditarEvento extends JFrame {
 		});
 		btnSalvar.setForeground(new Color(0, 0, 128));
 		btnSalvar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnSalvar.setBounds(211, 323, 89, 23);
+		btnSalvar.setBounds(211, 343, 89, 23);
 		panel.add(btnSalvar);
 		
 		campoNome = new JTextField();
-		campoNome.setBounds(478, 267, 164, 20);
+		campoNome.setBounds(478, 308, 164, 20);
 		panel.add(campoNome);
 		campoNome.setColumns(10);
 		
@@ -177,23 +177,26 @@ public class EditarEvento extends JFrame {
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		TelaPrincipalAdm adm = new TelaPrincipalAdm(id);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela();
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+			public void actionPerformed(ActionEvent e) {				
+        		essaTela.setVisible(false);
+        		TelaPrincipalAdm adm = new TelaPrincipalAdm(id);
+        		adm.setVisible(true);
+        		adm.atualizarTabela();      		
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
 		btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-		btnVoltar.setBounds(367, 323, 81, 23);
+		btnVoltar.setBounds(366, 343, 81, 23);
 		panel.add(btnVoltar);
+		
+		JTextArea txtrModificar = new JTextArea();
+		txtrModificar.setText("Modificar");
+		txtrModificar.setForeground(new Color(128, 255, 255));
+		txtrModificar.setFont(new Font("Tahoma", Font.BOLD, 31));
+		txtrModificar.setEditable(false);
+		txtrModificar.setBackground(new Color(0, 64, 0));
+		txtrModificar.setBounds(252, 227, 164, 42);
+		panel.add(txtrModificar);
 		
 	}
 	
@@ -213,5 +216,4 @@ public class EditarEvento extends JFrame {
 			}
 		}
 	}
-	
 }

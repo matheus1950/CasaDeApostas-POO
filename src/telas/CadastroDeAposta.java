@@ -18,6 +18,8 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
 
@@ -52,6 +54,8 @@ public class CadastroDeAposta extends JFrame {
 	 * Create the frame.
 	 */
 	public CadastroDeAposta(int idEvento, int idUsuario, ApostasAdm frame) {
+		DaoFactory dao = new DaoFactory();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 527, 336);
 		contentPane = new JPanel();
@@ -73,10 +77,22 @@ public class CadastroDeAposta extends JFrame {
 		panel.setBounds(10, 11, 491, 264);
 		contentPane_1.add(panel);
 		
+		JTextArea campoNumAposta = new JTextArea();
+		campoNumAposta.setForeground(new Color(255, 0, 0));
+		campoNumAposta.setBackground(new Color(0, 64, 0));
+		campoNumAposta.setBounds(38, 157, 402, 62);
+		panel.add(campoNumAposta);
+		if(contarApostas(idEvento, dao) == 0) {
+			campoNumAposta.setText("O evento não tem apostas!");
+		}
+		else {
+			campoNumAposta.setText("O evento já possui " + contarApostas(idEvento, dao) + " aposta(s)!\n(máximo 2!)\n(a 2ª odd é automática!)");
+		}
+		
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cadastrarAposta(btnCadastrar, idEvento, frame);
+				cadastrarAposta(btnCadastrar, idEvento, frame, campoNumAposta);
 			}
 		});
 		btnCadastrar.setForeground(new Color(0, 0, 128));
@@ -97,6 +113,19 @@ public class CadastroDeAposta extends JFrame {
 		campoOdd.setColumns(10);
 		campoOdd.setBounds(134, 109, 119, 20);
 		panel.add(campoOdd);
+		
+		if(contarApostas(idEvento, dao) == 2) {
+			campoOdd.setVisible(false);
+			textOdd.setVisible(false);
+		}
+		else if(contarApostas(idEvento, dao) == 1){
+			campoOdd.setVisible(false);
+			textOdd.setVisible(false);
+		}
+		else {
+			campoOdd.setVisible(true);
+			textOdd.setVisible(true);
+		}
 		
 		campoDescricao = new JTextField();
 		campoDescricao.setColumns(10);
@@ -137,23 +166,17 @@ public class CadastroDeAposta extends JFrame {
 			}
 		});
 		btnLogout.setForeground(Color.RED);
-		btnLogout.setBackground(Color.BLACK);
+		btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
 		btnLogout.setBounds(367, 29, 114, 23);
 		panel.add(btnLogout);
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela(idEvento);
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+        		essaTela.setVisible(false);
+        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
+        		adm.setVisible(true);
+        		adm.atualizarTabela(idEvento);
 			}
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
@@ -162,17 +185,10 @@ public class CadastroDeAposta extends JFrame {
 		panel.add(btnVoltar);
 	}
 	
-	public void cadastrarAposta(JButton btnCadastrar, int idEvento, ApostasAdm frame) {
+	public void cadastrarAposta(JButton btnCadastrar, int idEvento, ApostasAdm frame, JTextArea campoNumAposta) {
 		Aposta aposta = new Aposta();
 		DaoFactory dao = new DaoFactory();
-		
-		if(!campoOdd.getText().equals("")) {
-			aposta.setOdd(Double.parseDouble(campoOdd.getText()));
-		}
-		else {
-			JOptionPane.showMessageDialog(btnCadastrar, "Odd não digitada!");
-			return;
-		}
+		Double odd;
 		
 		if(!campoDescricao.getText().equals("")) {
 			aposta.setDescricao(campoDescricao.getText());
@@ -182,8 +198,71 @@ public class CadastroDeAposta extends JFrame {
 			return;
 		}
 		
-		aposta.setIdDeEvento(idEvento);
-		dao.criarApostaDaoJDBC().insert(aposta);
-		frame.atualizarTabela(idEvento);
+		if(contarApostas(idEvento, dao) < 2) {
+			if(contarApostas(idEvento, dao) == 0) {
+				if(!campoOdd.getText().equals("")) {
+					odd = Double.parseDouble(campoOdd.getText());
+					aposta.setOdd(odd);
+					aposta.setIdDeEvento(idEvento);
+					dao.criarApostaDaoJDBC().insert(aposta);
+					frame.atualizarTabela(idEvento);
+					atualizarTela(idEvento, dao, campoNumAposta);
+				}
+				else {
+					JOptionPane.showMessageDialog(btnCadastrar, "Odd não digitada!");
+					return;
+				}
+			}
+			else {								
+				odd = calculoDaOddOposta(oddDaPrimeiraApostaDoEvento(idEvento, dao)); //sobreescreve a odd escrita pelo Adm	
+				odd = Math.round(odd * 100.0) / 100.0;
+				
+				aposta.setOdd(odd); 
+				aposta.setIdDeEvento(idEvento);
+				dao.criarApostaDaoJDBC().insert(aposta);
+				frame.atualizarTabela(idEvento);
+				atualizarTela(idEvento, dao, campoNumAposta);
+			}
+		}
+		else {
+			JOptionPane.showMessageDialog(btnCadastrar, "Não pode haver mais de 2 opções de aposta por evento!");
+			return;
+		}
 	}
+	
+	public int contarApostas(int idEvento, DaoFactory dao) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		
+		return apostas.size();
+	}
+	
+	public Double oddDaPrimeiraApostaDoEvento(int idEvento, DaoFactory dao) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		
+		return apostas.get(0).getOdd();
+	}
+	
+	public Double calculoDaOddOposta(Double odd1) {
+		Double odd2 = (odd1/(odd1 - 1));
+		System.out.println("odd2> + " + odd2);
+		return odd2;
+	}
+	
+	private void atualizarTela(int idEvento, DaoFactory dao, JTextArea campoNumAposta) {
+        int numeroDeApostas = contarApostas(idEvento, dao);
+
+        if(numeroDeApostas >= 1) {
+            campoOdd.setVisible(false);
+            textOdd.setVisible(false);
+        } else {
+            campoOdd.setVisible(true);
+            textOdd.setVisible(true);
+        }
+
+        if(numeroDeApostas == 0) {
+            campoNumAposta.setText("O evento não tem apostas!");
+        } else {
+            campoNumAposta.setText("O evento já possui " + numeroDeApostas + " aposta(s)!\n(máximo 2!)\n(a 2ª odd é automática!)");
+        }
+    }
 }

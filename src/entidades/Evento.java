@@ -1,29 +1,34 @@
 package entidades;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Evento {
 	private int id;
-	private int idDeUsuario; //não entendi direito
+	private int idDeUsuario; 
 	private String nome;
 	private boolean permissao;
 	private Date dataDeCriacao;
+	private String status;
 	private String descricao;
+	private String resultado;
+	private ArrayList<Aposta> associadas;
 	
 	
 	public Evento() {
 		super();
-		this.dataDeCriacao = new Date();  //aqui ou na declaração de variável?
+		this.dataDeCriacao = new Date();  
 	}
 	
-	public Evento(int id, int idDeUsuario, String nome, boolean permissao, String descricao) {
+	public Evento(int id, int idDeUsuario, String nome, boolean permissao, String descricao, String status) {
 		super();
 		this.id = id;
 		this.idDeUsuario = idDeUsuario;
 		this.nome = nome;
 		this.permissao = permissao;
-		this.dataDeCriacao = new Date(); //aqui ou na declaração de variável?
+		this.dataDeCriacao = new Date(); 
 		this.descricao = descricao;
+		this.status = status;
 	}
 	
 	public int getId() {
@@ -63,11 +68,37 @@ public class Evento {
 		this.descricao = descricao;
 	}
 
+	public ArrayList<Aposta> getAssociadas() {
+		return associadas;
+	}
+
+	public void setAssociadas(ArrayList<Aposta> associadas) {
+		this.associadas = associadas;
+	}
+
+
+	public String getResultado() {
+		return resultado;
+	}
+
+	public void setResultado(String resultado) {
+		this.resultado = resultado;
+	}
+	
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Evento [id=" + id + ", idDeUsuario=" + idDeUsuario + ", nome=" + nome + ", permissao=" + permissao
-				+ ", dataDeCriacao=" + dataDeCriacao + ", descricao=" + descricao + "]";
-	}
-	
+				+ ", dataDeCriacao=" + dataDeCriacao + ", status=" + status + ", descricao=" + descricao
+				+ ", resultado=" + resultado + ", associadas=" + associadas + "]";
+	}	
 	
 }

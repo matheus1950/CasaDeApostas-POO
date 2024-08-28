@@ -24,6 +24,7 @@ import entidades.Evento;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.UIManager;
+import javax.swing.ScrollPaneConstants;
 
 public class ApostasAdm extends JFrame {
     private static final long serialVersionUID = 1L;
@@ -40,7 +41,7 @@ public class ApostasAdm extends JFrame {
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    ApostasAdm frame = new ApostasAdm(-1, -1); //-1 padrão, não se deve manter
+                    ApostasAdm frame = new ApostasAdm(-1, -1); //-1 padrão
                     frame.setVisible(true);                                  
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -59,7 +60,7 @@ public class ApostasAdm extends JFrame {
     	
     	setTitle("telaAdm");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 779, 420);
+        setBounds(100, 100, 1103, 746);
         contentPane = new JPanel();
         contentPane.setBackground(new Color(64, 128, 128));
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,22 +70,24 @@ public class ApostasAdm extends JFrame {
         
         JPanel panel = new JPanel();
         panel.setBackground(new Color(0, 64, 0));
-        panel.setBounds(24, 11, 729, 359);
+        panel.setBounds(10, 11, 1065, 684);
         contentPane.add(panel);
         panel.setLayout(null);
         
         JTextArea txtApostasAdm = new JTextArea();
-        txtApostasAdm.setText("Apostas(Adm)");
+        txtApostasAdm.setText("Apostas");
         txtApostasAdm.setForeground(new Color(128, 255, 255));
         txtApostasAdm.setFont(new Font("Tahoma", Font.BOLD, 31));
         txtApostasAdm.setEditable(false);
         txtApostasAdm.setBackground(new Color(0, 64, 0));
-        txtApostasAdm.setBounds(230, 0, 294, 42);
+        txtApostasAdm.setBounds(326, 4, 194, 42);
         panel.add(txtApostasAdm);
         
         scrollPane = new JScrollPane();
+        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setForeground(new Color(0, 0, 0));
-        scrollPane.setBounds(10, 58, 567, 290);
+        scrollPane.setBounds(10, 58, 878, 614);
         panel.add(scrollPane);
         
         //criar uma variável para receber um objeto DefaultTableModel e só depois colocalo como argumento em new JTable!
@@ -115,7 +118,7 @@ public class ApostasAdm extends JFrame {
         });
         btnExcluirAposta.setForeground(new Color(0, 0, 128));
         btnExcluirAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnExcluirAposta.setBounds(587, 61, 132, 23);
+        btnExcluirAposta.setBounds(900, 104, 153, 23);
         panel.add(btnExcluirAposta);
         
         JButton btnEditarAposta = new JButton("Editar Aposta");
@@ -134,7 +137,7 @@ public class ApostasAdm extends JFrame {
         });
         btnEditarAposta.setForeground(new Color(0, 0, 128));
         btnEditarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnEditarAposta.setBounds(587, 112, 132, 23);
+        btnEditarAposta.setBounds(900, 165, 153, 23);
         panel.add(btnEditarAposta);
        
         
@@ -148,7 +151,7 @@ public class ApostasAdm extends JFrame {
         });
         btnCadastrarAposta.setForeground(new Color(0, 0, 128));
         btnCadastrarAposta.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnCadastrarAposta.setBounds(587, 157, 132, 23);
+        btnCadastrarAposta.setBounds(900, 229, 153, 23);
         panel.add(btnCadastrarAposta);
         
         JButton btnLogout = new JButton("Logout");
@@ -165,39 +168,47 @@ public class ApostasAdm extends JFrame {
         	}
         });
         btnLogout.setForeground(Color.RED);
-        btnLogout.setBackground(Color.BLACK);
-        btnLogout.setBounds(605, 11, 114, 23);
+        btnLogout.setBackground(UIManager.getColor("CheckBox.focus"));
+        btnLogout.setBounds(939, 15, 114, 23);
         panel.add(btnLogout);
         
         JButton btnVoltar = new JButton("Voltar");
         btnVoltar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		TelaPrincipalAdm adm =  new TelaPrincipalAdm(idUsuario);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela();	        		
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+        	public void actionPerformed(ActionEvent e) {       		
+        		essaTela.setVisible(false);
+        		TelaPrincipalAdm adm =  new TelaPrincipalAdm(idUsuario);
+        		adm.setVisible(true);
+        		adm.atualizarTabela();	        		  		
         	} 	
         });
         btnVoltar.setForeground(new Color(0, 0, 128));
         btnVoltar.setBackground(UIManager.getColor("CheckBox.focus"));
-        btnVoltar.setBounds(587, 325, 81, 23);
+        btnVoltar.setBounds(939, 602, 81, 23);
         panel.add(btnVoltar);
         
-        //table.setEnabled(false);   - uma opção diferente para desativar a edição das células(mas não são selecionáveis aqui)
+        JButton btnLerDescricao = new JButton("Ler Descrição");
+        btnLerDescricao.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent e) {
+        		if (table.getSelectedRow() != -1) {
+        			JOptionPane.showInternalMessageDialog(null, "Descrição: " + table.getValueAt(table.getSelectedRow(), 1));
+        		}
+        		else {
+        			JOptionPane.showMessageDialog(null, "Selecione uma aposta para visualizar a descrição!");
+        		}
+        	}
+        });
+        btnLerDescricao.setForeground(new Color(0, 0, 128));
+        btnLerDescricao.setBackground(UIManager.getColor("Button.focus"));
+        btnLerDescricao.setBounds(902, 306, 151, 23);
+        panel.add(btnLerDescricao);
+        
         
         table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 int selectedRow = table.getSelectedRow();
-                if (selectedRow != -1) {
-                    // Obtém o ID do aposta a partir da linha selecionada, por exemplo:
+                if (selectedRow != -1) {                   
                     int id = (int) table.getValueAt(selectedRow, 0);
-                    // A partir do nome ou de outra coluna, você pode encontrar o ID do aposta
+                    
                     System.out.println("Id do aposta: " + id);
                 }
             }

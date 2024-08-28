@@ -2,8 +2,8 @@ package dao.impl;
 
 public class DaoFactory{
 	
-	public static UsuarioDaoJDBC criarUsuarioDaoJDBC() {
-		return new UsuarioDaoJDBC();
+	public static PessoaDaoJDBC criarPessoaDaoJDBC() {
+		return new PessoaDaoJDBC();
 	}
 	
 	public static ApostaDaoJDBC criarApostaDaoJDBC() {
@@ -14,6 +14,13 @@ public class DaoFactory{
 		return new EventoDaoJDBC();
 	}
 	
+	public static BilheteDaoJDBC criarBilheteDaoJDBC() {
+		return new BilheteDaoJDBC();
+	}
+	
+	public static  CodigoDeCadastroAdmDaoJDBC criarCodigoDeCadastroAdmDaoJDBC() {
+		return new CodigoDeCadastroAdmDaoJDBC();
+	}
 }
 
-//para instanciar as implementações DAO! Pode ser apagado se optarmos por instanciar diretamente!
+//para instanciar as implementações DAO! 

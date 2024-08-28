@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import dao.impl.DaoFactory;
+import entidades.Aposta;
 
 import java.awt.Color;
 import javax.swing.JTextArea;
@@ -22,6 +23,7 @@ import javax.swing.JOptionPane;
 import javax.swing.AbstractListModel;
 import javax.swing.DropMode;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 
 public class EditarAposta extends JFrame {
@@ -35,6 +37,7 @@ public class EditarAposta extends JFrame {
 	private JTextArea campoEventoEdit;
 	private JButton btnLogout;
 	private JButton btnVoltar;
+	private JTextArea txtrModificar;
 
 	/**
 	 * Launch the application.
@@ -83,7 +86,7 @@ public class EditarAposta extends JFrame {
 		panel.add(txtEditarAposta);
 		
 		campoDescricao = new JTextField();
-		campoDescricao.setBounds(30, 267, 164, 20);
+		campoDescricao.setBounds(30, 294, 164, 20);
 		panel.add(campoDescricao);
 		campoDescricao.setColumns(10);
 		
@@ -93,7 +96,7 @@ public class EditarAposta extends JFrame {
 		txtOdd.setText("Odd");
 		txtOdd.setToolTipText("");
 		txtOdd.setBackground(new Color(64, 128, 128));
-		txtOdd.setBounds(478, 236, 164, 20);
+		txtOdd.setBounds(478, 263, 164, 20);
 		panel.add(txtOdd);
 		txtOdd.setColumns(10);
 		
@@ -102,7 +105,7 @@ public class EditarAposta extends JFrame {
 		txtDescrio.setBackground(new Color(64, 128, 128));
 		txtDescrio.setHorizontalAlignment(SwingConstants.CENTER);
 		txtDescrio.setText("Descrição");
-		txtDescrio.setBounds(30, 236, 164, 20);
+		txtDescrio.setBounds(30, 263, 164, 20);
 		panel.add(txtDescrio);
 		txtDescrio.setColumns(10);
 		
@@ -116,7 +119,7 @@ public class EditarAposta extends JFrame {
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				salvar(btnSalvar, idAposta, oddAntiga, descricaoAntiga);
+				salvar(btnSalvar, idAposta, oddAntiga, descricaoAntiga, idEvento);
 				frame.atualizarTabela(idEvento);
 			}
 		});
@@ -126,7 +129,7 @@ public class EditarAposta extends JFrame {
 		panel.add(btnSalvar);
 		
 		campoOdd = new JTextField();
-		campoOdd.setBounds(478, 267, 164, 20);
+		campoOdd.setBounds(478, 294, 164, 20);
 		panel.add(campoOdd);
 		campoOdd.setColumns(10);
 		
@@ -178,17 +181,11 @@ public class EditarAposta extends JFrame {
 		
 		btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(btnVoltar, "Deseja realmente voltar?"); //acho que aqui posso tirar esse tipo de confirmação
-        		if(option == JOptionPane.YES_OPTION) {
-	        		essaTela.setVisible(false);
-	        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
-	        		adm.setVisible(true);
-	        		adm.atualizarTabela(idEvento);
-        		}
-        		else {
-        			JOptionPane.showMessageDialog(btnVoltar, "Cancelado!");
-        		}
+			public void actionPerformed(ActionEvent e) {				
+        		essaTela.setVisible(false);
+        		ApostasAdm adm = new ApostasAdm(idEvento, idUsuario);
+        		adm.setVisible(true);
+        		adm.atualizarTabela(idEvento);       		
 			}		
 		});
 		btnVoltar.setForeground(new Color(0, 0, 128));
@@ -196,9 +193,18 @@ public class EditarAposta extends JFrame {
 		btnVoltar.setBounds(364, 327, 81, 23);
 		panel.add(btnVoltar);
 		
+		txtrModificar = new JTextArea();
+		txtrModificar.setText("Modificar");
+		txtrModificar.setForeground(new Color(128, 255, 255));
+		txtrModificar.setFont(new Font("Tahoma", Font.BOLD, 31));
+		txtrModificar.setEditable(false);
+		txtrModificar.setBackground(new Color(0, 64, 0));
+		txtrModificar.setBounds(246, 227, 164, 42);
+		panel.add(txtrModificar);
+		
 	}
 	
-	public void salvar(JButton botao, int idAposta, double oddAntiga, String descricaoAntiga) {
+	public void salvar(JButton botao, int idAposta, double oddAntiga, String descricaoAntiga, int idEvento) {
 		DaoFactory dao = new DaoFactory();
 		//Se forem ambos campos vazios ou ambos iguais aos campos já registrados, não chama o método de editar
 		if((campoOdd.getText().equals("") && campoDescricao.getText().equals("")) ||
@@ -207,13 +213,77 @@ public class EditarAposta extends JFrame {
 		}
 		else {
 			if(!campoOdd.getText().equals("")) {
-				dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
+				if(contarApostas(idEvento, dao) == 2) {		
+					dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
+					
+					double odd = calculoDaOddOposta(Double.parseDouble(campoOdd.getText())); //calcular oddoposta e passar na seguida para a outra aposta
+					odd = Math.round(odd * 100.0) / 100.0;					
+					
+					dao.criarApostaDaoJDBC().editarOdd(idDaOutraApostaDoEvento(idEvento, dao, idAposta), odd);
+				}
+				else { //só pode ter 1
+					dao.criarApostaDaoJDBC().editarOdd(idAposta, Double.parseDouble(campoOdd.getText()));
+				}
 			}
 			if(!campoDescricao.getText().equals("")) {
 				dao.criarApostaDaoJDBC().editarDescricao(idAposta, campoDescricao.getText());
 			}
 			JOptionPane.showMessageDialog(botao, "Aposta atualizada com sucesso!");
 		}
+		
+		atualizarTela(idAposta);
+	}
+	
+	public int contarApostas(int idEvento, DaoFactory dao) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		
+		return apostas.size();
+	}
+	
+	public Double oddDaOutraApostaDoEvento(int idEvento, DaoFactory dao, int idAposta) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		Double odd = null;
+		
+		for(Aposta aposta : apostas) {
+			if(aposta.getId() != idAposta) {
+				odd = aposta.getOdd();
+			}
+		}
+		
+		return odd;
+	}
+	
+	public Double calculoDaOddOposta(Double odd1) {
+		Double odd2 = (odd1/(odd1 - 1));
+		System.out.println("odd2> + " + odd2);
+		return odd2;
+	}
+	
+	public int idDaOutraApostaDoEvento(int idEvento, DaoFactory dao, int idAposta) {	
+		ArrayList<Aposta> apostas = dao.criarApostaDaoJDBC().ListarApostasPorEventoId(idEvento);
+		int id = -1;
+		
+		for(Aposta aposta : apostas) {
+			if(aposta.getId() != idAposta) {
+				id = aposta.getId();
+			}
+		}
+		
+		return id;
+	}
+	
+	public void atualizarTela(int idAposta) {
+	    DaoFactory dao = new DaoFactory();
+	    Aposta aposta = dao.criarApostaDaoJDBC().findApostaById(idAposta);
+	    
+	    if (aposta != null) {
+	        // Atualiza os campos com os valores da aposta
+	        campoDescricao.setText(aposta.getDescricao());
+	        campoOdd.setText(String.valueOf(aposta.getOdd()));
+	        campoEventoEdit.setText("Descrição: " + aposta.getDescricao() + "\nOdd: " + aposta.getOdd());
+	    } else {
+	        JOptionPane.showMessageDialog(this, "Aposta não encontrada.");
+	    }
 	}
 	
 }
