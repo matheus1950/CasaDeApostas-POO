@@ -67,3 +67,6 @@ Tais quais, com exceção de DaoFactory, são implementações das interfaces pr
 ## Diretório "arquivos de apresentação":
 
 Conta com arquivos de apresentação exigidos pelo professor da matéria. Entre eles, um slide apresentando as telas da aplicação, um texto em SQL para povoamento em PostgreSQL e um diagrama(está incompleto).
+
+![image](https://github.com/user-attachments/assets/2e649001-22fd-420c-b4ed-2bd1b080336c)
+
