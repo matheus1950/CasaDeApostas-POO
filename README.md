@@ -53,7 +53,7 @@ Classes relativas ao seu acesso se encontram no diretório src/db. Das quais, "D
 
 ### 3.4. DAO (Data Access Object)
 
-Encontram-se no diretório src/dao e src/dao/impl. A aplicação utiliza o padrão DAO para realizar as operações de banco de dados relacionadas às entidades. As classes DAO são responsáveis por inserir, atualizar, deletar e buscar informações no banco de dados. As principais classes DAO são:
+Encontram-se nos diretórios src/dao e src/dao/impl. A aplicação utiliza o padrão DAO para realizar as operações de banco de dados relacionadas às entidades. As classes DAO são responsáveis por inserir, atualizar, deletar e buscar informações no banco de dados. As principais classes DAO são:
 
 - **ApostaDaoJDBC:** Responsável por gerenciar as operações relacionadas às apostas, como inserir novas apostas, listar apostas por evento, listar todas as apostas, editar a descrição ou a odd de uma aposta, e deletar apostas por ID.
 - **EventoDaoJDBC:** Gerencia as operações referentes aos eventos, como criar novos eventos, editar eventos existentes, deletar eventos e listar eventos.
